@@ -21,7 +21,8 @@
 #### [第十八章：zk sync 和 arbitrum 和 optimistim 对比]()
 #### [第十九章：钱包接入中 Layer2 各条链的区别(Polygon,  Arbitrum, Optimistim,  Boba,  Metis,  zkSync)]()
 #### [第十九章：Layer2 生态概览]()
-#### [第二十章：总结]()
+#### [第二十章：如何设计一条 layer2 的公链]()
+#### [第二十一章：总结]()
 #### [附录：零知识证明](https://github.com/guoshijiang/cryptography)
 
 
