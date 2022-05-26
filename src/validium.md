@@ -22,7 +22,7 @@ Validium 选择将 layer 2 的交易数据放在链下，因而比 rollup 架构
 
 正如其他研究者指出的，零知识证明并不是解决数据可用性问题的万灵丹：比如（恶意）执行者修改自己所控制的账户的状态是没有问题的，然后积压关于这些交易的数据，这会导致某些用户想退出资金时，无法提供 Merkle proof 。
 
-![](/media/editor/1111_20220521142614079925.png)
+![](https://github.com/guoshijiang/layer2/blob/main/images/29.png)
 
 有没有一种方法可以阻止Validium中的数据保留攻击？从2016年提出Plasma概念以来，这个问题就被大家讨论。同时，zkRollup也是在这一研究结果上诞生出来的。Non-rollup试图无须信任地确保数据可用性，这将导致失去Validium的大部分竞争优势。
 
