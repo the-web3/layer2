@@ -28,7 +28,7 @@ Optimism 是一种“Optimistic Rollup”，它基本上只是描述区块链的
 
 #### 1. 块存储
 
-所有 Optimism 区块都存储在以太坊上的一个特殊智能合约中，称为CanonicalTransactionChain （打开新窗口）（或简称 CTC）。乐观块保存在 CTC 内的仅附加列表中（我们将在下一节中准确解释如何将块添加到此列表中）。这个仅附加列表形成了 Optimism 区块链。
+所有 Optimism 区块都存储在以太坊上的一个特殊智能合约中，称为CanonicalTransactionChain（或简称 CTC）。乐观块保存在 CTC 内的仅附加列表中（我们将在下一节中准确解释如何将块添加到此列表中）。这个仅附加列表形成了 Optimism 区块链。
 
 包含的CanonicalTransactionChain代码保证现有的区块列表不能被新的以太坊交易修改。然而，如果以太坊区块链本身被重组并且过去以太坊交易的顺序被改变，那么这个保证就可能被打破。Optimism 主网被配置为能够抵抗多达 50 个以太坊区块的区块重组。如果以太坊经历了比这更大的重组，Optimism 也会重组。
 
@@ -52,9 +52,9 @@ Optimism 区块生产主要由单一方管理，称为“序列器”，它通�
 
 以太坊节点从以太坊的 p2p 网络下载块。Optimism 节点直接从CanonicalTransactionChain合约中仅附加的区块列表中下载区块。有关如何在本合约中存储块的更多信息，请参阅上面关于块存储的部分。
 
-Optimism 节点由两个主要组件组成，即以太坊数据索引器和 Optimism 客户端软件。以太坊数据索引器，也称为“数据传输层” （打开新窗口）CanonicalTransactionChain（或 DTL），从发布到合约的区块中重构 Optimism 区块链。DTL 搜索由CanonicalTransactionChain表明新的 Optimism 块已发布的信号发出的事件。然后它检查发出这些事件的交易，以标准以太坊块格式重建已发布的块 （打开新窗口）.
+Optimism 节点由两个主要组件组成，即以太坊数据索引器和 Optimism 客户端软件。以太坊数据索引器，也称为“数据传输层” CanonicalTransactionChain（或 DTL），从发布到合约的区块中重构 Optimism 区块链。DTL 搜索由CanonicalTransactionChain表明新的 Optimism 块已发布的信号发出的事件。然后它检查发出这些事件的交易，以标准以太坊块格式重建已发布的块.
 
-Optimism节点的第二部分，Optimism 客户端软件，是一个几乎完全是原版的Geth （打开新窗口）. 这意味着 Optimism 在本质上与以太坊几乎相同。特别是Optimism 共享同一个以太坊虚拟机 （打开新窗口），相同的账户和状态结构 （打开新窗口），以及相同的燃气计量机制和收费表 （打开新窗口）. 我们将此架构称为“EVM 等效” （打开新窗口）这意味着大多数以太坊工具（即使是最复杂的工具）“只适用于”Optimism。
+Optimism节点的第二部分，Optimism 客户端软件，是一个几乎完全是原版的Geth. 这意味着 Optimism 在本质上与以太坊几乎相同。特别是Optimism 共享同一个以太坊虚拟机，相同的账户和状态结构，以及相同的燃气计量机制和收费表. 我们将此架构称为“EVM 等效” 这意味着大多数以太坊工具（即使是最复杂的工具）“只适用于”Optimism。
 
 Optimism 客户端软件持续监控新索引块的 DTL。当一个新块被索引时，客户端软件将下载它并执行其中包含的交易。在 Optimism 上执行交易的过程与在以太坊上相同：我们加载 Optimism 状态，针对该状态应用交易，然后记录结果状态变化。然后对 DTL 索引的每个新块重复此过程。
 
@@ -76,7 +76,7 @@ Optimism 上的合约不可能像以太坊合约可以在 Optimism 上产生交�
 
 用户可以使用这些承诺来生成Merkle 树证明关于乐观状态。这些证明可以通过以太坊上的智能合约进行验证。Optimism 维护一个便捷的跨链通信合约，L1CrossDomainMessenger，它可以代表其他合约验证这些证明。
 
-这些证明可用于对 Optimism 上特定区块高度的任何合约存储中的数据做出可验证的陈述。然后可以使用此基本功能使 Optimism 上的合约能够向以太坊上的合约发送消息。这L2ToL1MessagePasser （打开新窗口）Optimism 上的合约可以使用合约（预部署到 Optimism 网络）将消息存储在 Optimism 状态。然后，用户可以向以太坊上的合约证明 Optimism 上的给定合约实际上意味着通过显示该消息的哈希值已存储在L2ToL1MessagePasser合约中来发送某些给定消息。
+这些证明可用于对 Optimism 上特定区块高度的任何合约存储中的数据做出可验证的陈述。然后可以使用此基本功能使 Optimism 上的合约能够向以太坊上的合约发送消息。这L2ToL1MessagePasser Optimism 上的合约可以使用合约（预部署到 Optimism 网络）将消息存储在 Optimism 状态。然后，用户可以向以太坊上的合约证明 Optimism 上的给定合约实际上意味着通过显示该消息的哈希值已存储在L2ToL1MessagePasser合约中来发送某些给定消息。
 
 #### 5.欺诈证明
 
