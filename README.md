@@ -28,7 +28,8 @@
 
 ### 二. 代码
 
-#### [第一章：Arbitrum 的 Nitro 项目启动和交易执行源码解析](https://github.com/guoshijiang/layer2/blob/main/code/arbitrum/tx.md)
-#### [第二章：Arbitrum 的 Nitro 项目 Rollup 细节深入](https://github.com/guoshijiang/layer2/blob/main/code/arbitrum/rollup.md)
+#### [第一章：Arbitrum 的 Nitro 本地网络启动与 ETH/ERC20 充提测试教程](https://github.com/guoshijiang/layer2/blob/main/code/arbitrum/setup.md)
+#### [第二章：Arbitrum 的 Nitro 项目启动和交易执行源码解析](https://github.com/guoshijiang/layer2/blob/main/code/arbitrum/tx.md)
+#### [第三章：Arbitrum 的 Nitro 项目 Rollup 细节深入](https://github.com/guoshijiang/layer2/blob/main/code/arbitrum/rollup.md)
 
 
