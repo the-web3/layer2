@@ -28,6 +28,7 @@
 
 ### 二. 代码
 
-- 待更新
+#### [第一章：Arbitrum 的 Nitro 项目启动和交易执行源码解析](https://github.com/guoshijiang/layer2/blob/main/code/arbitrum/tx.md)
+#### [第二章：Arbitrum 的 Nitro 项目 Rollup 细节深入](https://github.com/guoshijiang/layer2/blob/main/code/arbitrum/rollup.md)
 
 
