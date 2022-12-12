@@ -33,3 +33,12 @@
 #### [第三章：Arbitrum 的 Nitro 项目 Rollup 细节深入](https://github.com/guoshijiang/layer2/blob/main/code/arbitrum/rollup.md)
 
 
+### 联系作者，一起研究 Layer2，完成该书写作
+
+邮箱：guoshijiang2012@163.com
+微信：LGZAXE
+discord: https://discord.gg/WW86tqEw
+telegram: @shijiangguo
+Twitter: @seek_web3
+
+
