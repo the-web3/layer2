@@ -1,0 +1,1316 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="最全面的 Layer2 资料汇总">
+      
+      
+      
+        <link rel="canonical" href="https://layer2.wenwoha.com/code/arbitrum/tx.html">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>第二章：Arbitrum 的 Nitro 项目启动和交易执行源码解析 - Layer2</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#7e56c2">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#arbitrum-nitro" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Layer2" class="md-header__button md-logo" aria-label="Layer2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Layer2
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第二章：Arbitrum 的 Nitro 项目启动和交易执行源码解析
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/guoshijiang/layer2/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Layer2" class="md-nav__button md-logo" aria-label="Layer2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Layer2
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/guoshijiang/layer2/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          一. Layer2 研究总结资料
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="一. Layer2 研究总结资料" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          一. Layer2 研究总结资料
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/cross-chain.html" class="md-nav__link">
+        第一章：跨链和侧链技术简单介绍
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/normal-crosschain.html" class="md-nav__link">
+        第二章：常见的几种跨链方式
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/layer2-main.html" class="md-nav__link">
+        第三章：Layer2 主要实现方式
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/state-chain.html" class="md-nav__link">
+        第四章：Layer2 实现方式之状态通道
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/plasma.html" class="md-nav__link">
+        第五章：Layer2 实现方式之 Plasma
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/rollup-all.html" class="md-nav__link">
+        第六章：Layer2 实现方式之 Rollup
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/oz-rollup.html" class="md-nav__link">
+        第七章：Optimistic Rollup 和 Zk rollup 的区别联系
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/fraud-proof.html" class="md-nav__link">
+        第八章：欺诈证明简介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/valid-proof.html" class="md-nav__link">
+        第九章：有效证明简介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/validium.html" class="md-nav__link">
+        第十章：Layer2 实现方式之 Validium
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/ozv.html" class="md-nav__link">
+        第十一章：Optimistic Rollup， Zk rollup 和 Validium总结
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/polygon.html" class="md-nav__link">
+        第十二章：Plasma 代表项目 Polygon
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/starkex.html" class="md-nav__link">
+        第十三章：Validium 代表项目  StarkEx
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/arbitrum.html" class="md-nav__link">
+        第十四章：Optimistic Rollup 代表项目  arbitrum
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/optimistim-metis-boba.html" class="md-nav__link">
+        第十五章：Optimistic Rollup 代表项目 optimistim(Boba,  Metis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/arbitrum-optimistim.html" class="md-nav__link">
+        第十六章：arbitrum 和 optimistim 对比
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/zksync.html" class="md-nav__link">
+        第十七章：Zk Rollup 代表项目 zk sync
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/arbi-op-zk.html" class="md-nav__link">
+        第十八章：zk sync 和 arbitrum 和 optimistim 对比
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/layer2-chain.html" class="md-nav__link">
+        第十九章：钱包接入中 Layer2 各条链的区别(Polygon,  Arbitrum, Optimistim,  Boba,  Metis,  zkSync
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/layer2-eco.html" class="md-nav__link">
+        第十九章：Layer2 生态概览
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/layer2-design.html" class="md-nav__link">
+        第二十章：如何设计一条 layer2 的公链
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/last-ret.html" class="md-nav__link">
+        第二十一章：总结
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/guoshijiang/cryptography" class="md-nav__link">
+        附录：零知识证明
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          二. 代码
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="二. 代码" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          二. 代码
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="setup.html" class="md-nav__link">
+        第一章：Arbitrum 的 Nitro 本地网络启动与 ETH/ERC20 充提测试教程
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          第二章：Arbitrum 的 Nitro 项目启动和交易执行源码解析
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="tx.html" class="md-nav__link md-nav__link--active">
+        第二章：Arbitrum 的 Nitro 项目启动和交易执行源码解析
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    一. 交易执行细节
+  </a>
+  
+    <nav class="md-nav" aria-label="一. 交易执行细节">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1 合约部署
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#21-l1" class="md-nav__link">
+    2.1 L1 上的合约部署
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-l2" class="md-nav__link">
+    1.2 L2 上的合约部署
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2. 节点启动的流程
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-l2" class="md-nav__link">
+    3. L2 上的交易
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-l1-l2" class="md-nav__link">
+    4. L1-&gt;L2 交易
+  </a>
+  
+    <nav class="md-nav" aria-label="4. L1-&gt;L2 交易">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    4.1 概述
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    4.2. 执行细节
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2. 执行细节">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#421-l1-l2-eth" class="md-nav__link">
+    4.2.1. L1 -&gt; L2 (以 ETH充值 为例)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#422l1-l2-erc20-deposit-erc20" class="md-nav__link">
+    4.2.2.L1 -&gt; L2 (以 ERC20充值 为例, Deposit ERC20)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-l2-l1" class="md-nav__link">
+    5.  L2-&gt;L1 交易
+  </a>
+  
+    <nav class="md-nav" aria-label="5.  L2-&gt;L1 交易">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    5.1. 概述
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52" class="md-nav__link">
+    5.2. 执行细节
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#521-l2-l1-eth-sdk" class="md-nav__link">
+    5.2.1. L2 -&gt; L1 (以 ETH提现 为例，参考 SDK 中的提现操作)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#522-l2-l1-erc20-withdraw-erc20" class="md-nav__link">
+    5.2.2. L2 -&gt; L1 (以 ERC20提现为例, Withdraw ERC20)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    二. 交易提交细节深入
+  </a>
+  
+    <nav class="md-nav" aria-label="二. 交易提交细节深入">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    1. 交易提交过程:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    2. 合约事件的处理与监听
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3. 区块产生逻辑整理
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4.  交易产生的逻辑整理
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-reorgblock" class="md-nav__link">
+    5 区块 ReorgBlock 逻辑
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arbnode-arbos" class="md-nav__link">
+    三. arbnode  和 arbos 代码解读
+  </a>
+  
+    <nav class="md-nav" aria-label="三. arbnode  和 arbos 代码解读">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-arbnode" class="md-nav__link">
+    1. Arbnode
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-arbos" class="md-nav__link">
+    2. Arbos
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="rollup.html" class="md-nav__link">
+        第三章：Arbitrum 的 Nitro 项目 Rollup 细节深入
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <a href="https://github.com/guoshijiang/layer2/edit/main/code/arbitrum/tx.md" title="编辑此页" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+<h1 id="arbitrum-nitro">Arbitrum 的 Nitro 项目启动和交易执行源码解析</h1>
+<h2 id="_1">一. 交易执行细节</h2>
+<h3 id="1">1 合约部署</h3>
+<p>在节点启动之前，会先去部署 L1 上的合约，L2 上的合约是预部署的，接口部分有 solidity 来编写，实现是由 go 代码来实现的，合约实现对应的 go 代码为 precompiles 项目的代码目录，接口定义为 /nitro/contracts/src/precompiles 的代码。</p>
+<h3 id="21-l1">2.1 L1 上的合约部署</h3>
+<p>合约部署代码入口为<code>/nitro/cmd/deploy/deploy.go</code>,
+调用链：<code>arbnode.DeployOnL1</code> -&gt; <code>deployRollupCreator</code> -&gt; <code>deployBridgeCreator deployChallengeFactory DeployRollupAdminLogic DeployRollupUserLogic</code> 等
+核心代码示例如下</p>
+<pre><code> deployPtr, err := arbnode.DeployOnL1(
+   ctx,
+   l1client,
+   l1TransactionOpts,
+   sequencerAddress,
+   *authorizevalidators,
+   headerReaderConfig,
+   machineConfig,
+   arbnode.GenerateRollupConfig(*prod, common.HexToHash(*wasmmoduleroot), ownerAddress, l2ChainId, loserEscrowAddress),
+)
+</code></pre>
+<pre><code>rollupCreator, rollupCreatorAddress, validatorUtils, validatorWalletCreator, err := deployRollupCreator(ctx, l1Reader, deployAuth)
+if err != nil {
+   return nil, fmt.Errorf(&quot;error deploying rollup creator: %w&quot;, err)
+}
+</code></pre>
+<pre><code>func deployRollupCreator(ctx context.Context, l1Reader *headerreader.HeaderReader, auth *bind.TransactOpts) (*rollupgen.RollupCreator, common.Address, common.Address, common.Address, error) {
+   bridgeCreator, err := deployBridgeCreator(ctx, l1Reader, auth)
+   if err != nil {
+      return nil, common.Address{}, common.Address{}, common.Address{}, err
+   }
+
+   ospEntryAddr, challengeManagerAddr, err := deployChallengeFactory(ctx, l1Reader, auth)
+   if err != nil {
+      return nil, common.Address{}, common.Address{}, common.Address{}, err
+   }
+   ......
+</code></pre>
+<h3 id="12-l2">1.2 L2 上的合约部署</h3>
+<p>预部署合约,  执行 <code>docker exec nitro_sequencer_1 cat /config/deployment.json</code> 的时候会去部署一些合约, 部署生成的合约如下:</p>
+<pre><code>{
+  &quot;l1Network&quot;: {
+    &quot;blockTime&quot;: 10,
+    &quot;chainID&quot;: 1337,
+    &quot;explorerUrl&quot;: &quot;&quot;,
+    &quot;isCustom&quot;: true,
+    &quot;name&quot;: &quot;EthLocal&quot;,
+    &quot;partnerChainIDs&quot;: [
+      412346,
+      412346
+    ],
+    &quot;rpcURL&quot;: &quot;http://localhost:8545&quot;
+  },
+  &quot;l2Network&quot;: {
+    &quot;chainID&quot;: 412346,
+    &quot;confirmPeriodBlocks&quot;: 20,
+    &quot;ethBridge&quot;: {
+      &quot;bridge&quot;: &quot;0x815b0ce130aa4c1db18ba0c4c92fcfbf6062ab08&quot;,
+      &quot;inbox&quot;: &quot;0x07061a11d42da58c7bd08ddbf4ef6e60232ba966&quot;,
+      &quot;outbox&quot;: &quot;0xE7098C657B3Ee7c92939f20A4E308efCdd656163&quot;,
+      &quot;rollup&quot;: &quot;0x532016aa3f129f35214559723aa7a0faa435f7ce&quot;,
+      &quot;sequencerInbox&quot;: &quot;0xda7b4b25cac35e41f62cf79744b7e4d50f177b64&quot;
+    },
+    &quot;explorerUrl&quot;: &quot;&quot;,
+    &quot;isArbitrum&quot;: true,
+    &quot;isCustom&quot;: true,
+    &quot;name&quot;: &quot;ArbLocal&quot;,
+    &quot;partnerChainID&quot;: 1337,
+    &quot;rpcURL&quot;: &quot;http://localhost:8547&quot;,
+    &quot;retryableLifetimeSeconds&quot;: 604800,
+    &quot;depositTimeout&quot;: 900000,
+    &quot;tokenBridge&quot;: {
+      &quot;l1CustomGateway&quot;: &quot;0xDe67138B609Fbca38FcC2673Bbc5E33d26C5B584&quot;,
+      &quot;l1ERC20Gateway&quot;: &quot;0x0Bdb0992B3872DF911260BfB60D72607eb22d5d4&quot;,
+      &quot;l1GatewayRouter&quot;: &quot;0x4535771b8D5C43100f126EdACfEc7eb60d391312&quot;,
+      &quot;l1MultiCall&quot;: &quot;0x36BeF5fD671f2aA8686023dE4797A7dae3082D5F&quot;,
+      &quot;l1ProxyAdmin&quot;: &quot;0xF7818cd5f5Dc379965fD1C66b36C0C4D788E7cDB&quot;,
+      &quot;l1Weth&quot;: &quot;0x24067223381F042fF36fb87818196dB4D2C56E9B&quot;,
+      &quot;l1WethGateway&quot;: &quot;0xBa3d12E370a4b592AAF0CA1EF09971D196c27aAd&quot;,
+      &quot;l2CustomGateway&quot;: &quot;0x0Bdb0992B3872DF911260BfB60D72607eb22d5d4&quot;,
+      &quot;l2ERC20Gateway&quot;: &quot;0x4535771b8D5C43100f126EdACfEc7eb60d391312&quot;,
+      &quot;l2GatewayRouter&quot;: &quot;0xF7818cd5f5Dc379965fD1C66b36C0C4D788E7cDB&quot;,
+      &quot;l2Multicall&quot;: &quot;0x14a00f381A870878Ae6A055C656520FF2Cbff985&quot;,
+      &quot;l2ProxyAdmin&quot;: &quot;0x8c366Cfd28bC93729e14Da4fcf94d20862A7f266&quot;,
+      &quot;l2Weth&quot;: &quot;0x9b890cA9dE3D317b165afA7DFb8C65f2e4c95C20&quot;,
+      &quot;l2WethGateway&quot;: &quot;0xDe67138B609Fbca38FcC2673Bbc5E33d26C5B584&quot;
+    }
+  }
+}
+</code></pre>
+<p>温馨提示：看代码的时候建议执行一下 make contract，这样会生成合约对应的 go 调用代码，代码生成在  <code>nitro/solgen</code> 目录下。</p>
+<h3 id="2">2. 节点启动的流程</h3>
+<p>节点启动过程中会生成四个 Json 文件，用来区分 <code>validator</code>, <code>sequencer</code> 和 <code>poster</code>, 四个文件的名字为 <code>unsafe_staker_config</code>, <code>validator_config.json</code>, <code>sequencer_config</code>和 <code>poster_config</code>，这四个文件里面包含各自节点相关的配置，除此之外，还会生成deployment.json 文件，该文件用户合约的部署；文件由 testnode-scripts 下面的代码生成，这里面的代码会单独形成一个 docker 镜像，节点启动过程中会驱使该镜像去生成相关的配置文件。节点启动过程中，<code>testnode-scripts</code> 下面的 <code>ethcommands.ts</code> 会去运行 3 笔交易，L1&lt;-&gt;L2, L2 和 L2 自己转账。需要发布 L1-&gt;L2, L2-&gt;L 相关的交易时，需要运行 <code>docker exec nitro_sequencer_1 cat /config/deployment.json</code> 不是相关的合约。</p>
+<h3 id="3-l2">3. L2 上的交易</h3>
+<p>L2 复用了 geth 客户端，所以交易发进来的时候和 ETH 是一致的，调用了 SendTransaction 和 SendRawTransaction 接口进交易发进来，然后交易进入到 SubmitTransaction, 通过 
+b.SendTx(ctx, tx) </p>
+<pre><code>func (a *APIBackend) SendTx(ctx context.Context, signedTx *types.Transaction) error {
+   return a.b.EnqueueL2Message(ctx, signedTx)
+}
+</code></pre>
+<p>接下来交易进入 <code>b.arb.PublishTransaction(ctx, tx)</code> , 在 PublishTransaction 阶段，按照如下顺序执行了 <code>ArbInterface PublishTransaction</code>-&gt;<code>TxPreChecker PublishTransaction</code>-&gt;<code>Sequencer PublishTransaction</code></p>
+<p><code>PreCheckTx</code>: 主要是对交易进行gas, Nonce, balance 等简单的检查，检查完成之后交易进入到 Sequencer PublishTransaction 阶段，到这个阶段，交易并没有完全执行完成，交易还需要 rollup 到一层，那么怎么 rollup 的，我们来看看下面的流程。</p>
+<p>交易的 Rollup 由BatchPoster 将交易批量提交到 L2 上去，函数执行流程如下：<code>arbnode: Start()</code>-&gt;<code>BatchPoster.Start</code>-&gt;<code>b.maybePostSequencerBatch(ctx, batchSeqNum)</code>-&gt;<code>b.inboxContract.AddSequencerL2BatchFromOrigin</code>-&gt;<code>l1Reader.Client().SendTransaction(ctx, tx)</code></p>
+<p>BatchPoster 回去组装相关的 RollUp 的交易，通过 SendTransaction 发到 L1 上，整个过程涉及到交易的获取组装，交易压缩和把交易发送到一层。</p>
+<h3 id="4-l1-l2">4. L1-&gt;L2 交易</h3>
+<h4 id="41">4.1 概述</h4>
+<p>简单的 Eth 充值存在一种特殊的消息类型；即，将 Eth 从 L1 发送到 L2。Eth 可以通过调用Inbox的depositEth方法来存入。如果 L1 调用方是 EOA，则 Eth 将存入 L2 上相同的 EOA 地址；L1 调用者是一个合约，资金将存入合约的别名地址。值得注意的是，将 Eth viadepositEth存入 L2 上的合约不会触发合约的回退功能。
+原则上，可重试的票据也可以用于存入以太币；这可能比特殊的 eth-deposit 消息类型更可取，例如，如果目标地址需要更大的灵活性，或者如果想要在 L2 侧触发回退功能。</p>
+<p>虽然 Retryables 和 Eth 存款必须通过延迟收件箱提交，但原则上，任何消息都可以通过这种方式包含；这是确保 Arbitrum 链保持审查阻力的必要手段，即使 Sequencer 行为不端（参见The Sequencer and Censorship Resistance）。但是，在普通/愉快的情况下，期望/建议是客户端仅将延迟收件箱用于 Retryables 和 Eth 存款，并通过 Sequencer 处理所有其他消息。</p>
+<h4 id="42">4.2. 执行细节</h4>
+<h5 id="421-l1-l2-eth">4.2.1. L1 -&gt; L2 (以 ETH充值 为例)</h5>
+<p>L1 合约侧</p>
+<ul>
+<li>调用合约方法入口 Inbox.depositEth(),  根据合约逻辑该操作会触发事件 event:InboxMessageDelivered(msgNum, _messageData) 和 event:MessageDelivered</li>
+<li>合约逻辑内部调用bridge.enqueueDelayedMessage() 将该交易信息写入到 bridge 合约的 delayedInboxAccs 数组中，并将 value 传递给 Bridge 合约(lock ether)</li>
+<li>此时 ETH balance 锁定在 Bridge 合约中</li>
+</ul>
+<p>L2 Sequencer 侧</p>
+<ul>
+<li>Arbnode 从 Inbox合约 中查询消息事件。arbnode.InboxReader 以设定高度( 默认100) 范围读取 event:MessageDelivered ，同时根据获取的 events 的最大、最小高度查询 event:InboxMessageDelivered 事件。结合两者信息解析到 DelayedInboxMessage 对象中(记为: messages) 。</li>
+<li>InboxTracker 将上述message 对象写入本地存储中，并更新状态数据. </li>
+<li>delayed_sequencer 根据本地 DelayedMessagesRead 缓存的高度作为起始索引位置( pos )，对比本地 db 中缓存的 Message 计数. 循环从 db 缓存按照 pos 为索引获取 inconming msgs 数据并解析为 L1IncomingMessage 数组，进一步由 TransactionStreamer 在 SequenceDelayedMessages方法中将消息事件进行排序，完成排序后调用 createBlocks打包出块。打包区块执行逻辑过程中，通过 ParseL2Transactions 按照L1消息类型执行具体的实现逻辑，在这里是构造充值交易（mint，充值交易一笔一个块，充值的message 会被解析成一笔L2交易）</li>
+<li>最后在执行交易的过程中，调用 TxProcessor.StartTxHook，按照 types.ArbitrumDepositTx 的交易类型 mint 指定的 balance（stateDB.AddBalance(to, amount) 的方式）</li>
+</ul>
+<h5 id="422l1-l2-erc20-deposit-erc20">4.2.2.L1 -&gt; L2 (以 ERC20充值 为例, Deposit ERC20)</h5>
+<p>L1 合约侧:</p>
+<ul>
+<li>合约入口为L1GatewayRouter.outboundTransfer 或 L1GatewayRouter.outboundTransferCustomRefund ，方法逻辑中执行了 L2 gasLimit、L2 maxFeePerGas 的 txFee 的检查</li>
+<li>在父类 GatewayRoute.outboundTransfer 中，根据 token 类型获取 Gateway 实现后，调用具体实例的outboundTransfer方法</li>
+<li>在L1ArbitrumGateway.outboundTransfer实例中，根据 l2BeaconProxyFactory 地址、nonce、和 cloneableProxyHash 计算 L2-ERC20token 地址（同deploy流程计算方式）</li>
+<li>调用 outboundEscrowTransfer 方法 对ERC20 Token 执行 transfer 操作，将 ERC20 Token 锁定在 L1ArbitrumGateway 中</li>
+<li>调用 getOutboundCalldata 方法构造 L2 上 finalizeInboundTransfer调用的calldata，在逻辑方法 L1ArbitrumMessenger.sendTxToL2CustomRefund中，调用Inbox.createRetryableTicket方法，触发事件 event:TxToL2 event:InboxMessageDelivered</li>
+<li>进而调用 Inbox._deliverMessage 发起一笔充值，后续操作流程同 : ETH deposit L2 Sequencer 侧</li>
+</ul>
+<p>L2 合约侧 :</p>
+<ul>
+<li>Sequencer 定序完成进行交易执行会根据以上步骤所得 abi 调用到 L2ArbitrumGateway.finalizeInboundTransfer，触发事件 event:DepositFinalized</li>
+<li>执行逻辑中，检查 L2-ERC20Token 合约地址，检查 L2 Token / L1 Token 的绑定关系（验证失败则执行 triggerWithdrawal 方法将 token 返还给 L1） </li>
+<li>执行逻辑中，调用 inboundEscrowTransfer 方法，调用 ERC20 的 bridgeMint 方法 mint 给指定用户</li>
+</ul>
+<h3 id="5-l2-l1">5.  L2-&gt;L1 交易</h3>
+<h4 id="51">5.1. 概述</h4>
+<p>Arbitrum 的发件箱系统允许任意 L2 到 L1 合约调用；即，从 L2 发起的消息最终在 L1 上执行解决。L2-to-L1 消息（又名“传出”消息）与 Arbitrum 的L1-to-L2 消息（可重试）有许多共同点，“相反”，尽管有一些差异。</p>
+<p>协议流: Arbitrum 链的 L2 状态的一部分——因此，每个 RBlock 中断言的部分——是链历史中所有 L2 到 L1 消息的 Merkle 根。在确认断言的 RBlock 后（通常在断言后约 1 周），此 Merkle 根将发布在Outbox合约的 L1 上。然后，发件箱合约允许用户执行他们的消息——验证 Merkle 包含证明，并跟踪哪些 L2 到 L1 消息已经被使用。</p>
+<p>客户流程: 从客户端的角度来看，L2 到 L1 的消息以调用 L2ArbSys预编译合约的sendTxToL1方法开始。一旦消息包含在断言中（通常在约 1 小时内）并确认断言（通常约 1 周），任何客户端都可以执行该消息。为此，客户端首先通过调用 Arbitrum 链的“虚拟”/precompile-esque**NodeInterface合约的constructOutboxProof方法来检索证明数据。然后可以在Outbox'executeTransaction方法中使用返回的数据来执行 L1 执行。</p>
+<p>协议设计细节: 发件箱系统设计中的一个重要特征是调用confirmNode具有恒定的开销。要求confirmNode只更新固定大小的传出消息根哈希，用户自己执行最后一步执行，达到了这个目标；即，无论根中传出消息的数量，或者在 L1 上执行它们的 gas 成本，确认节点的成本保持不变；这确保了处理的 RBlock 确认不会被破坏。</p>
+<p>与可以选择为自动 L2 执行提供 Ether 的 Retryables 不同，传出消息不能提供协议内自动 L1 执行，原因很简单，以太坊本身不提供预定执行功能。但是，原则上可以构建与发件箱交互的应用层合约，以提供有点类似的“执行市场”功能，用于外包最终的 L1 执行步骤。</p>
+<p>传出消息和 Retryables 之间的另一个区别是 Retryables 的生命周期有限，在此之前它们必须被赎回（或显式延长它们的生命周期），而 L2 到 L1 消息存储在 L1 状态，因此永久存在/没有截止日期他们必须被处决。 可以执行传出消息之前的长达一周的延迟期是 Arbitrum Rollup 或任何 Optimistic Rollup 样式 L2 的本质和基础；交易在链上发布的那一刻，任何观察者都可以预测其结果；然而，为了让以太坊本身接受它的结果，协议必须给 Arbitrum 验证器时间，以便在需要时检测并证明错误。</p>
+<p>我们称之为NodeInterface“虚拟”合同；它的方法可以通过调用访问0x00000000000000000000000000000000000000C8，但它并不真正存在于链上。它并不是真正的预编译，但其行为很像无法接收来自其他合约的调用的预编译。这是一个可爱的技巧，让我们无需实现自定义 RPC 即可提供特定于 Arbitrum 的数据。</p>
+<h4 id="52">5.2. 执行细节</h4>
+<h4 id="521-l2-l1-eth-sdk">5.2.1. L2 -&gt; L1 (以 ETH提现 为例，参考 SDK 中的提现操作)</h4>
+<p>L2 网络侧</p>
+<ul>
+<li>调用预编译合约 ARB_SYS(0x0000000000000000000000000000000000000064)中的withdrawEth 方法，在 EVM instance 中，判断合约类型，预编译合约会调用底层的 Call 方法，将合约调用的请求转为预编译和约go代码执行，最后执行到 precompiles/ArbSys.go:198 WithdrawEth方法</li>
+<li>在 WithdrawEth 方法中，调用跨网络消息传递的入口函数SendTxToL1，其中的util.BurnBalance 方法将 withdraw 请求的 ETH amount 燃烧掉（from balance减，to == nil balance 不加），触发事件 event:SendMerkleUpdate和 event:L2ToL1Tx</li>
+<li>此时，用户可以根据L2ToL1Tx消息中的参数，调用预编译合约NODE_INTERFACE(0x00000000000000000000000000000000000000C8)中的 ConstructOutboxProof方法构造提款证明供 L1合约 Outbox.executeTransaction 方法使用</li>
+</ul>
+<p>L1 合约侧（参考 SDK 中的提现操作）</p>
+<ul>
+<li>调用 L1 合约方法 Outbox.executeTransaction，参数包含上述 L2 上提现的 proof 等，触发事件 event:OutBoxTransactionExecuted，event:BridgeCallTriggered</li>
+<li>合约逻辑内部，调用 Outbox.recordOutputAsSpent 方法更新了 proof 的使用状态，进而调用 Bridge 合约的 Bridge.executeCall方法，此时将 ETH 转给提款地址</li>
+</ul>
+<h4 id="522-l2-l1-erc20-withdraw-erc20">5.2.2. L2 -&gt; L1 (以 ERC20提现为例, Withdraw ERC20)</h4>
+<p>L2 合约侧</p>
+<ul>
+<li>提现的合约入口为 L2ArbitrumGateway.outboundTransfer 方法, 逻辑中检查了指定 L1 Token的 L2 ERC20 Token 是否存在，检查了 L2-ERC20 Token的绑定关系，并调用 outboundEscrowTransfer 将 L2 Token 给 burn 掉</li>
+<li>后续方法调用栈为: triggerWithdrawal -&gt; createOutboundTx -&gt; sendTxToL1 -&gt;  ArbSys.sendTxToL1</li>
+<li>ArbSys.sendTxToL1 执行会触发事件 event: SendMerkleUpdate和 event:L2ToL1Tx</li>
+<li>此时，用户可以根据L2ToL1Tx消息中的参数，调用预编译合约NODE_INTERFACE(0x00000000000000000000000000000000000000C8)中的 ConstructOutboxProof方法构造提款证明供 L1合约 Outbox.executeTransaction 方法使用</li>
+</ul>
+<p>L1 合约侧</p>
+<ul>
+<li>Outbox.executeTransaction 最终将调用 L1ArbitrumGateway.finalizeInboundTransfer 进行 L1 ERC20 的转账, 提现流程至此结束.</li>
+</ul>
+<h2 id="_2">二. 交易提交细节深入</h2>
+<h3 id="1_1">1. 交易提交过程:</h3>
+<p>交易的 Rollup 由BatchPoster 将交易批量提交到 L1 上去，函数执行流程如下：arbnode: Start()-&gt; BatchPoster.Start-&gt;b.maybePostSequencerBatch(ctx, batchSeqNum)-&gt;b.inboxContract.AddSequencerL2BatchFromOrigin-&gt;l1Reader.Client().SendTransaction(ctx, tx)</p>
+<p>BatchPoster 回去组装相关的 RollUp 的交易，通过 SendTransaction 发到 L1 上，整个过程涉及到交易的获取组装，交易压缩和把交易发送到一层。</p>
+<h3 id="2_1">2. 合约事件的处理与监听</h3>
+<p>sequencer_inbox.go 和 delayed.go 里面会去监听合约事件，同步相关的事件下来进行交易的处理，处理事件ID 如下：</p>
+<p><code>sequencer_inbox.go</code></p>
+<pre><code>var messageDeliveredID common.Hash
+var inboxMessageDeliveredID common.Hash
+var inboxMessageFromOriginID common.Hash
+var l2MessageFromOriginCallABI abi.Method
+</code></pre>
+<p><code>delayed.go</code></p>
+<pre><code>var sequencerBridgeABI *abi.ABI
+var batchDeliveredID common.Hash
+var addSequencerL2BatchFromOriginCallABI abi.Method
+var sequencerBatchDataABI abi.Event
+</code></pre>
+<p>此部分的入口函数在 <code>inbox_reader.go</code> 里面的 run 函数, </p>
+<pre><code>delayedMessages, err := ir.delayedBridge.LookupMessagesInRange(ctx, from, to)
+if err != nil {
+   return err
+}
+</code></pre>
+<p><code>LookupMessagesInRange</code> 进入到 <code>delay.go</code> 里面去解析整个延迟收件向里面的消息，具体细节请参考代码文件</p>
+<pre><code>sequencerBatches, err := ir.sequencerInbox.LookupBatchesInRange(ctx, from, to)
+if err != nil {
+   return err
+}
+if !ir.caughtUp &amp;&amp; to.Cmp(currentHeight) == 0 {
+   // TODO better caught up tracking
+   ir.caughtUp = true
+   ir.caughtUpChan &lt;- true
+}
+</code></pre>
+<p>LookupBatchesInRange 进入 sequencer_inbox.go 里面进行时间的解析，具体细节可以进入到代码里面查看。</p>
+<p>处理完成的消息将由 transaction_streamer.go 处理生成区块和判断区块是否需要重组，细节的执行流程如下：</p>
+<p><code>Sequencer: Start</code>-&gt; <code>s.createBlock(ctx)</code>-&gt;<code>s.txStreamer.SequenceTransactions(header, txes, hooks)</code>-&gt;<code>arbos.ProduceBlockAdvanced</code>(进入arbios 的块处理逻辑)-&gt;<code>validator.NewBlock(block, lastBlockHeader, msgWithMeta)</code></p>
+<h3 id="3">3. 区块产生逻辑整理</h3>
+<p>ProduceBlockAdvanced-&gt; types.NewBlock(进入 geth 块处理程序，此处先生成临时处理块，然后再生成落库的块)
+这里面有几点值得注意的地方是：
+A. 一个块里面包含两笔交易的解释</p>
+<ul>
+<li>新版的 nitro 里面加了一个 startBlock 的特性，两笔交易里面有一笔交易和这个相关(在所有其他人之前添加一个 tx 以修改状态（更新 L1 块编号、定价池等）)，另一个交易是用户发过来的交易，处理核心代码逻辑如下：</li>
+</ul>
+<pre><code>startTx := InternalTxStartBlock(chainConfig.ChainID, l1Header.L1BaseFee, l1BlockNum, header, lastBlockHeader)
+txes = append(types.Transactions{types.NewTx(startTx)}, txes...)
+</code></pre>
+<ul>
+<li>
+<p>区块的生成另一条路径，通过 validator.NewBlock 最终回到 block_processor 处理流程，这里生成的块是经过 validator 验证过的，生成路径如下：
+<code>validator.NewBlock</code>-&gt; <code>v.prepareBlock</code>-&gt; <code>BlockDataForValidation</code>-&gt;<code>RecordBlockCreation</code>-&gt;<code>arbos.ProduceBlock</code>-&gt;<code>ProduceBlockAdvanced</code></p>
+</li>
+<li>
+<p>在最终生成区块的时候，会通过 FinalizeBlock 将 Merkle root 和 size 更新到区块头</p>
+</li>
+</ul>
+<h3 id="4">4.  交易产生的逻辑整理</h3>
+<p>交易的核心处理逻辑在 tx_processor 里面，核心代码在 StartTxHook 内部，L2 上的交易通过 PublishTransaction 发布到 arbnode 里面处理，再由 geth 的 hook 函数处理。L1-&gt;L2, L2-&gt;L1 通过 pareMessage 的方式把 message 转换为 L2 上的 Tx,  细节的代码可以参考 tx_processor 和 incomingmessage.go 里面的处理逻辑,incomingmessage 处理的消息有一下几种类别</p>
+<pre><code>L1MessageType_L2Message             = 3
+L1MessageType_EndOfBlock            = 6
+L1MessageType_L2FundedByL1          = 7
+L1MessageType_RollupEvent           = 8
+L1MessageType_SubmitRetryable       = 9
+L1MessageType_BatchForGasEstimation = 10 // probably won't use this in practice
+L1MessageType_Initialize            = 11
+L1MessageType_EthDeposit            = 12
+L1MessageType_BatchPostingReport    = 13
+L1MessageType_Invalid               = 0xFF
+</code></pre>
+<pre><code>const (
+   L2MessageKind_UnsignedUserTx  = 0
+   L2MessageKind_ContractTx      = 1
+   L2MessageKind_NonmutatingCall = 2
+   L2MessageKind_Batch           = 3
+   L2MessageKind_SignedTx        = 4
+   // 5 is reserved
+   L2MessageKind_Heartbeat          = 6 // deprecated
+   L2MessageKind_SignedCompressedTx = 7
+   // 8 is reserved for BLS signed batch
+)
+</code></pre>
+<p>上面各种类别的消息处理逻辑有细微的差距，具体可以查看 <code>incomingmessage</code> 内的 <code>ParseIncomingL1Message</code> <code>ParseL2Transactions</code>  <code>ParseInitMessage</code> 等方法，这些方法的作用就是将 Message 转换成相关的交易, 解析交易相关的函数由生成区块的函数内部调起进入。
+交易处理逻辑需要注意的一个点：</p>
+<ul>
+<li>Tx 处理分为不同的类别，Retryables 的交易如果不被处理，是可以不断地修改延长交易的处理周期的，核心代码如下：</li>
+</ul>
+<pre><code>func (rs *RetryableState) Keepalive(
+   ticketId common.Hash,
+   currentTimestamp,
+   limitBeforeAdd,
+   timeToAdd uint64,
+) (uint64, error) {
+   retryable, err := rs.OpenRetryable(ticketId, currentTimestamp)
+   if err != nil {
+      return 0, err
+   }
+   if retryable == nil {
+      return 0, errors.New(&quot;ticketId not found&quot;)
+   }
+   timeout, err := retryable.CalculateTimeout()
+   if err != nil {
+      return 0, err
+   }
+   if timeout &gt; limitBeforeAdd {
+      return 0, errors.New(&quot;timeout too far into the future&quot;)
+   }
+
+   // Add a duplicate entry to the end of the queue (only the last one deletes the retryable)
+   err = rs.TimeoutQueue.Put(retryable.id)
+   if err != nil {
+      return 0, err
+   }
+   if _, err := retryable.timeoutWindowsLeft.Increment(); err != nil {
+      return 0, err
+   }
+   newTimeout := timeout + RetryableLifetimeSeconds
+
+   // Pay in advance for the work needed to reap the duplicate from the timeout queue
+   return newTimeout, rs.retryables.Burner().Burn(RetryableReapPrice)
+}
+</code></pre>
+<h3 id="5-reorgblock">5 区块 ReorgBlock 逻辑</h3>
+<p>reorg 触发的条件：L1 层发生交易回滚或者分叉等时，可能会导致 Post 上去的数据发生问题，因此二层上的数据也需要回滚，这种时候就会产生区块的 reorg，reorg 需要两个块，一个旧链和一个新链，并将重建这些块并将它们插入到新的规范链中，并累积潜在的丢失交易并发布有关它们的事件。 注意这里不会处理新的 head 块，调用者需要在外部处理它。</p>
+<h2 id="arbnode-arbos">三. arbnode  和 arbos 代码解读</h2>
+<h3 id="1-arbnode">1. Arbnode</h3>
+<ul>
+<li>arb_interface：TransactionPublisher 接口层，衔接 go-ethereum</li>
+<li>batch_poster：批量提交交易到 L1 的相关的代码</li>
+<li>delayed 和 delayed_sequencer: 延迟收件箱相关的消息处理</li>
+<li>sequencer 和 sequencer_inbox：sequencer 收件箱相关的事件处理</li>
+<li>inbox_reader：链接延迟收件箱和 sequencer 收件箱的模块代码</li>
+<li>transaction_streamer：交易生成区块和重组的逻辑</li>
+<li>inbox_tracker：本地数据库收件箱的管理</li>
+<li>tx_pre_checker：交易的预检查</li>
+</ul>
+<h3 id="2-arbos">2. Arbos</h3>
+<ul>
+<li>tx_processor 交易 hook 处理的核心逻辑</li>
+<li>block_processor 二层区块链处理逻辑，终进入到 geth 去生成区块</li>
+<li>retryables： retryables 交易的特性处理代码，如果可以一直更新 retryables 交易的活性问题</li>
+<li>merkleAccumulator：merkle 处理逻辑</li>
+<li>incomingmessage： 各种交易的 message 处理</li>
+<li>internal_tx： 内部交易处理逻辑，例如：startblock 相关的交易处理</li>
+<li>l1pricing 和 l2pricing：L1 和 L2 的 price 计算模型</li>
+<li>burn：和资产的 burn 相关</li>
+<li>blockhash：区块 Hash 处理逻辑</li>
+<li>arbosState：arbos state 管理</li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            回到页面顶部
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="页脚" >
+      
+        
+        <a href="setup.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 第一章：Arbitrum 的 Nitro 本地网络启动与 ETH/ERC20 充提测试教程" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              第一章：Arbitrum 的 Nitro 本地网络启动与 ETH/ERC20 充提测试教程
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="rollup.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 第三章：Arbitrum 的 Nitro 项目 Rollup 细节深入" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              第三章：Arbitrum 的 Nitro 项目 Rollup 细节深入
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["toc.integrate", "navigation.top", "navigation.expand"], "search": "../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>

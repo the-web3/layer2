@@ -1,0 +1,932 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="最全面的 Layer2 资料汇总">
+      
+      
+      
+        <link rel="canonical" href="https://layer2.wenwoha.com/src/optimistim-metis-boba.html">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>第十五章：Optimistic Rollup 代表项目 optimistim(Boba, Metis - Layer2</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#7e56c2">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#optimism" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Layer2" class="md-header__button md-logo" aria-label="Layer2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Layer2
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第十五章：Optimistic Rollup 代表项目 optimistim(Boba,  Metis
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/guoshijiang/layer2/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Layer2" class="md-nav__button md-logo" aria-label="Layer2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Layer2
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/guoshijiang/layer2/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          一. Layer2 研究总结资料
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="一. Layer2 研究总结资料" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          一. Layer2 研究总结资料
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="cross-chain.html" class="md-nav__link">
+        第一章：跨链和侧链技术简单介绍
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="normal-crosschain.html" class="md-nav__link">
+        第二章：常见的几种跨链方式
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-main.html" class="md-nav__link">
+        第三章：Layer2 主要实现方式
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="state-chain.html" class="md-nav__link">
+        第四章：Layer2 实现方式之状态通道
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="plasma.html" class="md-nav__link">
+        第五章：Layer2 实现方式之 Plasma
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="rollup-all.html" class="md-nav__link">
+        第六章：Layer2 实现方式之 Rollup
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="oz-rollup.html" class="md-nav__link">
+        第七章：Optimistic Rollup 和 Zk rollup 的区别联系
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="fraud-proof.html" class="md-nav__link">
+        第八章：欺诈证明简介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="valid-proof.html" class="md-nav__link">
+        第九章：有效证明简介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="validium.html" class="md-nav__link">
+        第十章：Layer2 实现方式之 Validium
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ozv.html" class="md-nav__link">
+        第十一章：Optimistic Rollup， Zk rollup 和 Validium总结
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="polygon.html" class="md-nav__link">
+        第十二章：Plasma 代表项目 Polygon
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="starkex.html" class="md-nav__link">
+        第十三章：Validium 代表项目  StarkEx
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="arbitrum.html" class="md-nav__link">
+        第十四章：Optimistic Rollup 代表项目  arbitrum
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          第十五章：Optimistic Rollup 代表项目 optimistim(Boba,  Metis
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="optimistim-metis-boba.html" class="md-nav__link md-nav__link--active">
+        第十五章：Optimistic Rollup 代表项目 optimistim(Boba,  Metis
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#optimism" class="md-nav__link">
+    一. Optimism 是什么
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optimism_1" class="md-nav__link">
+    三. Optimism 如何运行
+  </a>
+  
+    <nav class="md-nav" aria-label="三. Optimism 如何运行">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 块存储
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2.块生产
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3.块执行
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-op-eth" class="md-nav__link">
+    4. OP 和 ETH 之间的资产转移
+  </a>
+  
+    <nav class="md-nav" aria-label="4. OP 和 ETH 之间的资产转移">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-l1-l2" class="md-nav__link">
+    4.1. L1-&gt;L2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-l2-l1" class="md-nav__link">
+    4.2. L2-&gt;L1
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    5.欺诈证明
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optimism_2" class="md-nav__link">
+    四. 为什么要使用 Optimism
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#boba-metis-optimistim" class="md-nav__link">
+    五. boba, metis  和 optimistim 的区别
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="arbitrum-optimistim.html" class="md-nav__link">
+        第十六章：arbitrum 和 optimistim 对比
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="zksync.html" class="md-nav__link">
+        第十七章：Zk Rollup 代表项目 zk sync
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="arbi-op-zk.html" class="md-nav__link">
+        第十八章：zk sync 和 arbitrum 和 optimistim 对比
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-chain.html" class="md-nav__link">
+        第十九章：钱包接入中 Layer2 各条链的区别(Polygon,  Arbitrum, Optimistim,  Boba,  Metis,  zkSync
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-eco.html" class="md-nav__link">
+        第十九章：Layer2 生态概览
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-design.html" class="md-nav__link">
+        第二十章：如何设计一条 layer2 的公链
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="last-ret.html" class="md-nav__link">
+        第二十一章：总结
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/guoshijiang/cryptography" class="md-nav__link">
+        附录：零知识证明
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          二. 代码
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="二. 代码" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          二. 代码
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code/arbitrum/setup.html" class="md-nav__link">
+        第一章：Arbitrum 的 Nitro 本地网络启动与 ETH/ERC20 充提测试教程
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code/arbitrum/tx.html" class="md-nav__link">
+        第二章：Arbitrum 的 Nitro 项目启动和交易执行源码解析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code/arbitrum/rollup.html" class="md-nav__link">
+        第三章：Arbitrum 的 Nitro 项目 Rollup 细节深入
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <a href="https://github.com/guoshijiang/layer2/edit/main/src/optimistim-metis-boba.md" title="编辑此页" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+  <h1>第十五章：Optimistic Rollup 代表项目 optimistim(Boba,  Metis</h1>
+
+<h3 id="optimism">一. Optimism 是什么</h3>
+<p>Optimism 是 EVM等效的 Optimism Rollup 链。 它被设计成快速、简单和安全。</p>
+<p>Optimism 是以太坊应用程序的第 2 层扩展协议。它使交易变得便宜, 真的便宜。我们的目标是让任何人都能负担得起且可以使用以太坊进行交易。</p>
+<p>Optimism 看起来、感觉和行为都像以太坊，但更便宜、更快。对于建立在我们 Optimism 基础上的开发人员，我们的目标是使过渡尽可能无缝。除了极少数例外，现有的 Solidity 智能合约可以像在 L1 上运行一样在 L2 上运行。同样，链下代码（即 UI 和钱包）应该能够与 L2 合约交互，只需更新 RPC 端点。</p>
+<p>### 二. Optimism 系统总揽</p>
+<p>Optimism 协议中的智能合约可以分为几个关键组件。我们将在下面更详细地讨论每个组件。</p>
+<ul>
+<li>Chain: 第 1 层上的合约，它保存第 2 层交易的顺序，以及对相关第 2 层状态根的承诺。</li>
+<li>Verification: 第 1 层上的合约，执行挑战交易结果的流程。</li>
+<li>Bridge: 促进第 1 层和第 2 层之间消息传递的合约。</li>
+<li>Predeploys:一组基本合约，在系统的创世状态下部署并可用。这些合约类似于以太坊的预编译，但是它们是用 Solidity 编写的，并且可以在前缀为 0x42 的地址中找到。</li>
+</ul>
+<p><img alt="" src="https://github.com/guoshijiang/layer2/blob/main/images/40.png" /></p>
+<h3 id="optimism_1">三. Optimism 如何运行</h3>
+<p>Optimism 使用了 optimistic rollup。 当您提交交易时，交易数据将写入以太坊主网， 但交易本身由一个计算机执行，即排序器 (而不是以太坊那种数以千计的计算机)。 这明显地降低了交易成本，挑战机制则确保排序器是诚实的。</p>
+<p>Optimism 是一种“Optimistic Rollup”，它基本上只是描述区块链的一种奇特方式，它捎带了另一个“父”区块链的安全性。具体来说，Optimistic Rollups 利用其父链的共识机制（如 PoW 或 PoS），而不是提供自己的。在 Optimism 的案例中，这个父区块链是以太坊。</p>
+<p><img alt="" src="/media/editor/1231_20220531164020243458.png" /></p>
+<h4 id="1">1. 块存储</h4>
+<p>所有 Optimism 区块都存储在以太坊上的一个特殊智能合约中，称为CanonicalTransactionChain（或简称 CTC）。乐观块保存在 CTC 内的仅附加列表中（我们将在下一节中准确解释如何将块添加到此列表中）。这个仅附加列表形成了 Optimism 区块链。</p>
+<p>包含的CanonicalTransactionChain代码保证现有的区块列表不能被新的以太坊交易修改。然而，如果以太坊区块链本身被重组并且过去以太坊交易的顺序被改变，那么这个保证就可能被打破。Optimism 主网被配置为能够抵抗多达 50 个以太坊区块的区块重组。如果以太坊经历了比这更大的重组，Optimism 也会重组。</p>
+<p>当然，不经历这种重大的区块重组是以太坊的一个关键安全目标。因此，只要以太坊共识机制也是如此，乐观情绪就可以抵御大型区块重组。正是通过这种关系（至少部分地），Optimism 从以太坊中获得了它的安全属性。</p>
+<h4 id="2">2.块生产</h4>
+<p>Optimism 区块生产主要由单一方管理，称为“序列器”，它通过提供以下服务来帮助网络：</p>
+<ul>
+<li>提供即时交易确认和状态更新。</li>
+<li>构建和执行 L2 块。</li>
+<li>向 L1 提交用户交易。</li>
+</ul>
+<p>排序器没有内存池，交易会按照收到的顺序立即被接受或拒绝。当用户将他们的交易发送到定序器时，定序器会检查交易是否有效（即支付足够的费用），然后将交易作为待处理块应用到其本地状态。这些待处理的区块会定期大批量提交给以太坊进行最终确定。这种批处理过程通过将固定成本分散到给定批次内的所有交易中来显着降低整体交易费用。定序器还应用了一些基本的压缩技术，以尽量减少发布到以太坊的数据量。</p>
+<p>因为定序器被赋予了对 L2 链的优先写访问权限，所以定序器可以提供强有力的保证，一旦它决定一个新的待处理块，它将最终确定什么状态。换句话说，确切地知道交易的影响是什么。结果，L2状态可以非常迅速地可靠地更新。这样做的好处包括快速、即时的用户体验，例如近乎实时的 Uniswap 价格更新。</p>
+<p>或者，用户可以完全跳过排序器并通过以太坊交易直接提交他们CanonicalTransactionChain的交易。这通常更昂贵，因为提交此交易的固定成本完全由用户支付，并且不会分摊到许多不同的交易中。但是，这种替代提交方法的优点是可以抵抗测序仪的审查。即使定序器正在积极审查用户，用户也始终可以继续使用 Optimism 并通过此机制收回任何资金。</p>
+<h4 id="3">3.块执行</h4>
+<p>以太坊节点从以太坊的 p2p 网络下载块。Optimism 节点直接从CanonicalTransactionChain合约中仅附加的区块列表中下载区块。有关如何在本合约中存储块的更多信息，请参阅上面关于块存储的部分。</p>
+<p>Optimism 节点由两个主要组件组成，即以太坊数据索引器和 Optimism 客户端软件。以太坊数据索引器，也称为“数据传输层” CanonicalTransactionChain（或 DTL），从发布到合约的区块中重构 Optimism 区块链。DTL 搜索由CanonicalTransactionChain表明新的 Optimism 块已发布的信号发出的事件。然后它检查发出这些事件的交易，以标准以太坊块格式重建已发布的块.</p>
+<p>Optimism节点的第二部分，Optimism 客户端软件，是一个几乎完全是原版的Geth. 这意味着 Optimism 在本质上与以太坊几乎相同。特别是Optimism 共享同一个以太坊虚拟机，相同的账户和状态结构，以及相同的燃气计量机制和收费表. 我们将此架构称为“EVM 等效” 这意味着大多数以太坊工具（即使是最复杂的工具）“只适用于”Optimism。</p>
+<p>Optimism 客户端软件持续监控新索引块的 DTL。当一个新块被索引时，客户端软件将下载它并执行其中包含的交易。在 Optimism 上执行交易的过程与在以太坊上相同：我们加载 Optimism 状态，针对该状态应用交易，然后记录结果状态变化。然后对 DTL 索引的每个新块重复此过程。</p>
+<h4 id="4-op-eth">4. OP 和 ETH 之间的资产转移</h4>
+<p>Optimism 旨在让用户可以在 Optimism 和以太坊上的智能合约之间发送任意消息。这使得在两个网络之间转移资产（包括 ERC20 代币）成为可能。发生这种通信的确切机制因消息发送的方向而异。</p>
+<p>Optimism 在标准桥中使用此功能允许用户将资产（ERC20 和 ETH）从以太坊存入 Optimism，并允许将相同的资产从 Optimism 提取回以太坊</p>
+<h5 id="41-l1-l2">4.1. L1-&gt;L2</h5>
+<p>要从以太坊向 Optimism 发送消息，用户只需触发以太坊上的CanonicalTransactionChain合约，在 Optimism 区块上创建一个新区块。用户创建的区块可以包括看似源自生成区块的地址的交易。</p>
+<h5 id="42-l2-l1">4.2. L2-&gt;L1</h5>
+<p>Optimism 上的合约不可能像以太坊合约可以在 Optimism 上产生交易一样轻松地在以太坊上生成交易。因此，将数据从 Optimism 发送回以太坊的过程更加复杂。我们必须能够对以太坊上的合约的乐观状态做出可证明的陈述，而不是自动生成经过身份验证的交易。</p>
+<p>对乐观状态做出可证明的陈述需要密码学承诺以乐观状态树的根的形式. Optimism 的状态在每个区块之后都会更新，因此这个承诺也会在每个区块之后发生变化。承诺会定期发布（大约每小时一次或两次）到以太坊上的智能合约，称为StateCommitmentChain.</p>
+<p>用户可以使用这些承诺来生成Merkle 树证明关于乐观状态。这些证明可以通过以太坊上的智能合约进行验证。Optimism 维护一个便捷的跨链通信合约，L1CrossDomainMessenger，它可以代表其他合约验证这些证明。</p>
+<p>这些证明可用于对 Optimism 上特定区块高度的任何合约存储中的数据做出可验证的陈述。然后可以使用此基本功能使 Optimism 上的合约能够向以太坊上的合约发送消息。这L2ToL1MessagePasser Optimism 上的合约可以使用合约（预部署到 Optimism 网络）将消息存储在 Optimism 状态。然后，用户可以向以太坊上的合约证明 Optimism 上的给定合约实际上意味着通过显示该消息的哈希值已存储在L2ToL1MessagePasser合约中来发送某些给定消息。</p>
+<h4 id="5">5.欺诈证明</h4>
+<p>在 Optimistic Rollup 中，状态承诺会在没有任何直接证明这些承诺有效性的情况下发布到以太坊。相反，这些承诺在一段时间内被视为未决（称为“挑战窗口”）。如果提议的状态承诺在挑战窗口期间（当前设置为 7 天）未受到挑战，则将其视为最终承诺。一旦一个承诺被认为是最终的，以太坊上的智能合约可以安全地接受基于该承诺的乐观状态的证明。</p>
+<p>当状态承诺受到质疑时，可以通过“过错证明”（以前称为“欺诈证明”）使其无效） 过程。如果该承诺被成功挑战，则将其从中删除，StateCommitmentChain最终被另一个提议的承诺取代。重要的是要注意，成功的挑战不会回滚 Optimism 本身，只会回滚有关链状态的已发布承诺。交易的顺序和乐观状态不会因故障证明挑战而改变。</p>
+<p>有关欺诈证明，请查看以前的文章。</p>
+<h3 id="optimism_2">四. 为什么要使用 Optimism</h3>
+<p>Optimistic 网络允许您发送类似于以太坊的交易，但具有两个重要优势：</p>
+<ul>
+<li>近乎即时的交易结果反馈。  您几乎可以立即知道您的交易是否完成。</li>
+<li>明显降低的手续费。 基本上为以太坊主网(也称为 layer 1 或 L1) 成本的1%至10%之间。</li>
+<li>去中心化： 所有交易都被发布到L1 以太坊, 继承了以太坊的强大安全保证。</li>
+</ul>
+<h3 id="boba-metis-optimistim">五. boba, metis  和 optimistim 的区别</h3>
+<p>boba 和 metis 都是复制 optimistim 代码改的，boba 缩短了欺诈证明的挑战的窗口期，  在 Metis 中，L2 交易的排序和批处理不是由单个排序器完成，而是由一个排序器池完成。将随机选择一组排序器来 Rollup 状态根并将交易提交到 L1 公链。在 L1，Metis 部署了一组合约来协调 L2 到 L1 的批处理提交。Metis 也缩短了欺诈证明的挑战的窗口期， Metis 基于 OVM 改造了自己的 MVM。</p>
+<p>MVM 引入了供应商的角色，他们可以注册并贡献计算能力，使 L2 构建真正去中心化（这些供应商可以看作是 Optimism 平台的排序器）。提供商将根据产生的区块获得激励。最后，MVM 和 Metis 客户端中包含的一个真正强大的功能是其他 L2 平台所不具备的，它不仅支持合约执行，还支持与智能合约计算相关的去中心化存储。因此，Metis 通过 MVM 中的 IPFS 解析器与 IPFS 网络集成，该解析器允许合约指向存储在 IPFS 中的不可变数据。例如，这可用于指向存储在 IPFS 网络中的机密数据。</p>
+<p>Boba 目前生态还没起来，在发展中，而 Op 和 metis 目前的生态相对好一些。</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            回到页面顶部
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="页脚" >
+      
+        
+        <a href="arbitrum.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 第十四章：Optimistic Rollup 代表项目  arbitrum" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              第十四章：Optimistic Rollup 代表项目  arbitrum
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="arbitrum-optimistim.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 第十六章：arbitrum 和 optimistim 对比" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              第十六章：arbitrum 和 optimistim 对比
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["toc.integrate", "navigation.top", "navigation.expand"], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>

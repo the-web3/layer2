@@ -1,0 +1,1136 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="最全面的 Layer2 资料汇总">
+      
+      
+      
+        <link rel="canonical" href="https://layer2.wenwoha.com/src/oz-rollup.html">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>第七章：Optimistic Rollup 和 Zk rollup 的区别联系 - Layer2</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#7e56c2">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#zk-rollup" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Layer2" class="md-header__button md-logo" aria-label="Layer2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Layer2
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第七章：Optimistic Rollup 和 Zk rollup 的区别联系
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/guoshijiang/layer2/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Layer2" class="md-nav__button md-logo" aria-label="Layer2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Layer2
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/guoshijiang/layer2/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          一. Layer2 研究总结资料
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="一. Layer2 研究总结资料" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          一. Layer2 研究总结资料
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="cross-chain.html" class="md-nav__link">
+        第一章：跨链和侧链技术简单介绍
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="normal-crosschain.html" class="md-nav__link">
+        第二章：常见的几种跨链方式
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-main.html" class="md-nav__link">
+        第三章：Layer2 主要实现方式
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="state-chain.html" class="md-nav__link">
+        第四章：Layer2 实现方式之状态通道
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="plasma.html" class="md-nav__link">
+        第五章：Layer2 实现方式之 Plasma
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="rollup-all.html" class="md-nav__link">
+        第六章：Layer2 实现方式之 Rollup
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          第七章：Optimistic Rollup 和 Zk rollup 的区别联系
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="oz-rollup.html" class="md-nav__link md-nav__link--active">
+        第七章：Optimistic Rollup 和 Zk rollup 的区别联系
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#zk-rollup" class="md-nav__link">
+    一. 什么是 Zk Rollup
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optimistic-rollup" class="md-nav__link">
+    二. 什么是 Optimistic Rollup
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zk-rollup-optimistic-rollup" class="md-nav__link">
+    三. Zk Rollup 和 Optimistic Rollup 的比较
+  </a>
+  
+    <nav class="md-nav" aria-label="三. Zk Rollup 和 Optimistic Rollup 的比较">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 通用计算比较
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 通用计算比较">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-optimistic-rollup" class="md-nav__link">
+    1.1 Optimistic Rollup
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-zk-rollup" class="md-nav__link">
+    1.2. Zk Rollup
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2. 可扩展性和交易成本
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 可扩展性和交易成本">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-optimistic-rollup" class="md-nav__link">
+    2.1. Optimistic Rollup
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-zk-rollup" class="md-nav__link">
+    2.2. ZK Rollup
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-2000-tps-visa" class="md-nav__link">
+    2.3. 实际吞吐量上限（代币转移）：超过 2000 TPS — 类似 Visa 的规模。
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-eth-20" class="md-nav__link">
+    3. 发布 ETH 2.0
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4. 元交易
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    5. 安全
+  </a>
+  
+    <nav class="md-nav" aria-label="5. 安全">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-optimistic-rollup" class="md-nav__link">
+    5.1. Optimistic Rollup
+  </a>
+  
+    <nav class="md-nav" aria-label="5.1. Optimistic Rollup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#511-1-of-n" class="md-nav__link">
+    5.1.1 1-of-N 诚实的参与者
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#512-l1" class="md-nav__link">
+    5.1.2 L1 具有很强的抗审查性
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-zk-rollup" class="md-nav__link">
+    5.2. ZK Rollup
+  </a>
+  
+    <nav class="md-nav" aria-label="5.2. ZK Rollup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#521" class="md-nav__link">
+    5.2.1.可信设置
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#522" class="md-nav__link">
+    5.2.2. 密码学
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    6. 延迟（可验证最终性的时间）
+  </a>
+  
+    <nav class="md-nav" aria-label="6. 延迟（可验证最终性的时间）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-optimistic-rollup" class="md-nav__link">
+    6.1. Optimistic Rollup
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-zk-rollup" class="md-nav__link">
+    6.2. ZK Rollup
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-rollup" class="md-nav__link">
+    7. Rollup 内交易的快速确认
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    8. 快速取款
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9" class="md-nav__link">
+    9. 隐私
+  </a>
+  
+    <nav class="md-nav" aria-label="9. 隐私">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-optimistic-rollup" class="md-nav__link">
+    9.1. Optimistic Rollup
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-zk-rollup" class="md-nav__link">
+    9.2. ZK Rollup
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    三. 本文小结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="fraud-proof.html" class="md-nav__link">
+        第八章：欺诈证明简介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="valid-proof.html" class="md-nav__link">
+        第九章：有效证明简介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="validium.html" class="md-nav__link">
+        第十章：Layer2 实现方式之 Validium
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ozv.html" class="md-nav__link">
+        第十一章：Optimistic Rollup， Zk rollup 和 Validium总结
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="polygon.html" class="md-nav__link">
+        第十二章：Plasma 代表项目 Polygon
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="starkex.html" class="md-nav__link">
+        第十三章：Validium 代表项目  StarkEx
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="arbitrum.html" class="md-nav__link">
+        第十四章：Optimistic Rollup 代表项目  arbitrum
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="optimistim-metis-boba.html" class="md-nav__link">
+        第十五章：Optimistic Rollup 代表项目 optimistim(Boba,  Metis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="arbitrum-optimistim.html" class="md-nav__link">
+        第十六章：arbitrum 和 optimistim 对比
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="zksync.html" class="md-nav__link">
+        第十七章：Zk Rollup 代表项目 zk sync
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="arbi-op-zk.html" class="md-nav__link">
+        第十八章：zk sync 和 arbitrum 和 optimistim 对比
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-chain.html" class="md-nav__link">
+        第十九章：钱包接入中 Layer2 各条链的区别(Polygon,  Arbitrum, Optimistim,  Boba,  Metis,  zkSync
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-eco.html" class="md-nav__link">
+        第十九章：Layer2 生态概览
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-design.html" class="md-nav__link">
+        第二十章：如何设计一条 layer2 的公链
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="last-ret.html" class="md-nav__link">
+        第二十一章：总结
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/guoshijiang/cryptography" class="md-nav__link">
+        附录：零知识证明
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          二. 代码
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="二. 代码" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          二. 代码
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code/arbitrum/setup.html" class="md-nav__link">
+        第一章：Arbitrum 的 Nitro 本地网络启动与 ETH/ERC20 充提测试教程
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code/arbitrum/tx.html" class="md-nav__link">
+        第二章：Arbitrum 的 Nitro 项目启动和交易执行源码解析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code/arbitrum/rollup.html" class="md-nav__link">
+        第三章：Arbitrum 的 Nitro 项目 Rollup 细节深入
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <a href="https://github.com/guoshijiang/layer2/edit/main/src/oz-rollup.md" title="编辑此页" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+  <h1>第七章：Optimistic Rollup 和 Zk rollup 的区别联系</h1>
+
+<h3 id="zk-rollup">一. 什么是 Zk Rollup</h3>
+<p>在 ZK-Rollup 中，操作员必须为每个状态转换生成一个简洁的零知识证明 (SNARK)，并由主链上的 Rollup 合约进行验证。这个 SNARK 证明存在一系列交易，由所有者正确签名，以正确的方式更新账户余额，并从旧的 Merkle 根引导到新的。因此，操作员不可能提交无效或被操纵的状态。</p>
+<p>零知识汇总（zk-Rollups ）通过侧链的集成利用汇总的核心功能。一般来说，侧链允许一方向另一方证明交易是有效的，而不会泄露超出交易本身有效性的任何信息。在区块链交易的背景下，侧链可以减少一旦发布到主链后验证交易块所需的计算和存储资源。交易验证仍然是可能的，因为需要对整个数据的零知识。换句话说，侧链已经验证了每笔交易，因此交易在主链上自动生效。更具体地说，zk-Rollup 协议促进了交易者和中继者的交互：</p>
+<p>交易者创建并将其交易数据广播到网络。此信息包括索引的“to”和“from”地址、交易价值、网络费用和仅使用一次的数字（nonce）。索引地址减少处理资源，交易价值产生存款和取款金额。然后，智能合约将地址记录到一个Merkle 树，并将交易值记录到另一个。</p>
+<p>中继器负责收集创建汇总的事务。中继器生成一个零知识简洁非交互式知识论证 (zk-SNARK)证明，用于比较每笔交易之前和之后的区块链状态（即钱包余额）。由此产生的变化以可验证的散列到达主链。尽管几乎任何人都可以充当中继者，但他们必须首先将其加密货币放入智能合约中，以激励他们善意行事。</p>
+<h3 id="optimistic-rollup">二. 什么是 Optimistic Rollup</h3>
+<p>在Optimistic Rollup中，新的状态根由操作员发布，而无需每次都被 Rollup 智能合约检查。相反，每个人都希望状态转换是正确的。但是，如果发布了不正确的状态转换，其他运营商或用户（必须观察 L1 Rollup 合约中发生的事情，执行每笔交易）将能够指向无效交易并恢复不正确的区块，从而削减恶意运营商.
+OR 的想法最初是由 John Adler 提出的。<a href="https://docs.google.com/document/d/17f9JeeSW_M3PrMmvMsmArTDEqOkSKEZQySNKfpewIP4/edit">可以点击链接查看详情</a></p>
+<p>Rollups是以太坊主网上的常规智能合约，用作主链和第 2 层之间的中继，计算发生在第 2 层。Rollups 已成为区块链网络流行的第 2 层扩展解决方案。这些协议将交易数据存储在主链上，但将交易活动转移到侧链。但是，由于主链和侧链是互通的，它们并行运行并继续通信。因此，随着计算密集型进程离开主链，区块链网络变得更具可扩展性，从而减少了拥塞。</p>
+<p>例如，以太坊主链目前能够处理每秒 15 笔交易（TPS）。通过实施汇总，这个数字可以达到 1,000 TPS，因为只有关键的智能合约数据会传回主链，而大部分数据仍保留在侧链上。术语“汇总”是指在将经过验证的交易发布到主链之前将交易滚动到单个区块中的过程。</p>
+<p>在整个区块链生态系统中，一些项目正在将汇总基础设施与侧链集成，以创建安全、保护隐私的协议。在这样做的过程中，他们旨在平衡区块链三难困境中列出的相互竞争的优先事项：安全性、可扩展性和去中心化。</p>
+<h3 id="zk-rollup-optimistic-rollup">三. Zk Rollup 和 Optimistic Rollup 的比较</h3>
+<h4 id="1">1. 通用计算比较</h4>
+<h5 id="11-optimistic-rollup">1.1 Optimistic Rollup</h5>
+<p>尽管 Optimistic Rollup 可用于专门的应用程序，但Plasma Group最重要的创新是 OVM：Optimistic Virtual Machine。OVM 可以实现任意智能合约逻辑。几乎所有在以太坊中可能发生的事情在 OVM 中也是可能的，包括智能合约的可组合性。它可以基于 EVM、EWASM 或任何其他虚拟机。</p>
+<p>OVM 的好处在于，如果与 EVM 一起使用，它将支持在 Solidity 中编写代码。正因为如此，现有代码库的大部分都可以轻松移植到 OR 上。</p>
+<p>如果 OVM 可以直接重用现有的 EVM 字节码，那将是理想的，但它可能没那么简单。正确的实施将需要更改交易数据 (CALLDATA) 格式和复杂的 Truebit/Plasma Leap 风格实施的挑战/响应协议以用于欺诈证明。这可能会导致 EVM 出现分歧以正确处理边缘情况，这意味着仍然需要一些工作来调整现有的 OVM 合约。</p>
+<p>实施的另一个挑战在于，大块的欺诈证明可能需要比 L1 块气体限制所允许的更多的气体。然后必须将这些欺诈证明分解为多个 ETH 交易。</p>
+<h5 id="12-zk-rollup">1.2. Zk Rollup</h5>
+<p>迄今为止，ZK-Rollup 的所有现有实现（包括您真正的实现）都只专注于专门的操作，例如代币转移或原子交换。这有几个主要原因。</p>
+<p>首先，对于不同的零知识证明 (ZKP)，没有有效的递归证明组合技术，这需要在单个区块中聚合不同智能合约的执行。我们拥有的最好的是椭圆曲线循环上的Groth16（由 Coda 使用），这需要在长场上进行计算，并且对于大型计算完全没有效率。</p>
+<p>其次，即使我们有更短的字段，Groth16 也需要为每个智能合约和每个新版本进行单独的可信设置仪式！显然，这绝对是不现实的。</p>
+<p>在没有可信设置的情况下，我们唯一有效的 ZKP 技术是基于 FRI 的 STARKs。然而，验证者只对有限的一类问题（可表示为简洁的算术电路）简洁。一个 STARK 验证者必须至少执行一次被证明的计算语句的每个约束，这意味着我们不能迭代异构智能合约的集合。</p>
+<p>随着SNORKs的出现，所有这一切都开始发生变化，SNORKs 是基于一组略有不同的密码原语的新一代 ZKP——最值得注意的是多项式承诺方案。Sonic由 Sean Bowe 首创，2019 年夏季PLONK和Marlin紧随其后。它们都有一个共同点：虽然仍然需要受信任的设置，但它现在将是通用的和可更新的。一次完成，它就可以在任何时候重复用于任意数量的不同程序。</p>
+<p>然而，在这些证明系统中使用的 Kate 多项式承诺方案仍然需要有效的椭圆曲线循环来进行递归，而这目前尚不可用。这就是为什么我们对最新的、完全简洁和透明（无可信设置）的证明系统感到非常兴奋，例如 Halo、SuperSonic、Fractal ，以及Matter Labs 团队目前正在研究的令人兴奋的东西。</p>
+<p>长话短说：现在已经消除了在 ZKP 上构建通用智能合约的障碍。ZK Rollup 完全能够支持与 EVM 相同的编程模型（包括无缝组合性和互操作性）。第一份合同可能需要专门的 DSL，尽管 Solidity 开发人员的学习曲线不会超过 1 天。最终，鉴于 ZKP 证明者技术目前的进步速度，我们预计所有现有的 ETH（甚至 EWASM）合约都能以最小的努力有效地移植。</p>
+<h4 id="2">2. 可扩展性和交易成本</h4>
+<h5 id="21-optimistic-rollup">2.1. Optimistic Rollup</h5>
+<ul>
+<li>根据 John Adler的说法，在 EIP2028/Istanbul 之后，目前的估计是每次传输 tx 大约 4k gas。</li>
+<li>相当于约 100 TPS</li>
+<li>使用 BLS 签名聚合，这个数字可以达到 ~500 TPS（为了不破坏 EVM 兼容性，tx 参数可能会保持很长）。</li>
+<li>如果 EVM 兼容性被破坏，理论上吞吐量可以增长到 ZKR 的极限。</li>
+</ul>
+<p>实际吞吐量上限（令牌传输）：500 TPS。
+目前这可能没问题。</p>
+<h5 id="22-zk-rollup">2.2. ZK Rollup</h5>
+<ul>
+<li>Matter Testnet 中每次传输 tx 的公共数据成本目前为 16 字节，在 EIP2028/Istanbul 之后将花费 272 gas。</li>
+<li>此外，还会有证明的摊销成本，估计约为 300k gas。</li>
+<li>即使我们假设最坏的情况是 1M 的气体证明成本，估计的传输上限仍将超过 2140 TPS。</li>
+<li>在一些讨论中，我听到人们争辩说 ZKP 会产生大量的计算开销，因此很昂贵。实际上，与气体成本相比，计算成本可以忽略不计，这是真正的瓶颈，因为去中心化是抗审查的。我们还预计这一因素会随着时间的推移而显着下降。</li>
+</ul>
+<h5 id="23-2000-tps-visa">2.3. 实际吞吐量上限（代币转移）：超过 2000 TPS — 类似 Visa 的规模。</h5>
+<p>然而，对于许多用例，ZK Rollup 将提供更多显着的节省，因为可以从公共数据中省略大块（通过将它们移动到 ZK 电路见证），而重建状态转换增量不需要这些。核心观点是：虽然 OR 总是要求用户发布完整的交易输入，但在 ZK 中我们可以灵活地选择 1) 交易输入减去见证不影响状态转换，以及 2) 仅交易输出。这种选择可以非常优雅地实现并且没有很多复杂性。</p>
+<p>值得注意的例子：</p>
+<ul>
+<li>在多重签名钱包、具有 Argent 风格账户抽象的钱包或去中心化交易所中，用户需要提交签名以供合约验证。这些信号对于状态增量更新不是必需的，可以从公共数据中省略。</li>
+<li>像 Gnosis 的 Dfusion 荷兰 DEX 这样的合约需要大量的数据集输入，这些数据集不会直接影响存储，而仅用于验证计算结果。</li>
+</ul>
+<h4 id="3-eth-20">3. 发布 ETH 2.0</h4>
+<p>由于任何 Rollup 都将驻留在单个分片中，因此 CALLDATA 的成本（以及 Rollup 交易成本）不太可能发生太大变化，除非带宽通常变得更便宜。</p>
+<h4 id="4">4. 元交易</h4>
+<p>两个汇总同样适用于支持元交易和帐户抽象。</p>
+<h4 id="5">5. 安全</h4>
+<h5 id="51-optimistic-rollup">5.1. Optimistic Rollup</h5>
+<p>与支付渠道不同，Rollup 中的所有资金都由一个智能合约持有。由于 Rollup 是 IMHO 最有希望的扩展方向，我们应该会看到大量用户进入它，并且很多价值都集中在这个合约中。由于价值数千万或数亿（甚至数十亿）美元的资产处于危险之中，Rollup 合约对于知名黑客来说是一个极具吸引力的蜜罐。在这种情况下，如果攻击有很好的机会，无论多么复杂，都可能会尝试。
+OR 的安全模型基于两个假设：
+至少有 N 个诚实参与者执行所有 OR 交易，并在发布无效状态转换的情况下提交欺诈证明；
+底层 L1 网络具有很强的抗审查性。</p>
+<h6 id="511-1-of-n">5.1.1 1-of-N 诚实的参与者</h6>
+<p>至于第一部分，期望只有 Rollup 的操作员才能真正监控和执行事务是现实的。普通用户既没有这样做的动机，也没有处理高负载交易的技术能力（如果可以，扩展从何而来？）。幸运的是，运营商自然会被激励去检查彼此的区块是否正确，因为在无效区块之上创建一个区块是一种惩罚条件。
+N 中 1 的诚实运营商是一个合理的假设，有足够的可信参与者。然而，由于活跃参与者的数量有限（数百人？），一些复杂的攻击可能包括：针对所有运营商的基础设施（非常困难但并非不可行）、贿赂/勒索 Devops 工程师以秘密安装恶意代码、针对更新分发用于汇总软件等的渠道，当然还有它们的组合。这些攻击很难，应该受到积极的保护，但它们比试图以同样的方式攻击以太坊矿工要现实得多——尤其是因为对 OR 的成功攻击在完成之前不会被注意到。</p>
+<h6 id="512-l1">5.1.2 L1 具有很强的抗审查性</h6>
+<p>第二个假设是一个棘手的假设。事实上，以太坊的设计提供了非常有效地防止普通审查的经济机制。然而，这些机制在存在反机制的情况下停止运作。攻击者可以创建一个全自动的贿赂机制来协调矿工的 51% 攻击，这将阻止诚实的矿工在他们的区块中包含欺诈证明。有趣的是，对于参与的矿工来说，这次攻击的直接成本为零，如果可以清楚地归因于审查制度，这还不包括愤怒社区的反应可能产生的社会成本。这部分也很棘手，因为该机制优雅地为攻击的参与者提供了似是而非的否认：“鉴于攻击大多数人的可信承诺，如果我不参与，我的区块将被放弃，所以我必须这样做不是为了利润，而不是为了避免损失”。
+我邀请读者关注这次攻击的讨论以及 Vitalik Buterin 最近对 51% 审查攻击的分析。下面我将分享一些有趣的见解。
+不幸的是，这种类型的攻击在 PoW 下是非常现实的。没有有效的方法来惩罚参与其中的匿名矿工。
+在过渡到 PoS 之后，如果就此达成广泛的社会共识，社区将能够通过削减他们的股份来惩罚审查矿工。毕竟，像这样的审查攻击可以被认为是对整个网络的攻击（尽管人们也可以争辩说矿工只是诚实地遵循协议，并且没有义务以任何违背他们最佳经济利益的方式行事）。然而，在 DAO 分叉之后，这将是一个非常有争议的讨论，至少可以说，其结果不可预测。在 Vitalik 最近的一项社区民意调查中，63% 的人强烈反对无论攻击的程度如何，对不可变区块链进行任何手动干预以救助用户。不用说，即使是消灭一个验证者的股份也很难通过，更不用说消灭大多数人的股份了。
+2019 年 11 月 26 日更新：最近发表了更多关于共谋的研究，以及对 PoS 环境中欺诈证明的新攻击，这表明 PoS 中 OR 的审查攻击风险至少与 PoW 中一样高。
+抵御这种攻击的更现实的方法是在 UASF（用户激活的软分叉）中快速动员社区，强制矿工包含某些交易。从工程和社会的角度来看，这种情况都很复杂，并且肯定需要一个相对较长的欺诈证明挑战期窗口——至少 1 周，最好 2 周。同时，鉴于主要的 DeFi 运营商实际上能够决定这种分叉的结果，并且避免大声破坏事件符合他们的最大利益，他们最好的选择可能是默默地服从攻击者（这将使以太坊保持在最长的链上并且产生的争议小于一个成功的软分叉）。
+总结：欺诈证明审查的风险相对较低，但不可忽略。在 1 到 2 周的欺诈证明挑战期并且没有太多的资金风险的情况下，OR 可能很好：运营商/矿工勾结不值得麻烦和风险。然而，随着汇总值的增长，潜伏的黑天鹅会变得越来越令人担忧，至少对于像你这样偏执的人来说是这样。</p>
+<h5 id="52-zk-rollup">5.2. ZK Rollup</h5>
+<p>在 ZK Rollup 中，每个状态转换在生效之前都由 Rollup 智能合约进行验证。运营商绝对不可能窃取资金或破坏 Rollup 状态。ZKR 依赖 L1 的抗审查性只是为了它的活跃性，而不是为了它的安全性。ZKR 无需任何人监控：一个区块被验证后，即使运营商拒绝合作，也始终保证用户资金最终可收回。
+因此，ZKR 更充分地体现了加密的基本理念：通过用密码学和博弈论激励一致性取代受信任方来实现弹性。
+然而，为了完整起见，我必须提到 ZKR 特有的其他几个潜在风险。</p>
+<h6 id="521">5.2.1.可信设置</h6>
+<p>如果 ZK Rollup 中使用的 ZKP 需要一个通用的可信设置，我们最终会得到 N 中 1 个诚实参与者的假设。这可能是也可能不是可接受的风险，具体取决于参与者的数量和质量。但是安全就是安全，这就是为什么我对最近在高效的去信任 SNARK 方面取得的进展感到非常兴奋，尤其是我们在 Matter Labs 正在研究的结构。</p>
+<h6 id="522">5.2.2. 密码学</h6>
+<p>最新一代的 SNARK 使用多个比 Groth16 更可靠和经过实战考验的加密原语。前面提到的 Matter Labs 的工作基于 FRI，因此甚至可以说是后量子安全的。但是，要完全平静，应采用两种缓解策略：
+必须以比实际生产版本低得多的安全参数来部署大量赏金，类似于 RSA 挑战。如果发现了实际攻击，研究人员将在破解生产代码变得可行之前数年打破挑战。
+所有状态转换必须只能由 ZKR 的操作员发送，这些操作员本质上将充当 2-Factor 保护层。</p>
+<h4 id="6">6. 延迟（可验证最终性的时间）</h4>
+<h5 id="61-optimistic-rollup">6.1. Optimistic Rollup</h5>
+<p>由于上面安全部分提到的问题，Optimistic Rollup 只能在 1-2 周的防欺诈挑战窗口中安全。在这段时间过去之前，任何交易都不能被视为最终交易——既不是内部 Rollup tx，也不是退出。
+不幸的是，对于最终用户来说，没有比在整个最后一个质询期内执行所有交易更快的方法来检查交易是否是最终的。重要的是要注意，用户不能依赖纯粹的博弈论保证块最终确定，因为单个运营商节点中的错误（或黑客攻击）仍然可能导致恢复。
+完成时间（在 PoW 下）：2 周。
+完成时间（在 PoS 下）：1 周。</p>
+<h5 id="62-zk-rollup">6.2. ZK Rollup</h5>
+<p>目前 ZKP 的计算量非常大。目前，对于一个 1000 tx 的区块，我们可以在普通服务器硬件上进行 20 分钟的证明生成时间。
+正在进行的 GPU 证明器实现（由Matter Labs和Coda提供）承诺将 tx 速度至少提高约 10 倍。在不远的将来，专用硬件可能会拥有更高的计算能力。最终，我们预计会在 1 分钟内看到区块确认。
+完成时间（现在）：20 分钟。
+完成时间（未来）：不到 1 分钟。</p>
+<h4 id="7-rollup">7. Rollup 内交易的快速确认</h4>
+<p>在这两种 Rollup 中，运营商都可以通过设置一定的保证金向用户发出即时交易确认，如果交易不包含在承诺的区块中，这些保证金将被削减。这为最终性提供了经济保证。
+这种方法有几个限制。它适用于可替代代币的转移，但对于NFT（可能没有市场价值，或者当此类资产的所有者在任何情况下都不想立即“出售”它时）和通用合约调用（因为它是如果链中的某些先前交易被还原，则不容易准确量化货币价值；一个简单的例子：运营商的钱应该有多少风险才能让您接受稳定币预言机价格广播作为最终价格？）</p>
+<h4 id="8">8. 快速取款</h4>
+<p>快速退出类似于快速内卷确认。运营商可以与流动性提供者合作，立即向用户发起可替代代币的提现，而无需等待退出交易在 Rollup 中成为最终交易。</p>
+<p>这需要大量的抵押品，这将与最终确定的时间成正比。假设 OR 为 1 周和 ZKR 为 5 分钟的现实近期最终确定时间，OR 将需要 2000 倍以上的抵押品来支持与 ZKR 相同的每周提款量。</p>
+<h4 id="9">9. 隐私</h4>
+<h5 id="91-optimistic-rollup">9.1. Optimistic Rollup</h5>
+<p>Optimistic Rollup 可以支持 L2 以太坊（混合器等）上可用的任何隐私解决方案。由于 OR 本身是 L2，因此在其上实施的任何隐私解决方案都将作为 L3 存在。这可能会导致隐私服务更加碎片化，从而导致匿名集变小，这使得隐私的效用非常低（即使使用 zcash 也可以观察到，默认情况下交易不被屏蔽）。</p>
+<h5 id="92-zk-rollup">9.2. ZK Rollup</h5>
+<p>为了实现真正的隐私，系统必须默认支持它。从技术角度来看，ZKR 可以在某些时候轻松地默认支持协议级别的代币传输的机密交易，以及区分公共和私人智能合约（ZK ZK Rollup 风格）。
+同时，构建完全匿名的交易 zcash 风格（即不仅隐藏金额，还隐藏交易的参与者）需要将 ZK Rollup 的存储模型从基于帐户更改为基于 UTXO，这将创建太多问题并且不太可能发生。</p>
+<h3 id="_1">三. 本文小结</h3>
+<p>Optimistic Rollup 目前处于 PoC 阶段。我们希望很快就会看到生产级的实施。如果事实证明移植现有代码相对容易，项目将逐渐开始采用它并构建新的基础设施：L2 支持将出现在钱包中，预言机将开始向 OR 广播等。</p>
+<p>ZK Rollup 在专业应用（例如ERC-20 代币转移）方面已经更加成熟，但将通过完全通用的智能合约走更渐进的道路。最终，将有可能将任何基于 EVM 和 WASM 的智能合约移植到 ZK Rollup 中——按照目前的技术发展速度，这不太可能需要数年时间。</p>
+<p>对于这两种 Rollup 类型，必须对钱包、预言机和其他智能合约组件进行类似的基础架构更改。这需要大量的工作，随着越来越多的项目对 L2 扩展技术感兴趣，这些工作将会加速。由于 Optimistic Rollup 比 ZK-Rollup 更早地承诺了基于通用 EVM 的智能合约，它将极大地推动社区采用 L2 的动力, 但是目前 <a href="https://blog.matter-labs.io/zksync-2-0-roadmap-update-zkevm-testnet-in-may-mainnet-in-august-379c66995021">Zk sync 也推出了 EVM</a>。到底后面胜负如何，我们可以拭目以待。</p>
+<p>对于用户和 dapps，从一个 Rollup 跳转到另一个 Rollup 将比最初从 ETH 迁移到 L2 更容易。桥梁将使这个过程更加顺畅。由于这种易于切换，我个人的看法是，该解决方案在 UX 方面具有显着优势，从长远来看可能会成为唯一的赢家。</p>
+<p>无论结果如何，这将是一个非常重要且令人兴奋的演变。无论如何，最终的赢家将是以太坊社区。</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            回到页面顶部
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="页脚" >
+      
+        
+        <a href="rollup-all.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 第六章：Layer2 实现方式之 Rollup" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              第六章：Layer2 实现方式之 Rollup
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="fraud-proof.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 第八章：欺诈证明简介" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              第八章：欺诈证明简介
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["toc.integrate", "navigation.top", "navigation.expand"], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>
