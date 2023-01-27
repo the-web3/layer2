@@ -1,0 +1,1314 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="最全面的 Layer2 资料汇总">
+      
+      
+      
+        <link rel="canonical" href="https://layer2.wenwoha.com/code/arbitrum/setup.html">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>第一章：Arbitrum 的 Nitro 本地网络启动与 ETH/ERC20 充提测试教程 - Layer2</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#7e56c2">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#arbitrum-nitro-etherc20" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Layer2" class="md-header__button md-logo" aria-label="Layer2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Layer2
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第一章：Arbitrum 的 Nitro 本地网络启动与 ETH/ERC20 充提测试教程
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/guoshijiang/layer2/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Layer2" class="md-nav__button md-logo" aria-label="Layer2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Layer2
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/guoshijiang/layer2/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          一. Layer2 研究总结资料
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="一. Layer2 研究总结资料" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          一. Layer2 研究总结资料
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/cross-chain.html" class="md-nav__link">
+        第一章：跨链和侧链技术简单介绍
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/normal-crosschain.html" class="md-nav__link">
+        第二章：常见的几种跨链方式
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/layer2-main.html" class="md-nav__link">
+        第三章：Layer2 主要实现方式
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/state-chain.html" class="md-nav__link">
+        第四章：Layer2 实现方式之状态通道
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/plasma.html" class="md-nav__link">
+        第五章：Layer2 实现方式之 Plasma
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/rollup-all.html" class="md-nav__link">
+        第六章：Layer2 实现方式之 Rollup
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/oz-rollup.html" class="md-nav__link">
+        第七章：Optimistic Rollup 和 Zk rollup 的区别联系
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/fraud-proof.html" class="md-nav__link">
+        第八章：欺诈证明简介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/valid-proof.html" class="md-nav__link">
+        第九章：有效证明简介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/validium.html" class="md-nav__link">
+        第十章：Layer2 实现方式之 Validium
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/ozv.html" class="md-nav__link">
+        第十一章：Optimistic Rollup， Zk rollup 和 Validium总结
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/polygon.html" class="md-nav__link">
+        第十二章：Plasma 代表项目 Polygon
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/starkex.html" class="md-nav__link">
+        第十三章：Validium 代表项目  StarkEx
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/arbitrum.html" class="md-nav__link">
+        第十四章：Optimistic Rollup 代表项目  arbitrum
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/optimistim-metis-boba.html" class="md-nav__link">
+        第十五章：Optimistic Rollup 代表项目 optimistim(Boba,  Metis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/arbitrum-optimistim.html" class="md-nav__link">
+        第十六章：arbitrum 和 optimistim 对比
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/zksync.html" class="md-nav__link">
+        第十七章：Zk Rollup 代表项目 zk sync
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/arbi-op-zk.html" class="md-nav__link">
+        第十八章：zk sync 和 arbitrum 和 optimistim 对比
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/layer2-chain.html" class="md-nav__link">
+        第十九章：钱包接入中 Layer2 各条链的区别(Polygon,  Arbitrum, Optimistim,  Boba,  Metis,  zkSync
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/layer2-eco.html" class="md-nav__link">
+        第十九章：Layer2 生态概览
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/layer2-design.html" class="md-nav__link">
+        第二十章：如何设计一条 layer2 的公链
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../src/last-ret.html" class="md-nav__link">
+        第二十一章：总结
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/guoshijiang/cryptography" class="md-nav__link">
+        附录：零知识证明
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          二. 代码
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="二. 代码" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          二. 代码
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          第一章：Arbitrum 的 Nitro 本地网络启动与 ETH/ERC20 充提测试教程
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="setup.html" class="md-nav__link md-nav__link--active">
+        第一章：Arbitrum 的 Nitro 本地网络启动与 ETH/ERC20 充提测试教程
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    一.  本地网络启动
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#eth" class="md-nav__link">
+    二. ETH 测试
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#erc20" class="md-nav__link">
+    二. ERC20 测试
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    四. 可以参考配置项目
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tx.html" class="md-nav__link">
+        第二章：Arbitrum 的 Nitro 项目启动和交易执行源码解析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="rollup.html" class="md-nav__link">
+        第三章：Arbitrum 的 Nitro 项目 Rollup 细节深入
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <a href="https://github.com/guoshijiang/layer2/edit/main/code/arbitrum/setup.md" title="编辑此页" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+<h1 id="arbitrum-nitro-etherc20">Arbitrum 的 Nitro 本地网络启动与 ETH/ERC20 充提测试教程</h1>
+<h3 id="_1">一.  本地网络启动</h3>
+<ol>
+<li>第一步：克隆 nitro 代码</li>
+</ol>
+<pre><code>git clone https://github.com/OffchainLabs/nitro.git
+</code></pre>
+<ol>
+<li>安装子模块</li>
+</ol>
+<pre><code>git submodule init
+git submodule update
+</code></pre>
+<ol>
+<li>启动测试</li>
+</ol>
+<pre><code>./test-node.bash
+</code></pre>
+<ol>
+<li>启动配置项</li>
+</ol>
+<pre><code>force_build=true  是否强制 build
+validate=true     是否启动 validate
+blockscout=false  是否启动 blockscout
+</code></pre>
+<p>如果启动过程中报错如下：
+<img alt="" src="/media/editor/1_20220915233711398444.png" /></p>
+<p>请把<code>force_init</code>设置成 true 就行.</p>
+<p>启动完成之后有以下这些镜像(我的没有启动 blockscout)：</p>
+<pre><code>bj89182ml@192 nitro % docker ps
+CONTAINER ID   IMAGE                       COMMAND                  CREATED       STATUS       PORTS                                                                       NAMES
+9b4d301838ea   nitro_validator             &quot;/usr/local/bin/nitr…&quot;   8 hours ago   Up 8 hours   127.0.0.1:8247-&gt;8547/tcp, 127.0.0.1:8248-&gt;8548/tcp                          nitro_validator_1
+00e897625661   nitro_sequencer             &quot;/usr/local/bin/nitr…&quot;   8 hours ago   Up 8 hours   127.0.0.1:8547-8548-&gt;8547-8548/tcp, 127.0.0.1:9642-&gt;9642/tcp                nitro_sequencer_1
+393399b921f0   nitro_poster                &quot;/usr/local/bin/nitr…&quot;   8 hours ago   Up 8 hours   127.0.0.1:8147-&gt;8547/tcp, 127.0.0.1:8148-&gt;8548/tcp                          nitro_poster_1
+f0898fa127be   redis:6.2.6                 &quot;docker-entrypoint.s…&quot;   8 hours ago   Up 8 hours   127.0.0.1:6379-&gt;6379/tcp                                                    nitro_redis_1
+d2fc2ca998a3   ethereum/client-go:stable   &quot;geth --keystore /ke…&quot;   8 hours ago   Up 8 hours   127.0.0.1:8545-8546-&gt;8545-8546/tcp, 127.0.0.1:30303-&gt;30303/tcp, 30303/udp   nitro_geth_1
+</code></pre>
+<h3 id="eth">二. ETH 测试</h3>
+<p>使用 arbitrum-sdk 配置本地网络
+克隆代码：</p>
+<pre><code>git clone https://github.com/OffchainLabs/arbitrum-sdk.git
+</code></pre>
+<p>安装依赖：</p>
+<pre><code>yarn install
+</code></pre>
+<p>配置环境变量：</p>
+<pre><code>ARB_URL=&quot;http://localhost:8547&quot;
+ETH_URL=&quot;http://localhost:8545&quot;
+ARB_KEY=&quot;e887f7d17d07cc7b8004053fb8826f6657084e88904bb61590e498ca04704cf2&quot;
+ETH_KEY=&quot;e887f7d17d07cc7b8004053fb8826f6657084e88904bb61590e498ca04704cf2&quot;
+
+#INFURA_KEY=&quot;2323232323232323232&quot;
+#SHOULD_FORK=&quot;&quot;
+#MAINNET_RPC=&quot;https://mainnet.infura.io/v3/2323&quot;
+#ARB_ONE_RPC=&quot;https://arb1.arbitrum.io/rpc&quot;
+#RINKEBY_RPC=&quot;https://rinkeby.infura.io/v3/232323&quot;
+#RINKARBY_RPC=&quot;https://rinkeby.arbitrum.io/rpc&quot;
+</code></pre>
+<p>获取本地网络配置 </p>
+<pre><code>yarn gen:network
+</code></pre>
+<p>执行结果如下：
+<img alt="" src="/media/editor/2_20220915233811833921.jpeg" /></p>
+<p>将打印出来的这些地址配置到 arbitrum-tutorials 项目中的各个模块
+1. Deposit
+克隆代码并安装依赖</p>
+<pre><code>git clone https://github.com/OffchainLabs/arbitrum-tutorials.git
+cd arbitrum-tutorials/packages/eth-deposit
+yarn install 安装依赖
+</code></pre>
+<p>配置环境变量</p>
+<pre><code># This is a sample .env file for use in local development.
+# Duplicate this file as .env here
+
+# Your Private key
+DEVNET_PRIVKEY=&quot;e887f7d17d07cc7b8004053fb8826f6657084e88904bb61590e498ca04704cf2&quot;
+
+# Hosted Aggregator Node (JSON-RPC Endpoint). This is Arbitrum Goerli Testnet, can use any Arbitrum chain
+L2RPC=&quot;http://127.0.0.1:8547&quot;
+
+# Ethereum RPC; i.e., for Goerli https://goerli.infura.io/v3/&lt;your infura key&gt;
+L1RPC=&quot;http://127.0.0.1:8545&quot;
+将上面的 sdk 里面获取到的本地网络配置配置到代码中 arbitrum-tutorials/packages/eth-deposit/scripts/exec.js
+await arbLog('Deposit Eth via Arbitrum SDK')
+await addCustomNetwork({
+  customL1Network: {
+    blockTime: 10,
+    chainID: 1337,
+    explorerUrl: '',
+    isCustom: true,
+    name: 'EthLocal',
+    partnerChainIDs: [412346],
+    rpcURL: 'http://localhost:8545',
+  },
+  customL2Network: {
+    chainID: 412346,
+    confirmPeriodBlocks: 20,
+    ethBridge: {
+      bridge: '0x1702782edb6c1a0a20a4cf81bf7159005c7717c4',
+      inbox: '0xa24b6c27d7e12a53f951f1e3f964f02a50acb700',
+      outbox: '0xb6bE947DCA31b096Dc1041aC30e806A6F13Bf871',
+      rollup: '0xcc0f356cbeded5db896f8905e856366510aba533',
+      sequencerInbox: '0x33c04c208c6a8e644a33e104f0baaf3d48345396',
+    },
+    explorerUrl: '',
+    isArbitrum: true,
+    isCustom: true,
+    name: 'ArbLocal',
+    partnerChainID: 1337,
+    rpcURL: 'http://localhost:8547',
+    retryableLifetimeSeconds: 604800,
+    tokenBridge: {
+      l1CustomGateway: '0xacd66ABF571E20aaB88c45dEA436E1F34ed97f79',
+      l1ERC20Gateway: '0x99FF57ee073255f26669D703697bca8DDc797d98',
+      l1GatewayRouter: '0x508A0F1EFAA8664e3c85BC57eC52433DEC682fa1',
+      l1MultiCall: '0xC6f7A186231F4f541Ab9FA1cc3092Fae0CBCA815',
+      l1ProxyAdmin: '0x1Ffb0bCa2F62290fd9E237F1bD4969A513B28195',
+      l1Weth: '0xC6f7A186231F4f541Ab9FA1cc3092Fae0CBCA815',
+      l1WethGateway: '0x28B3a95f8e6508dc2C0097Ac543C8B2eFff21bF9',
+      l2CustomGateway: '0xF0B003F9247f2DC0e874710eD55e55f8C63B14a3',
+      l2ERC20Gateway: '0x78a6dC8D17027992230c112432E42EC3d6838d74',
+      l2GatewayRouter: '0x7b650845242a96595f3a9766D4e8e5ab0887936A',
+      l2Multicall: '0x9b890cA9dE3D317b165afA7DFb8C65f2e4c95C20',
+      l2ProxyAdmin: '0x7F85fB7f42A0c0D40431cc0f7DFDf88be6495e67',
+      l2Weth: '0x36BeF5fD671f2aA8686023dE4797A7dae3082D5F',
+      l2WethGateway: '0x2E76efCC2518CB801E5340d5f140B1c1911b4F4B',
+    },
+  },
+})
+const l2Network = await getL2Network(l2Provider)
+const ethBridger = new EthBridger(l2Network)
+</code></pre>
+<p>执行充值命令</p>
+<pre><code>yarn run depositETH
+</code></pre>
+<p>执行结果如下：</p>
+<pre><code>yarn run v1.22.17
+$ hardhat run scripts/exec.js
+Environmental variables properly set 👍
+                            🔵🔵
+                           🔵  🔵
+                          🔵    🔵
+                         🔵      🔵
+                        🔵        🔵
+                       🔵          🔵
+                      🔵            🔵
+                     🔵              🔵
+                    🔵                🔵
+                   🔵                  🔵
+                  🔵                    🔵
+                 🔵                      🔵
+                🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵
+               🔵                          🔵
+              🔵                            🔵
+             🔵                              🔵
+            🔵                                🔵
+           🔵                                  🔵
+          🔵                                    🔵
+         🔵                                      🔵
+        🔵                                        🔵
+       🔵                                          🔵
+      🔵                                            🔵
+     🔵                                              🔵
+    🔵                                                🔵
+Arbitrum Demo: Deposit Eth via Arbitrum SDK
+Lets
+Go ➡️
+l2Wallet = 0x683642c22feDE752415D4793832Ab75EFdF6223c
+l2WalletInitialEthBalance = BigNumber { _hex: '0x1565edfa392c81df50e0', _isBigNumber: true }
+deposit L1 receipt is: 0xac1b9d790004dba342bbcd97a9c0e8f59e84b1c987203f16eb28d67cf50c5892
+Now we wait for L2 side of the transaction to be executed ⏳
+L2 message successful: status: undefined
+your L2 ETH balance is updated from 101049965373101701026016 to 101059965373101701026016
+✨  Done in 34.99s.
+</code></pre>
+<p>2 Withdraw</p>
+<p>进行入提现代码目录并安装依赖</p>
+<pre><code> cd packages/eth-withdraw
+ yarn install
+</code></pre>
+<p>配置环境变量和本地网络同上，然后运行测试脚本</p>
+<pre><code>yarn run withdrawETH
+</code></pre>
+<p>执行结果如下：</p>
+<pre><code> yarn run withdrawETH
+yarn run v1.22.17
+$ hardhat run scripts/exec.js
+Environmental variables properly set 👍
+                            🔵🔵
+                           🔵  🔵
+                          🔵    🔵
+                         🔵      🔵
+                        🔵        🔵
+                       🔵          🔵
+                      🔵            🔵
+                     🔵              🔵
+                    🔵                🔵
+                   🔵                  🔵
+                  🔵                    🔵
+                 🔵                      🔵
+                🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵
+               🔵                          🔵
+              🔵                            🔵
+             🔵                              🔵
+            🔵                                🔵
+           🔵                                  🔵
+          🔵                                    🔵
+         🔵                                      🔵
+        🔵                                        🔵
+       🔵                                          🔵
+      🔵                                            🔵
+     🔵                                              🔵
+    🔵                                                🔵
+Arbitrum Demo: Withdraw Eth via Arbitrum SDK
+Lets
+Go ➡️
+...🚀
+
+Wallet properly funded: initiating withdrawal now
+Ether withdrawal initiated! 🥳 0x2ee2a85461f3303be2d769a35163ebc4048535545dab6064e27e9ee7fac5862a
+Withdrawal data: [
+  [
+    '0x683642c22feDE752415D4793832Ab75EFdF6223c',
+    '0x683642c22feDE752415D4793832Ab75EFdF6223c',
+    BigNumber {
+      _hex: '0x88b79364b9c67a6821a96c885a742e95d81baa87a47365305d9b505a1b1b06a2',
+      _isBigNumber: true
+    },
+    BigNumber { _hex: '0x03', _isBigNumber: true },
+    BigNumber { _hex: '0x32', _isBigNumber: true },
+    BigNumber { _hex: '0x7add', _isBigNumber: true },
+    BigNumber { _hex: '0x63232a78', _isBigNumber: true },
+    BigNumber { _hex: '0xe8d4a51000', _isBigNumber: true },
+    '0x',
+    caller: '0x683642c22feDE752415D4793832Ab75EFdF6223c',
+    destination: '0x683642c22feDE752415D4793832Ab75EFdF6223c',
+    hash: BigNumber {
+      _hex: '0x88b79364b9c67a6821a96c885a742e95d81baa87a47365305d9b505a1b1b06a2',
+      _isBigNumber: true
+    },
+    position: BigNumber { _hex: '0x03', _isBigNumber: true },
+    arbBlockNum: BigNumber { _hex: '0x32', _isBigNumber: true },
+    ethBlockNum: BigNumber { _hex: '0x7add', _isBigNumber: true },
+    timestamp: BigNumber { _hex: '0x63232a78', _isBigNumber: true },
+    callvalue: BigNumber { _hex: '0xe8d4a51000', _isBigNumber: true },
+    data: '0x'
+  ]
+]
+To to claim funds (after dispute period), see outbox-execute repo ✌️
+✨  Done in 9.71s.
+</code></pre>
+<ol>
+<li>Cliam Withdraw</li>
+</ol>
+<p>进行入 outbox-execute 目录并安装依赖</p>
+<pre><code>cd packages/outbox-execute
+yarn install
+</code></pre>
+<p>配置环境变量和本地网络同上，然后运行测试脚本</p>
+<pre><code>yarn run withdrawETH
+</code></pre>
+<p>执行命令</p>
+<pre><code>yarn outbox-exec --txhash 0x2ee2a85461f3303be2d769a35163ebc4048535545dab6064e27e9ee7fac5862a
+</code></pre>
+<p>结果如下：</p>
+<pre><code>yarn run v1.22.17
+$ hardhat outbox-exec --txhash 0x2ee2a85461f3303be2d769a35163ebc4048535545dab6064e27e9ee7fac5862a
+Environmental variables properly set 👍
+                            🔵🔵
+                           🔵  🔵
+                          🔵    🔵
+                         🔵      🔵
+                        🔵        🔵
+                       🔵          🔵
+                      🔵            🔵
+                     🔵              🔵
+                    🔵                🔵
+                   🔵                  🔵
+                  🔵                    🔵
+                 🔵                      🔵
+                🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵
+               🔵                          🔵
+              🔵                            🔵
+             🔵                              🔵
+            🔵                                🔵
+           🔵                                  🔵
+          🔵                                    🔵
+         🔵                                      🔵
+        🔵                                        🔵
+       🔵                                          🔵
+      🔵                                            🔵
+     🔵                                              🔵
+    🔵                                                🔵
+Arbitrum Demo: Outbox Execution
+Lets
+Go ➡️
+...🚀
+
+Waiting for the outbox entry to be created. This only happens when the L2 block is confirmed on L1, ~1 week after it's creation.
+</code></pre>
+<p>已经 cliam 完成的命令如下：</p>
+<pre><code>Lets
+Go ➡️
+...🚀
+Waiting for the outbox entry to be created. This only happens when the L2 block is confirmed on L1, ~1 week after it's creation.
+Outbox entry exists! Trying to execute now
+Done! Your transaction is executed {
+  to: '0xFfA9084d0527FA89EbB4e917F936565aa7Bf95F6',
+  from: '0x683642c22feDE752415D4793832Ab75EFdF6223c',
+  contractAddress: null,
+  transactionIndex: 0,
+  gasUsed: BigNumber { _hex: '0x014837', _isBigNumber: true },
+  logsBloom: '0x00000000000000000000000000000800000000000000000000000008000000000020000400000000020000100000000000000000000000000000000800000000000000000000000000004000000000000000000000800000000000000000000000000000020000000000000000000800000000000000000000000000000010000000000000040000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000002000000000000000000000000020008008000000000000000000000000008000000000000000000000000000000000',
+  blockHash: '0xc27029955f16233ed53d0405f7a5ef5609b62e2b80e3bb2784b758139dd6e4a1',
+  transactionHash: '0x34401cff2b5262a480e481871cbbd8b6e61cb2807701c2be9cb24daad171f832',
+  logs: [
+    {
+      transactionIndex: 0,
+      blockNumber: 31668,
+      transactionHash: '0x34401cff2b5262a480e481871cbbd8b6e61cb2807701c2be9cb24daad171f832',
+      address: '0xFfA9084d0527FA89EbB4e917F936565aa7Bf95F6',
+      topics: [Array],
+      data: '0x0000000000000000000000000000000000000000000000000000000000000002',
+      logIndex: 0,
+      blockHash: '0xc27029955f16233ed53d0405f7a5ef5609b62e2b80e3bb2784b758139dd6e4a1'
+    },
+    {
+      transactionIndex: 0,
+      blockNumber: 31668,
+      transactionHash: '0x34401cff2b5262a480e481871cbbd8b6e61cb2807701c2be9cb24daad171f832',
+      address: '0x1702782EDb6C1A0a20A4cF81BF7159005C7717c4',
+      topics: [Array],
+      data: '0x000000000000000000000000000000000000000000000000000000e8d4a5100000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000000',
+      logIndex: 1,
+      blockHash: '0xc27029955f16233ed53d0405f7a5ef5609b62e2b80e3bb2784b758139dd6e4a1'
+    }
+  ],
+  blockNumber: 31668,
+  confirmations: 3,
+  cumulativeGasUsed: BigNumber { _hex: '0x014837', _isBigNumber: true },
+  effectiveGasPrice: BigNumber { _hex: '0x59682f07', _isBigNumber: true },
+  status: 1,
+  type: 2,
+  byzantium: true,
+  events: [
+    {
+      transactionIndex: 0,
+      blockNumber: 31668,
+      transactionHash: '0x34401cff2b5262a480e481871cbbd8b6e61cb2807701c2be9cb24daad171f832',
+      address: '0xFfA9084d0527FA89EbB4e917F936565aa7Bf95F6',
+      topics: [Array],
+      data: '0x0000000000000000000000000000000000000000000000000000000000000002',
+      logIndex: 0,
+      blockHash: '0xc27029955f16233ed53d0405f7a5ef5609b62e2b80e3bb2784b758139dd6e4a1',
+      args: [Array],
+      decode: [Function (anonymous)],
+      event: 'OutBoxTransactionExecuted',
+      eventSignature: 'OutBoxTransactionExecuted(address,address,uint256,uint256)',
+      removeListener: [Function (anonymous)],
+      getBlock: [Function (anonymous)],
+      getTransaction: [Function (anonymous)],
+      getTransactionReceipt: [Function (anonymous)]
+    },
+    {
+      transactionIndex: 0,
+      blockNumber: 31668,
+      transactionHash: '0x34401cff2b5262a480e481871cbbd8b6e61cb2807701c2be9cb24daad171f832',
+      address: '0x1702782EDb6C1A0a20A4cF81BF7159005C7717c4',
+      topics: [Array],
+      data: '0x000000000000000000000000000000000000000000000000000000e8d4a5100000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000000',
+      logIndex: 1,
+      blockHash: '0xc27029955f16233ed53d0405f7a5ef5609b62e2b80e3bb2784b758139dd6e4a1',
+      removeListener: [Function (anonymous)],
+      getBlock: [Function (anonymous)],
+      getTransaction: [Function (anonymous)],
+      getTransactionReceipt: [Function (anonymous)]
+    }
+  ]
+}
+✨  Done in 12.83s.
+</code></pre>
+<h3 id="erc20">二. ERC20 测试</h3>
+<p>erc20 测试代码对应的是 token-deposit 和 token-withdraw
+安装依赖和环境配置和上面一致
+1. Deposit</p>
+<pre><code>yarn run token-deposit
+</code></pre>
+<p>执行命令之后结果如下, 会转 0.5 DAPP Token 到 L2：</p>
+<pre><code>yarn run v1.22.17
+$ hardhat run scripts/exec.js
+Environmental variables properly set 👍
+                            🔵🔵
+                           🔵  🔵
+                          🔵    🔵
+                         🔵      🔵
+                        🔵        🔵
+                       🔵          🔵
+                      🔵            🔵
+                     🔵              🔵
+                    🔵                🔵
+                   🔵                  🔵
+                  🔵                    🔵
+                 🔵                      🔵
+                🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵
+               🔵                          🔵
+              🔵                            🔵
+             🔵                              🔵
+            🔵                                🔵
+           🔵                                  🔵
+          🔵                                    🔵
+         🔵                                      🔵
+        🔵                                        🔵
+       🔵                                          🔵
+      🔵                                            🔵
+     🔵                                              🔵
+    🔵                                                🔵
+Arbitrum Demo: Deposit token using Arbitrum SDK
+Lets
+Go ➡️
+...🚀
+
+Deploying the test DappToken to L1:
+DappToken is deployed to L1 at 0x3A85e361917180567F6a0fb8c68B2b5065126aCA
+Approving:
+You successfully allowed the Arbitrum Bridge to spend DappToken 0xd62f25efb8d37f84c292cd0ed547c13a5fc97b14fe0ca8d64635f9eb06ceafff
+L2 message successful: status: REDEEMED
+l2TokenAddress= 0xe48d6eD6aCE60A5C69425a5EDDa46c7CbacD7cFf
+Duplicate definition of Transfer (Transfer(address,address,uint256,bytes), Transfer(address,address,uint256))
+</code></pre>
+<ol>
+<li>Withdraw
+执行提现命令</li>
+</ol>
+<pre><code>yarn withdraw-token
+</code></pre>
+<p>结果如下：</p>
+<pre><code>yarn run v1.22.17
+$ hardhat run scripts/exec.js
+Warning: SPDX license identifier not provided in source file. Before publishing, consider adding a comment containing &quot;SPDX-License-Identifier: &lt;SPDX-License&gt;&quot; to each source file. Use &quot;SPDX-License-Identifier: UNLICENSED&quot; for non-open-source code. Please see https://spdx.org for more information.
+--&gt; contracts/DappToken.sol
+
+
+Warning: Visibility for constructor is ignored. If you want the contract to be non-deployable, making it &quot;abstract&quot; is sufficient.
+  --&gt; contracts/DappToken.sol:23:5:
+   |
+23 |     constructor(uint256 _initialSupply) public {
+   |     ^ (Relevant source part starts here and spans across multiple lines).
+
+
+Compiled 1 Solidity file successfully
+Environmental variables properly set 👍
+                            🔵🔵
+                           🔵  🔵
+                          🔵    🔵
+                         🔵      🔵
+                        🔵        🔵
+                       🔵          🔵
+                      🔵            🔵
+                     🔵              🔵
+                    🔵                🔵
+                   🔵                  🔵
+                  🔵                    🔵
+                 🔵                      🔵
+                🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵
+               🔵                          🔵
+              🔵                            🔵
+             🔵                              🔵
+            🔵                                🔵
+           🔵                                  🔵
+          🔵                                    🔵
+         🔵                                      🔵
+        🔵                                        🔵
+       🔵                                          🔵
+      🔵                                            🔵
+     🔵                                              🔵
+    🔵                                                🔵
+Arbitrum Demo: Withdraw token using Arbitrum SDK
+Lets
+Go ➡️
+🚀
+Deploying the test DappToken to L1:
+DappToken is deployed to L1 at 0x878E8Cc740C493Ad951dDAaceFF9a9D9f6F41413
+Approving:
+You successfully allowed the Arbitrum Bridge to spend DappToken 0xa0f8c4f0b8ee441052b7f25fd7060da8ec6a4ec4501309152679145ba7667111
+Transferring DappToken to L2:
+Deposit initiated: waiting for L2 retryable (takes &lt; 10 minutes; current time: 21:45:01 GMT+0800 (中国标准时间))
+Setup complete
+L2 message successful: status: REDEEMED
+Withdrawing:
+Token withdrawal initiated! 🥳 0x878d8f0f78b4c397c77068be68fb05ed006724e40884b8560ef62660bd376363
+Duplicate definition of Transfer (Transfer(address,address,uint256,bytes), Transfer(address,address,uint256))
+To to claim funds (after dispute period), see outbox-execute repo ✌️
+✨  Done in 48.55s.
+</code></pre>
+<ol>
+<li>Cliam withdraw</li>
+</ol>
+<p>和 ETH 的 Cliam 类似</p>
+<h3 id="_2">四. 可以参考配置项目</h3>
+<ul>
+<li>arbitrum-tutorials配置参考： https://github.com/guoshijiang/arbitrum-tutorials</li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            回到页面顶部
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="页脚" >
+      
+        
+        <a href="../../src/last-ret.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 第二十一章：总结" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              第二十一章：总结
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="tx.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 第二章：Arbitrum 的 Nitro 项目启动和交易执行源码解析" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              第二章：Arbitrum 的 Nitro 项目启动和交易执行源码解析
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["toc.integrate", "navigation.top", "navigation.expand"], "search": "../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>

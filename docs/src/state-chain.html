@@ -1,0 +1,953 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="最全面的 Layer2 资料汇总">
+      
+      
+      
+        <link rel="canonical" href="https://layer2.wenwoha.com/src/state-chain.html">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>第四章：Layer2 实现方式之状态通道 - Layer2</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#7e56c2">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Layer2" class="md-header__button md-logo" aria-label="Layer2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Layer2
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第四章：Layer2 实现方式之状态通道
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/guoshijiang/layer2/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Layer2" class="md-nav__button md-logo" aria-label="Layer2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Layer2
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/guoshijiang/layer2/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          一. Layer2 研究总结资料
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="一. Layer2 研究总结资料" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          一. Layer2 研究总结资料
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="cross-chain.html" class="md-nav__link">
+        第一章：跨链和侧链技术简单介绍
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="normal-crosschain.html" class="md-nav__link">
+        第二章：常见的几种跨链方式
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-main.html" class="md-nav__link">
+        第三章：Layer2 主要实现方式
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          第四章：Layer2 实现方式之状态通道
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="state-chain.html" class="md-nav__link md-nav__link--active">
+        第四章：Layer2 实现方式之状态通道
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    一. 状态通道概述
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    二. 状态通道的三个层级
+  </a>
+  
+    <nav class="md-nav" aria-label="二. 状态通道的三个层级">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1 通用状态通道
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2 状态通道
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3.支付通道
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    三. 状态通道存在的问题
+  </a>
+  
+    <nav class="md-nav" aria-label="三. 状态通道存在的问题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    1. 路由问题
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 路由问题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-htlchashed-time-lock-contract" class="md-nav__link">
+    1.1. 哈希时间锁合约（HTLC，Hashed-Time Lock Contract）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-virtual-channel" class="md-nav__link">
+    1.2. 虚拟通道（Virtual Channel）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-meta-channel" class="md-nav__link">
+    1.3 元通道（Meta Channel）
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    2. 节点离线问题
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    3. 保证金锁定问题
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="plasma.html" class="md-nav__link">
+        第五章：Layer2 实现方式之 Plasma
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="rollup-all.html" class="md-nav__link">
+        第六章：Layer2 实现方式之 Rollup
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="oz-rollup.html" class="md-nav__link">
+        第七章：Optimistic Rollup 和 Zk rollup 的区别联系
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="fraud-proof.html" class="md-nav__link">
+        第八章：欺诈证明简介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="valid-proof.html" class="md-nav__link">
+        第九章：有效证明简介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="validium.html" class="md-nav__link">
+        第十章：Layer2 实现方式之 Validium
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ozv.html" class="md-nav__link">
+        第十一章：Optimistic Rollup， Zk rollup 和 Validium总结
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="polygon.html" class="md-nav__link">
+        第十二章：Plasma 代表项目 Polygon
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="starkex.html" class="md-nav__link">
+        第十三章：Validium 代表项目  StarkEx
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="arbitrum.html" class="md-nav__link">
+        第十四章：Optimistic Rollup 代表项目  arbitrum
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="optimistim-metis-boba.html" class="md-nav__link">
+        第十五章：Optimistic Rollup 代表项目 optimistim(Boba,  Metis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="arbitrum-optimistim.html" class="md-nav__link">
+        第十六章：arbitrum 和 optimistim 对比
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="zksync.html" class="md-nav__link">
+        第十七章：Zk Rollup 代表项目 zk sync
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="arbi-op-zk.html" class="md-nav__link">
+        第十八章：zk sync 和 arbitrum 和 optimistim 对比
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-chain.html" class="md-nav__link">
+        第十九章：钱包接入中 Layer2 各条链的区别(Polygon,  Arbitrum, Optimistim,  Boba,  Metis,  zkSync
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-eco.html" class="md-nav__link">
+        第十九章：Layer2 生态概览
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-design.html" class="md-nav__link">
+        第二十章：如何设计一条 layer2 的公链
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="last-ret.html" class="md-nav__link">
+        第二十一章：总结
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/guoshijiang/cryptography" class="md-nav__link">
+        附录：零知识证明
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          二. 代码
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="二. 代码" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          二. 代码
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code/arbitrum/setup.html" class="md-nav__link">
+        第一章：Arbitrum 的 Nitro 本地网络启动与 ETH/ERC20 充提测试教程
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code/arbitrum/tx.html" class="md-nav__link">
+        第二章：Arbitrum 的 Nitro 项目启动和交易执行源码解析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code/arbitrum/rollup.html" class="md-nav__link">
+        第三章：Arbitrum 的 Nitro 项目 Rollup 细节深入
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <a href="https://github.com/guoshijiang/layer2/edit/main/src/state-chain.md" title="编辑此页" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+  <h1>第四章：Layer2 实现方式之状态通道</h1>
+
+<p>状态通道也算是一种比较热门的扩容方案，状态通道解决方案通过将链下交互和链上清算隔离开，能够在保障一定程度的非中心化和资产安全性的同时，实现速度更快、费用更低的交易。状态通道作为一种链下扩容方案，从一般到特殊分为通用状态通道、状态通道和支付通道三个层次。状态通道面临的主要问题包括路由问题、通道平衡问题、节点离线问题以及保证金锁定问题。</p>
+<p>通过设计合理的路由策略可以将状态通道扩展为网络结构，目前的方案有哈希时间锁合约、虚拟通道和元通道。通道平衡问题的主要解决思路有背压路由算法和链下重新平衡方案。节点离线问题的主要解决思路是引入第三方来监督链下状态，并加以经济激励。保证金锁定问题的解决思路是从流动性资金供应商那里吸收闲散资金、共享资金池。</p>
+<p>相比于链上扩容方案，状态通道巧妙地将链上和链下的职能分开，采用该方案无需改变公链结构，结合链上的安全性和非中心化特性以及链下的扩展性，但从整体生态来说，由于链上链下通信过程中可能存在的问题，依然属于安全性、非中心化和扩展性的一种新平衡。相比于其他链下扩容方案，状态通道的隐私性较好，可做到即时性，尤其适合于固定双方的高频互动，其劣势在于需要中间节点“垫付”资金、要求节点实时在线或需引入第三方来监督</p>
+<p>状态通道（State Channel）是区块链链下（off-chain）扩容方案之一，目前有众多知名项目都采用了状态通道技术方案。</p>
+<h3 id="_1">一. 状态通道概述</h3>
+<p>状态通道中的状态指的是区块链账本当前的样子，包括账户名称（或 UTXO 模型的地址）、余额（或 UTXO 模型下的未花费交易输出）、合约数据等。状态通道是在两方或多方之间开辟一条链下通道来进行状态交换，以实现较低的手续费和即时到账等特性。</p>
+<p>利用状态通道交易的流程一般为：</p>
+<ul>
+<li>交易方在链上锁定一定量的资产，在区块链上记录并开辟状态通道；</li>
+<li>在通道内进行相互交易和状态更新，但不提交到链上；</li>
+<li>当任一方想要关闭通道时，提交最终状态到区块链上进行清算。若另一方有异议，可在规定时间内申请链上仲裁</li>
+</ul>
+<p>状态通道的扩容原理主要是链下交互、链上清算，避免将每一笔小额交易都放在链上进行，只需要把最终的状态提交到链上即可，减轻了链上的工作量。当双方均无异议可以很快完成清算，实现即时终结性（Instant Finality），此外由于在通道内进行链下交易，可实现较快的交易速度、较低的手续费，以及较好的隐私性。</p>
+<p>当某一方试图欺诈，提交有利于自己的非最终状态上链时，另一方可以通过提交带有时间戳的最新状态向链上申诉，坐实后欺诈者会面临被没收抵押物的惩罚。但这要求状态通道的用户实时在线，</p>
+<p>如果某一方长时间离线，链上清算会强制执行，从而可能造成损失。这种情况下一般会引入第三方来监督是否有欺诈现象发生，但这需要设计出合理的第三方经济激励机制。</p>
+<p>状态通道方案比较适合参与方在相对较长的时间里需多次交换状态、对单次转账的交易手续费比较敏感等场景</p>
+<h3 id="_2">二. 状态通道的三个层级</h3>
+<p>状态通道作为一种链下扩容方案，从一般到特殊主要分为通用状态通道（Generalized State Channel）、状态通道（State Channel）和支付通道（Payment Channel）三个层级。</p>
+<p><img alt="" src="https://github.com/guoshijiang/layer2/blob/main/images/5.png" /></p>
+<h4 id="1">1 通用状态通道</h4>
+<p>通用状态通道是模块化、标准化的状态通道开发框架，实例化之后即成为状态通道或支付通道。开发人员无需很熟悉状态通道的相关技术细节也可以很容易地开发基于状态通道的应用，用户也可在不执行任何链上操作的情况下在通道内安装、运行和终止 DApp。</p>
+<p>典型的项目有 Counterfactual（基于链下状态通道建立应用的开发架构）、Celer Network（layer-2 扩展平台，帮助开发者快速构建和运行非中心化应用。）。</p>
+<h4 id="2">2 状态通道</h4>
+<p>状态通道是在链下进行状态交互的通道。通过将链上的图灵完备智能合约放到链下执行，来实现状态交换和链下扩容的目的。例如基于状态通道开发的围棋游戏，就是在链下不断进行状态的交换。</p>
+<p>典型的项目有 Perun Network（支持链下智能合约的执行）、FunFair（基于状态通道的对赌游戏）。</p>
+<h4 id="3">3.支付通道</h4>
+<p>支付通道属于状态通道在支付领域内的具体应用。交易双方在状态通道内可多次进行账务往来，直到通道关闭时上链清算。链下转账快速无手续费，当一方尝试在上链清算时进行欺诈，会有仲裁和惩罚机制来确保双方的资产安全。</p>
+<p>典型的项目有闪电网络（BTC 的状态通道支付网络）、Raiden（以太坊版的闪电网络）、Trinity（Neo 版的闪电网络）Liquidity Network（基于 NOCUST 协议的支付通道网络）</p>
+<h3 id="_3">三. 状态通道存在的问题</h3>
+<h4 id="1_1">1. 路由问题</h4>
+<p><img alt="" src="https://github.com/guoshijiang/layer2/blob/main/images/6.png" /></p>
+<p>为了将支付通道扩展为支付网络，在已开辟的状态通道上通过路由节点建立两个陌生节点的连接无疑是比较经济的。正如六度人脉理论阐释的那样，我们可以借助六度人脉和世界上其他任何人建立联系。目前主要有如下三种路由方案：</p>
+<h5 id="11-htlchashed-time-lock-contract">1.1. 哈希时间锁合约（HTLC，Hashed-Time Lock Contract）</h5>
+<p>代表项目：闪电网络</p>
+<p>发送方向接收方发送 BTC 到 1/2 多重签名地址，如果接收方不能在合约规定的时间内通过“签名+哈希密文”的方式将 BTC 解锁，那么 BTC 就会退还给发送方。</p>
+<p><img alt="" src="https://github.com/guoshijiang/layer2/blob/main/images/7.jpeg" /></p>
+<p>如图所示，A 想通过 B、C 向 D 发送 1 个 BTC。D 作为接收方，首先生成一个随机私钥 r（相当于钥匙）和公钥 R（相当于锁），然后将 R 发送给 A。</p>
+<p>A 和 B 首先搭建了哈希时间锁合约，R 就是其中的“锁”，这里的“时间”是 3 天，“哈希密文”就是只有 D 才知道的私钥 r。这个合约意味着只要 B 能在 3 天之内获得私钥 r 来解锁 R，就可以得到A 在智能合约里发送的 1 个 BTC，否则这 1 个 BTC 就会退还给 A。</p>
+<p>B 需要获得私钥 r 来解锁 R，按照同样的思路，B 和 C 的智能合约规定，只要 C 能在 2 天之内获得私钥 r 来解锁 R，就可以得到B 在智能合约里发送的 1 个 BTC，否则这 1 个 BTC 就会退还给 B。</p>
+<p>最后 C 和 D 的智能合约也是如此，只要 D 能在 1 天之内用私钥 r 来解锁 R 就可以获得这 1 个 BTC。相当于 D 是用私钥 r 换取了C“垫付”的 1 个 BTC，C 拿到私钥 r 后再用它解锁并换取了 B“垫付”的 1 个 BTC，之后 B 用 r 解锁了 A 的 1 个 BTC。</p>
+<p>也就是说，D 首先生成了“锁”和对应的“钥匙”，然后锁依次传到 A、B、C；D 收到 BTC 后，“钥匙”依次传到 C、B、A。这样几个节点无需相互信任就实现了从 A 到 D 的安全转账。实际操作中，中间节点会收到额外的服务费作为经济激励（这也意味着经过的中间节点越多，手续费越高）。</p>
+<h5 id="12-virtual-channel">1.2. 虚拟通道（Virtual Channel）</h5>
+<p>代表项目：Perun Network</p>
+<p><img alt="" src="https://github.com/guoshijiang/layer2/blob/main/images/8.jpeg" /></p>
+<p>如图所示，A、B 都已经与 I 开辟了状态通道，分别为通道 X 和通道 Y。现在 A、B 向中间节点 I 通过智能合约发出申请，建立 A 和 B 的虚拟通道 Z（虚线所示）。</p>
+<p>A 在 X 通道锁定了 Z（A）个通证，对应的 I 在 Y 通道也锁定了 Z（A）个通证；B 在 Y 通道锁定了 Z（B）个通证，对应的 I 在 X 通道也锁定了 Z(B)个通证。</p>
+<p>锁定之后相当于在 A、B 之间建立了一个虚拟通道 Z，A、B 在该通道内对应的可用额度分别是 Z（A）、（B）。A 如果想向 B 转账1 个通证，I 的左边会增加 1 个通证，与此同时右边会减少 1 个通证，减少的 1 个通证转给了 B，达成的效果类似于武侠小说里的“隔山打牛”，A 通过 I 作为“跳板”向 B 转账了 1 个通证。虚拟通道也可以进一步扩展形成更大的网络。</p>
+<p>与哈希时间锁合约方案相比，该方案的中间节点无需牵涉到每笔交易中来，只需通过智能合约自动执行，因此更具隐私性和低延迟性，但是需要中间节点锁定足够数量的通证，以为虚拟通道两端提供“中介服务”。比如在上面的例子中，I 节点至少需要锁定 Z（A）+（B）个通证。</p>
+<h5 id="13-meta-channel">1.3 元通道（Meta Channel）</h5>
+<p>代表项目：Counterfactual</p>
+<p>该方案与虚拟通道类似 ， 只是结构稍有差异 。 比如 Counterfactual，是将通用状态通道进行实例化后分别建立 A 和 I、
+B 和 I 的代理状态通道，在此基础上建立 A、B 的支付通道，实现和虚拟通道相同的效果。</p>
+<p><img alt="" src="https://github.com/guoshijiang/layer2/blob/main/images/9.png" /></p>
+<p>在状态通道网络中，采用传统计算机网络的最短路径的路由策略，会造成通道的不平衡状态，反过来又会使得路由策略失效，寻路遇到“死胡同”便无法有效传递价值。如图表 8 所示 A、B、C 三个节点两两组成的双向状态通道，采用最短路径使得节点在某一通道的可用通证变为 0，双向通道变成了单向通道。左上图是平衡状态，对应左下图所示双向通道。中上图和右上图的通证集中到了一边，分别对应中下和右下的单向通道。</p>
+<p><img alt="" src="https://github.com/guoshijiang/layer2/blob/main/images/10.png" /></p>
+<p>Celer Network 提出了背压（BackPressure）路由算法，在每个时间切片内衡量局部网络的拥堵程度和通道失衡度，然后按照背压权重最大的方向进行路由转移，减少网络拥堵的同时实现通道平衡。通过对 77 个节点组成的 254 个状态通道组成的支付网络进行测试后发现，背压路由算法和闪电网络的最短路径路由算法相比，性能提高了 15 倍，通道利用率提高了 20 倍。</p>
+<p>Liquidity Network 提出了一个允许在链下重新平衡支付通道的Revive 协议。该协议通过使一组支付通道节点执行一组交易，来重新平衡每个节点在多个通道的通证资产量，防止单向通道形成。如下左图所示的树形网络结构无法做到重新平衡，而 Revive 所采用的右图所示的网络包含环状结构，可以实现节点在多个通道的通证分布从集中重新变得均匀。例如，B 在和 D 组成的通道里有 200 个通证，而在和 E 组成的通道里有 0 个通证，对于右图可以通过（B，D，E，B）环状结构进行重新调配，使得 B 和 D、B 和 E 组成的两个通道里各有 100 个通证。</p>
+<p><img alt="" src="https://github.com/guoshijiang/layer2/blob/main/images/11.png" /></p>
+<h4 id="2_1">2. 节点离线问题</h4>
+<p>前文提到状态通道是在链下交互、链上清算，任何一方都可以关闭状态通道实现最终的清算和交割。当双方同时在线且达成一致，可实现即时终结性。但是当一方处于离线状态，或者另一方发起攻击（如 DDoS 攻击、破坏网线等）使其离线，并提交对自己有利的非最终状态给链上，离线方一旦错过仲裁期，最终的清算结果将会对离线方造成资产损失，损害状态通道的公平性、安全性。</p>
+<p>这种情况下人们想到通过把监测任务外包给第三方加以解决,例如闪电网络的监督者（Monitors）、Pisa 的看管者（Custodians）、Celer Network 的状态保卫网络（State Guardian Network）。</p>
+<p>Monitors 通过举证获得奖励，Custodians 通过质押安全保证金获得监管机会，State Guardian Network 是由状态守护者组成的一个类似于 Plasma 的侧链，CELR 通证（Celer Network 网络中的通证）持有者通过抵押通证成为链下状态守护者，抵押通证越多则被委派以守护链下状态任务的概率越大，从而获得更多收益的概率也越大。</p>
+<h4 id="3_1">3. 保证金锁定问题</h4>
+<p>上面提到的路由方案，无论是哈希锁定合约，还是虚拟通道、元通道，都需要中间节点“垫付”资金，或锁定保证金。网络规模越大、平均的转账金额越大，整个网络锁定的保证金也越多，由此产生的机会成本也越高昂。</p>
+<p>Liquidity Network 和 Celer Network 都提出了类似于银行的机制来共享流动性，试图通过智能合约从通证持有者处租借通证或支付中心相互“拆借”和共享的方式，减少保证金的锁定。</p>
+<p>下图为 Celer Network 的经济模型，主要由流动性资金支持拍卖机制（LiBA，Liquidity Backing Auction）、流动性资金担保挖矿机制（PoLC Mining，Proof of Liquidity Commitment Mining）和链下状态守护者网络三部分构成。其中 PoLC Mining 机制是 Celer 网络流动性资金的关键源头，简单来说就是通过质押担保合约从流动性资金提供商那里收集闲散资金，类似于银行从储户那里获得资金，再通过 LiBA 机制为状态通道服务供应商提供流动性资金，类似于银行放贷。</p>
+<p><img alt="" src="https://github.com/guoshijiang/layer2/blob/main/images/12.png" /></p>
+<p>Liquidity Network 基于 NOCUST 的多方支付中心，通过汇聚和共享抵押资金的方式来减少资金锁定。而闪电网络需要对所有的交易进行 100%的抵押，且抵押金相互隔离，流动性较差。</p>
+<p>原文链接：http://www.wenwoha.com/20/course_article?act_id=249</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            回到页面顶部
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="页脚" >
+      
+        
+        <a href="layer2-main.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 第三章：Layer2 主要实现方式" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              第三章：Layer2 主要实现方式
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="plasma.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 第五章：Layer2 实现方式之 Plasma" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              第五章：Layer2 实现方式之 Plasma
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["toc.integrate", "navigation.top", "navigation.expand"], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>

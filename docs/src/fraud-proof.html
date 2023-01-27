@@ -1,0 +1,947 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="最全面的 Layer2 资料汇总">
+      
+      
+      
+        <link rel="canonical" href="https://layer2.wenwoha.com/src/fraud-proof.html">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>第八章：欺诈证明简介 - Layer2</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#7e56c2">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#rollup" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Layer2" class="md-header__button md-logo" aria-label="Layer2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Layer2
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第八章：欺诈证明简介
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/guoshijiang/layer2/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Layer2" class="md-nav__button md-logo" aria-label="Layer2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Layer2
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/guoshijiang/layer2/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          一. Layer2 研究总结资料
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="一. Layer2 研究总结资料" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          一. Layer2 研究总结资料
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="cross-chain.html" class="md-nav__link">
+        第一章：跨链和侧链技术简单介绍
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="normal-crosschain.html" class="md-nav__link">
+        第二章：常见的几种跨链方式
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-main.html" class="md-nav__link">
+        第三章：Layer2 主要实现方式
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="state-chain.html" class="md-nav__link">
+        第四章：Layer2 实现方式之状态通道
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="plasma.html" class="md-nav__link">
+        第五章：Layer2 实现方式之 Plasma
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="rollup-all.html" class="md-nav__link">
+        第六章：Layer2 实现方式之 Rollup
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="oz-rollup.html" class="md-nav__link">
+        第七章：Optimistic Rollup 和 Zk rollup 的区别联系
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          第八章：欺诈证明简介
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="fraud-proof.html" class="md-nav__link md-nav__link--active">
+        第八章：欺诈证明简介
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rollup" class="md-nav__link">
+    一. RollUp
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    二.  欺诈证明
+  </a>
+  
+    <nav class="md-nav" aria-label="二.  欺诈证明">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 非交互式欺诈证明
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 非交互式欺诈证明">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    1.1. 欺诈证明过程解析
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-ovm" class="md-nav__link">
+    1.2. OVM
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2. 交互式欺诈证明
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 交互式欺诈证明">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-arbitrum" class="md-nav__link">
+    2.1. Arbitrum欺诈证明过程解析
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-avm" class="md-nav__link">
+    2.2. AVM
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    三. 总结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="valid-proof.html" class="md-nav__link">
+        第九章：有效证明简介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="validium.html" class="md-nav__link">
+        第十章：Layer2 实现方式之 Validium
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ozv.html" class="md-nav__link">
+        第十一章：Optimistic Rollup， Zk rollup 和 Validium总结
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="polygon.html" class="md-nav__link">
+        第十二章：Plasma 代表项目 Polygon
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="starkex.html" class="md-nav__link">
+        第十三章：Validium 代表项目  StarkEx
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="arbitrum.html" class="md-nav__link">
+        第十四章：Optimistic Rollup 代表项目  arbitrum
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="optimistim-metis-boba.html" class="md-nav__link">
+        第十五章：Optimistic Rollup 代表项目 optimistim(Boba,  Metis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="arbitrum-optimistim.html" class="md-nav__link">
+        第十六章：arbitrum 和 optimistim 对比
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="zksync.html" class="md-nav__link">
+        第十七章：Zk Rollup 代表项目 zk sync
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="arbi-op-zk.html" class="md-nav__link">
+        第十八章：zk sync 和 arbitrum 和 optimistim 对比
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-chain.html" class="md-nav__link">
+        第十九章：钱包接入中 Layer2 各条链的区别(Polygon,  Arbitrum, Optimistim,  Boba,  Metis,  zkSync
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-eco.html" class="md-nav__link">
+        第十九章：Layer2 生态概览
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-design.html" class="md-nav__link">
+        第二十章：如何设计一条 layer2 的公链
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="last-ret.html" class="md-nav__link">
+        第二十一章：总结
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/guoshijiang/cryptography" class="md-nav__link">
+        附录：零知识证明
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          二. 代码
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="二. 代码" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          二. 代码
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code/arbitrum/setup.html" class="md-nav__link">
+        第一章：Arbitrum 的 Nitro 本地网络启动与 ETH/ERC20 充提测试教程
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code/arbitrum/tx.html" class="md-nav__link">
+        第二章：Arbitrum 的 Nitro 项目启动和交易执行源码解析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code/arbitrum/rollup.html" class="md-nav__link">
+        第三章：Arbitrum 的 Nitro 项目 Rollup 细节深入
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <a href="https://github.com/guoshijiang/layer2/edit/main/src/fraud-proof.md" title="编辑此页" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+  <h1>第八章：欺诈证明简介</h1>
+
+<h3 id="rollup">一. RollUp</h3>
+<p>Rollup 的核心思路是在L1上保存能够验证交易过程的凭证，而将交易过程(计算过程)还有状态存储运行在L2中。</p>
+<p>何为交易过程的凭证，我们知道交易执行的过程就是由1个状态转移到另外1个状态的过程，如果L1知道了一组交易前的状态和一组交易后的状态还有这一组交易，自然可以验证这组交易对应的状态转移是否正确。</p>
+<p><img alt="" src="https://github.com/guoshijiang/layer2/blob/main/images/24.jpeg" /></p>
+<p>如上图所示，发布者将交易前状态树的根hash 交易后状态树的根hash以及交易发布到L1上，L1智能合约确认交易前状态树根hash是否和存储的根hash一致。交易前的根hash一致说明起始状态正确，那么本次交易过程是否正确如何验证呢？最安全的做法肯定是我们每次都在L1上重新执行L2的交易树，进行状态转移，但这样L2失去了意义，还是会面临不可能三角中处理速度的问题。</p>
+<p>如何去验证状态转移是否正确也引出了2种不同的Layer2 Rollup机制。</p>
+<p>第一种是欺诈证明，即默认相信存入的状态是正确的，等待其他参与者提出欺诈证明挑战，每一次L2发布到L1时的节点都要缴纳一定的保障金，当欺诈被证明后 回滚到前一状态，发布者保证金会被全部扣除，部分给到挑战者，部分直接销毁。如何证明欺诈，根据和L1交互程度的不同，分为交互式欺诈证明和非交互式欺诈证明，下面会详细解释。</p>
+<p>第二种是零知识证明，每次存入状态都需要给出证明，证明会在L1进行验证，如果验证根hash值是正确的，代表发布者的发布无误，这里的证明用到了零知识证明相关研究。</p>
+<p>本文咱们主要讲解欺诈证明，关于零知识证明，后面我会有一个专门的课题来介绍零知识证明</p>
+<h3 id="_1">二.  欺诈证明</h3>
+<p>欺诈证明是一种技术机制，在使用 Optimistic Rollups (ORs) 的去中心化应用程序 (dApp) 生态系统中用作债券，这是一种侧链，旨在降低 dApp 在区块链平台上可能遇到的费用和延迟。负责处理 OR 的排序器必须在其工作中包含欺诈证明，以激励良好的表现。排序者根据共识规则处理汇总会获得经济奖励，并通过在破坏它们时丧失其欺诈证明而受到经济惩罚。</p>
+<p>欺诈证明的主要优势在于，并非每次状态转换都需要它们，但只有当事情发生故障时才需要它们。因此，它们需要更少的计算资源，并且更适合可扩展性受限的环境。这些协议的主要缺点源于它们的交互性：它们定义了多方之间的“对话”。对话要求各方——尤其是声称欺诈的一方——在场（活跃），并允许其他方通过各种方式打断对话。但问题的核心是协议将沉默（对新状态不存在挑战）解释为默示同意。事实上，攻击者可以尝试通过 DDoS 攻击来制造沉默的表面。</p>
+<p>让我们描述一下概念协议：由于一个块可能包含不正确的状态转换，因此欺诈证明协议允许一个时间框架——争议时间延迟（DTD）——来质疑这个不正确的状态。该窗口以块为单位。如果 DTD 内没有提交欺诈证明，则认为 L2 状态转换是正确的。如果向智能合约提交了欺诈证明，并且发现它是正确的（即，在 DTD 中提交，并且确实证明了不正确的状态转换），它至少会导致智能合约恢复到最后正确的 L2 状态。可能会采取其他措施，例如对违规方的处罚。</p>
+<p>DTD 持续时间的选择很重要：持续时间越长，检测到错误状态转换的概率就越高——这很好。但是，时间越长，用户必须等待的时间越长，例如提取资金——这很糟糕。</p>
+<p>当没有挑战的时候，流程较为简单, 即将状态树的根hash 交易信息存入L1中。核心在于有挑战者发起挑战时，如何证明交易前状态树的根hash经过这一组交易可以变为新的状态根hash。这里有2种思路。</p>
+<p>1.非交互式欺诈证明，即在L1上将这组交易重新执行一遍，看看执行过后的状态树 根hash值和传入的根是否一致即可。</p>
+<p>2.交互式欺诈证明，由挑战者和发布者在L2上进行多轮挑战，最终挑战者锁定具体哪条指令具有欺诈性，由L1进行裁决。L1只需要执行存在争议的最小指令即可。</p>
+<p>非交互式欺诈证明和交互式欺诈证明在 L2 对应的也有几个有名的项目，非交互式欺诈证明 optimistic, metis 和 boba, 交互式欺诈证明 arbitrim</p>
+<h4 id="1">1. 非交互式欺诈证明</h4>
+<p>下面以Optimism为例说明非交互式欺诈证明</p>
+<h5 id="11">1.1. 欺诈证明过程解析</h5>
+<p>非交换式欺诈，欺诈证明实现较为简单，将L2中执行的交易在L1中再完整执行一次，以确定状态根的hash是否一致来判断欺诈行为。</p>
+<p><img alt="" src="https://github.com/guoshijiang/layer2/blob/main/images/25.jpeg" /></p>
+<p>如上图所示，发布者发布信息到L1上，携带交易信息和新旧整体根hash, L1中的智能合约收到后会默认变更state为新的根hash，这时挑战者提出挑战，挑战者需要提供符合旧根hash的merkle状态树，L1智能合约通过旧的状态树执行完整的交易流程得到根hash和发布者提供的新根hash比较，不相等则说明有欺诈行为。</p>
+<p>重新执行就会遇到一个问题，区块相关的属性会因为执行环境不同而发生变化。</p>
+<p><img alt="" src="https://github.com/guoshijiang/layer2/blob/main/images/26.jpeg" /></p>
+<p>如上图所示block.timestamp会获取当前区块的时间戳，但由于合约执行的环境不同得到的时间戳大概率是不一样的。我们看看Optimism是如何设计OVM来解决这一问题的。</p>
+<h5 id="12-ovm">1.2. OVM</h5>
+<p>为了解决在L2和L1运行智能合约时所处环境不一致的问题，Optimism使用了虚拟化技术（实际上就是使用封装方法屏蔽）的方式，让智能合约直接获取一些状态变为经过OVM封装后调用。</p>
+<p>上面的那个例子，将不能直接调用block.timestamp，改为调用ovm封装的1个方法ovm_getTimestamp(非真实 随意命名)</p>
+<pre><code>contract OVM_ENV {
+  uint timestamp;  //L1重新执行前调用该方法设置正确的L2 timestamp即可  
+  funtion ovm_setTimestamp(t:uint) {      
+        timestamp=t;     
+   } 
+
+  funtion ovm_getTimestamp() returns(uint) {
+       return timestamp;
+  }
+}
+</code></pre>
+<h4 id="2">2. 交互式欺诈证明</h4>
+<p>以Arbitrum为例说明交互式欺诈</p>
+<h5 id="21-arbitrum">2.1. Arbitrum欺诈证明过程解析</h5>
+<p>下图是智能合约执行的过程就是推进状态变化的过程</p>
+<p><img alt="" src="https://github.com/guoshijiang/layer2/blob/main/images/27.png" /></p>
+<p>如图所示，无论上L1上的状态树还是L2上的状态树，都是由一系列的交易(智能合约的执行也是一次交易的调用)，推动状态转换的，而由于智能合约，交易又可以拆分为更小的步骤指令。所以就变成了下面的样子</p>
+<p><img alt="" src="https://github.com/guoshijiang/layer2/blob/main/images/28.png" /></p>
+<p>我们的问题转化为证明状态树从状态A 经过N个指令变成了状态B，那么这个证明过程是否是可分解的呢？我们用分治的方式不难想到二分法，将1个大问题拆两个子问题，问题就变为证明状态A 经过前N/2个指令变成状态X和状态X经过后N/2个指令变成状态B。逐步二分最终定位到存在问题的指令，交由L1执行验证即可。</p>
+<p>让我们完整描述整个运行过程，假设Ｘ是发布者 发布从状态A经过N条指令转移到状态B Y是挑战者。</p>
+<p>Y向Ｘ提出挑战，要求给出经过 N/2条指令处的状态，Ｘ给出状态后，Y会自行验证是否正确。如果验证正确，则代表前N/2指令执行无问题，问题在后N/2，如果验证错误，则代表前Ｎ/2条指令执行就有问题。Y继续向Ｘ询问存在问题的指令区间N/2处状态，循环往复，直至找到有问题的指令(这里不是指令有问题，是执行指令前的状态无法通过执行指令得到执行指令后的状态)。</p>
+<p>在实际应用中Arbitrum不是使用二分的方式，而是使用了K分，即每次将N个指令分为N/K组去寻找欺诈指令，效率更高。</p>
+<h5 id="22-avm">2.2. AVM</h5>
+<p>Arbitrum 设计 AVM和EVM不同的核心点在于：AVM不仅仅要支持EVM完全兼容的执行逻辑，还要支持交互式欺诈证明的证明逻辑。</p>
+<p>证明过程中，要保证当前程序计数器中指令的正确性。这时采取了类似区块链的做法，PC(当前的程序计数器位置)不仅存储操作码，而且存储PC+1处的hash值，这样就可以在指令执行过程中验证验证每个指令是否正确。</p>
+<h3 id="_2">三. 总结</h3>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="right">交互式欺诈证明</th>
+<th align="right">非交互式欺诈证明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">EVM兼容性</td>
+<td align="right">无法做到完全兼容由于OVM使用虚拟化技术解决L1和L2运行环境不一致的问题，那么必然就会导致一部分在L1运行的智能合约代码到OVM运行时需要进行修改</td>
+<td align="right">可以完全兼容</td>
+</tr>
+<tr>
+<td align="center">处理成本</td>
+<td align="right">存在欺诈行为时由于非交互式欺诈证明需要在L1完全重新执行所有交易，所以会耗费大量gas费用。</td>
+<td align="right">存在欺诈行为时交互式欺诈证明只需要在L1执行有争议的1条指令，所以gas费用很少。</td>
+</tr>
+<tr>
+<td align="center">复杂合约的支持</td>
+<td align="right">由于合约需要在L1上重新执行，合约复杂度不能超过L1对合约复杂度的限制</td>
+<td align="right">可以支持更复杂的合约。</td>
+</tr>
+</tbody>
+</table>
+<p>由上述对比来看交互式欺诈证明除了实现难度较高外，主要特性都优于非交互式欺诈证明。具有代表性非交互式欺诈证明使用者Optimism也准备切换到交互式欺诈证明。可以预见未来交互式欺诈证明将会是欺诈证明的主流。</p>
+<p>欺诈证明大都存在1个问题较长的提款周期，这是因为需要足够多的时间，让挑战者提出挑战。受益于密码学的较新研究成果，zk-rollup将解决这一问题。</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            回到页面顶部
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="页脚" >
+      
+        
+        <a href="oz-rollup.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 第七章：Optimistic Rollup 和 Zk rollup 的区别联系" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              第七章：Optimistic Rollup 和 Zk rollup 的区别联系
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="valid-proof.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 第九章：有效证明简介" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              第九章：有效证明简介
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["toc.integrate", "navigation.top", "navigation.expand"], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>

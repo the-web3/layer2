@@ -1,0 +1,1302 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="最全面的 Layer2 资料汇总">
+      
+      
+      
+        <link rel="canonical" href="https://layer2.wenwoha.com/src/plasma.html">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>第五章：Layer2 实现方式之 Plasma - Layer2</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#7e56c2">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#plasma" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Layer2" class="md-header__button md-logo" aria-label="Layer2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Layer2
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第五章：Layer2 实现方式之 Plasma
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/guoshijiang/layer2/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Layer2" class="md-nav__button md-logo" aria-label="Layer2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Layer2
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/guoshijiang/layer2/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          一. Layer2 研究总结资料
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="一. Layer2 研究总结资料" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          一. Layer2 研究总结资料
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="cross-chain.html" class="md-nav__link">
+        第一章：跨链和侧链技术简单介绍
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="normal-crosschain.html" class="md-nav__link">
+        第二章：常见的几种跨链方式
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-main.html" class="md-nav__link">
+        第三章：Layer2 主要实现方式
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="state-chain.html" class="md-nav__link">
+        第四章：Layer2 实现方式之状态通道
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          第五章：Layer2 实现方式之 Plasma
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="plasma.html" class="md-nav__link md-nav__link--active">
+        第五章：Layer2 实现方式之 Plasma
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#plasma" class="md-nav__link">
+    一 为什么我们需要 Plasma
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plasma_1" class="md-nav__link">
+    二. Plasma 简介
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plasma_2" class="md-nav__link">
+    三. Plasma 的实现细节
+  </a>
+  
+    <nav class="md-nav" aria-label="三. Plasma 的实现细节">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 存款
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2.链下执行
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3. 状态确认
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4fraud-proof" class="md-nav__link">
+    4.防伪证明（Fraud Proof）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5withdrawal" class="md-nav__link">
+    5.取款（Withdrawal）
+  </a>
+  
+    <nav class="md-nav" aria-label="5.取款（Withdrawal）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-simple-withdrawal" class="md-nav__link">
+    5.1. 简单取款（Simple Withdrawal）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52fast-withdrawal" class="md-nav__link">
+    5.2.快速取款（Fast Withdrawal）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-mass-withdrawal" class="md-nav__link">
+    5.3. 批量取款（Mass Withdrawal）
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plasma_3" class="md-nav__link">
+    四. Plasma 的优缺点
+  </a>
+  
+    <nav class="md-nav" aria-label="四. Plasma 的优缺点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    1. 优点
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    2. 缺点
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plasma-mvp" class="md-nav__link">
+    五. Plasma MVP
+  </a>
+  
+    <nav class="md-nav" aria-label="五. Plasma MVP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1plasma" class="md-nav__link">
+    1.Plasma 合约
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2operator" class="md-nav__link">
+    2.Operator
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3deposit" class="md-nav__link">
+    3.存款（deposit）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4transaction" class="md-nav__link">
+    4.交易（transaction）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-plasma" class="md-nav__link">
+    5.生成 Plasma 区块
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    6.监视子链
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7withdrawalexit" class="md-nav__link">
+    7.取款/退出（withdrawal/exit）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8confirmation-signatures" class="md-nav__link">
+    8.确认签名（Confirmation Signatures）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9challenge" class="md-nav__link">
+    9.争议（Challenge）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10" class="md-nav__link">
+    10. 攻击场景
+  </a>
+  
+    <nav class="md-nav" aria-label="10. 攻击场景">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    攻击场景1：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    攻击场景2：
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-plasma-mvp" class="md-nav__link">
+    11. 相关Plasma MVP 实现项目
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    12. 总结
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    13. 一些有用的链接
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plasma-cash" class="md-nav__link">
+    六. Plasma Cash
+  </a>
+  
+    <nav class="md-nav" aria-label="六. Plasma Cash">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_3" class="md-nav__link">
+    1. 共识
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    2. 存款
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    3. 块
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4. 交易
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    5. 提款
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6_1" class="md-nav__link">
+    6.开始退出
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    7.挑战出口
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    8.优点和缺点
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9" class="md-nav__link">
+    9. 一些有用的链接
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="rollup-all.html" class="md-nav__link">
+        第六章：Layer2 实现方式之 Rollup
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="oz-rollup.html" class="md-nav__link">
+        第七章：Optimistic Rollup 和 Zk rollup 的区别联系
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="fraud-proof.html" class="md-nav__link">
+        第八章：欺诈证明简介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="valid-proof.html" class="md-nav__link">
+        第九章：有效证明简介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="validium.html" class="md-nav__link">
+        第十章：Layer2 实现方式之 Validium
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ozv.html" class="md-nav__link">
+        第十一章：Optimistic Rollup， Zk rollup 和 Validium总结
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="polygon.html" class="md-nav__link">
+        第十二章：Plasma 代表项目 Polygon
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="starkex.html" class="md-nav__link">
+        第十三章：Validium 代表项目  StarkEx
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="arbitrum.html" class="md-nav__link">
+        第十四章：Optimistic Rollup 代表项目  arbitrum
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="optimistim-metis-boba.html" class="md-nav__link">
+        第十五章：Optimistic Rollup 代表项目 optimistim(Boba,  Metis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="arbitrum-optimistim.html" class="md-nav__link">
+        第十六章：arbitrum 和 optimistim 对比
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="zksync.html" class="md-nav__link">
+        第十七章：Zk Rollup 代表项目 zk sync
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="arbi-op-zk.html" class="md-nav__link">
+        第十八章：zk sync 和 arbitrum 和 optimistim 对比
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-chain.html" class="md-nav__link">
+        第十九章：钱包接入中 Layer2 各条链的区别(Polygon,  Arbitrum, Optimistim,  Boba,  Metis,  zkSync
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-eco.html" class="md-nav__link">
+        第十九章：Layer2 生态概览
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-design.html" class="md-nav__link">
+        第二十章：如何设计一条 layer2 的公链
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="last-ret.html" class="md-nav__link">
+        第二十一章：总结
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/guoshijiang/cryptography" class="md-nav__link">
+        附录：零知识证明
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          二. 代码
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="二. 代码" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          二. 代码
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code/arbitrum/setup.html" class="md-nav__link">
+        第一章：Arbitrum 的 Nitro 本地网络启动与 ETH/ERC20 充提测试教程
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code/arbitrum/tx.html" class="md-nav__link">
+        第二章：Arbitrum 的 Nitro 项目启动和交易执行源码解析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code/arbitrum/rollup.html" class="md-nav__link">
+        第三章：Arbitrum 的 Nitro 项目 Rollup 细节深入
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <a href="https://github.com/guoshijiang/layer2/edit/main/src/plasma.md" title="编辑此页" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+  <h1>第五章：Layer2 实现方式之 Plasma</h1>
+
+<p>Plasma 作为以太坊的二层扩容框架，自从 2017 年被 Joseph Poon（Lightning Network 创始人）和 Vitalik Buterin （Ethereum 创始人）提出以来，一直是区块链从业人员关注的焦点, 首先要明确的是，plasma是一个框架，用于激励和强制执行智能合约，可扩展到每秒大量的状态更新(可能是数十亿)，使区块链能够代表世界范围内大量分散的金融应用程序。这些智能契约被激励通过网络事务费用自主地继续运行，这最终依赖于底层区块链(例如Ethereum)来强制事务状态转换。</p>
+<h3 id="plasma">一 为什么我们需要 Plasma</h3>
+<p>在我们试图解释什么是  Plasma 之前，我们应该首先了解为什么存在 Plasma。这将是一个相对较高级别的概述，并会尽量避免涉及很多细节，但它应该为本网站的其余部分奠定基础。基本上，它归结为一个事实，即当前的区块链系统按照现代标准相当缓慢。为了处理任何广泛容量的简单支付，区块链需要每秒处理数千笔交易。以太坊目前最多只能支持每秒 20-30 笔交易，具体取决于网络状况</p>
+<p>这种已经存在和需要存在的差异通常被称为“区块链可扩展性”问题，这不是一个容易解决的问题！我们想扩展区块链系统，但我们也想确保我们以一种保持安全性和去中心化的方式进行扩展。毕竟，这就是我们首先开始构建区块链的原因。</p>
+<p>项目正在以许多不同的方式解决可扩展性问题。其中一些项目正试图通过升级区块链本身来使区块链更具可扩展性。我们经常将其称为“第 1 层”缩放，因为我们正在修改基础层。其他项目正试图在现有系统之上构建东西。我们通常将此称为“第 2 层”扩展，因为我们正在添加一个新层而不是更改底层系统。</p>
+<p>Plasma 适合第二类“第 2 层”扩展项目。了解第 2 层项目的工作原理以及它们试图完成的工作非常重要。许多第 2 层设计来自于这样的观察：每个人都没有必要了解网络上发生的每笔交易。</p>
+<p>我们可以通过将资产锁定在主链（或“根链”）上并在侧链上再次“创建”它们来从一条链中获取资产并将它们转移到另一条链（称为“侧链”） . 当你想回去的时候，你只需要“销毁”侧链上的资产并在根链上解锁它们。</p>
+<p>这听起来很简单，但有一个大问题——必须有人同意在侧链上“创建”这些资产。那么谁来“创造”资产呢？嗯，基本上是共识机制。这里的想法是，如果侧链共识机制运行正常，那么你的资产就是安全的。不幸的是，侧链通常远不如根链安全。如果有人设法“凭空”创造了与锁定在根链上的资产不对应的货币，他们可以“摧毁”这些资产（他们以欺诈手段创造的）并窃取大量资金。</p>
+<p>显然这并不理想。只要侧链是安全的，你的资产就是安全的。但是，如果侧链发生故障，那么您的资产可能会被盗！这是我们介绍等离子的地方。Plasma 最初是为了获得侧链的一些好处而开发的，同时确保存储在侧链上的资产始终是安全的（只要根链是安全的）。我们并没有获得侧链的所有效用，但我们保留了一些最重要的东西（比如能够廉价地进行交易），同时也保持了安全性。Plasma 的基本原理是，如果侧链发生安全故障，所有用户资产始终可以“回退”到根链。</p>
+<h3 id="plasma_1">二. Plasma 简介</h3>
+<p>总的来说，Plasma 就是以太坊生态所谓 “Layer 2” 解决方案之一。是一种二层网络扩容方式，它的基本原则是，如果侧链发生安全故障，所有用户资产都可以“回退”到根链；Plasma 就是一种在不牺牲安全性的同时又能大幅提高交易处理效率的去中心化应用构建方式。</p>
+<h3 id="plasma_2">三. Plasma 的实现细节</h3>
+<h4 id="1">1. 存款</h4>
+<p>Plasma 的主要思想就是将大部分计算过程都转移到链下进行，用户只有在进入和退出 Plasma Chain 的时候需要跟主链上的智能合约交互，这也是所有 Plasma 应用的标准流程。</p>
+<p>用户在将主链的资产（如以太币或者其它 ERC20 合约发布的 token）转移到 Plasma Chain 的过程称为存款（Deposit），具体做法是直接向主链上的 Plasma 合约发送以太币或 token。Plasma 合约收到 Deposit 交易后会在子链上创建跟 Deposit 数额一致的交易，并将其打包进区块中，作为存款确认的证明。这个过程如下图所示
+<img alt="" src="https://github.com/guoshijiang/layer2/blob/main/images/14.png" /></p>
+<p>当用户看到子链上自己之前存款的交易被确认后，就可以在子链上使用这笔资产（给子链上的其他用户发送交易或者退出子链等）。</p>
+<h4 id="2">2.链下执行</h4>
+<p>Plasma 应用程序在“根链”（例如以太坊）之外完成大部分工作。根链往往速度缓慢且成本高昂，因为它们需要非常安全。如果一个应用程序可以在根区块链之外做任何工作，它应该。</p>
+<p>例如，在Plasma MVP中，几乎每笔交易都发生在以太坊之外。智能合约只处理存款和取款，即进入和退出点。这是等离子应用的标准工作流程。任何不需要资产/数据进出智能合约的东西都可以在链下处理。</p>
+<h4 id="3">3. 状态确认</h4>
+<p>当大部分都转移到链下进行时，需要某种机制确保链下状态的更新得到确认，这样才能保证当有恶意行为发生时，主链可以保证用户不会受到损失。这就是为什么需要状态确认（State Commitment），即子链周期性地将状态更新情况提交到主链进行共识。</p>
+<p>然而，将子链中的所有交易都同步到主链显然违反了 Plasma 的初衷，在 Plasma 中，实际向主链提交的是 Merkle Tree 的根哈希。因此子链中的实际交易情况被隐藏，在主链上只能看到子链区块的哈希值。</p>
+<p>当有恶意行为发生时，子链网络中的所有用户都可以向主链提交防伪证明，证明成立后，含有恶意交易的区块将被回滚。</p>
+<h4 id="4fraud-proof">4.防伪证明（Fraud Proof）</h4>
+<p>Plasma 的一个关键设计之一就是允许用户构造防伪证明（Fraud Proof）。防伪证明的意义在于只要发布区块的节点构造了含有恶意交易的区块，那么就要承担被惩罚的风险。每当新的区块被提交到主链上时，会留出一段时间给用户提交防伪证明，如果在这段时间内没有证明被提交，则认为新的区块被验证合法。如果有防伪证明检测到区块中存在恶意交易，则该区块将被舍弃，回滚到上一个被验证合法的区块。Plasma 中的防伪证明主要有以下（但不限于）几种：</p>
+<ul>
+<li>资产可花费证明</li>
+<li>交易签名有效性证明</li>
+<li>存取款证明</li>
+</ul>
+<p>至于每种防伪证明的具体形式，则依赖于实际 Plasma 应用的实现细则。</p>
+<p>如下图所示，子链中每个节点都存有 1-4 个区块的数据。假设区块 1-3 已经被验证合法，而区块 4 中存在恶意交易，那么每个节点都可以使用 1-4 个区块中的数据构造防伪证明提交到主链，主链验证后将子链中的状态回滚到区块 1-3。</p>
+<p><img alt="" src="https://github.com/guoshijiang/layer2/blob/main/images/15.png" /></p>
+<p>防伪证明还可以使用零知识证明（zk-SNARKs 或者 STARKs）来构造，但由于目前通过零知识证明生成证明的时间和空间还有待优化，目前设计的 Plasma 并不依赖零知识证明。零知识证明在 Plasma 中的应用是一个很有前景的研究方向</p>
+<h4 id="5withdrawal">5.取款（Withdrawal）</h4>
+<p>取款（Withdrawal），顾名思义，就是从子链中的资产取回到主链上，因此取款也被称为退出（Exit）。取款操作可以说是 Plasma 框架中最重要的一步，因为它确保用户可以安全地将子链上的资产转移到主链上。之前的存款以及状态确认步骤已经产生了一些交易数据，并在主链上得到同步，用户可以利用这些数据构造资产证明，之后执行简单取款（Simple Withdrawal）操作退出子链。当有扣留（Withholding）攻击发生（即子链上的矿工恶意扣留区块，意图双花攻击等）时，用户可能无法成功获取数据构造资产证明，这时需要执行批量取款（Mass Withdrawal）操作退出子链。</p>
+<p>需要注意的是，当子链中有取款操作发生时，跟这个取款操作相关的账号或者交易都将被禁止。</p>
+<h5 id="51-simple-withdrawal">5.1. 简单取款（Simple Withdrawal）</h5>
+<p>执行简单取款的条件是所要取回的资产已经在主链和子链上确认。</p>
+<p>一个简单取款的执行主要有以下几个步骤：</p>
+<p>向主链上的 Plasma 智能合约发送已签名的取款交易。取款的数额可以包含多个输出（UTXO模型），但所有输出必须在同一个子链当中，而且每个输出的余额必须全部取出，不能只取出一部分。取款数额的一部分还需要被当作押金，作为恶意行为的惩罚。</p>
+<p>当取款请求发送后，需要等待一段“争议期（Challenge Period）”，这期间其它节点可以构造证据证明该取款中的部分或全部数额已经被花费。如果争议期内有节点提供证明成功，那么取款被取消，而且押金被扣除。</p>
+<p>接下来可能还要等待一段时间，直到所有区块高度较低的取款操作都完成。这是为了保证所有取款操作按照“先来后到”的顺序执行。</p>
+<p>当争议期结束后，如果没有争议被提出，则认为取款操作成立，取款者将子链资产成功取回到主链。</p>
+<h5 id="52fast-withdrawal">5.2.快速取款（Fast Withdrawal）</h5>
+<p>快速取款（Fast Withdrawal）跟简单取款相比的差别主要是引入一个中间人，白皮书上称为 Liquidity Provider，这里简称为 LP。如果一个用户不想等待很长的争议期（目前的实现至少要一周），那么它可以选择从 LP 这里直接取款，只需要消耗一个交易确认的时间，代价是需要支付给 LP 一定的费用。由于 Plasma 白皮书上关于快速取款的描述太过晦涩，这里主要参考 kfichter 提出的 Simple Fast Withdrawal[3] 来介绍快速取款是如何实现的。</p>
+<p>为了实现快速取款，取款方和 LP 可以利用一个流动合约（liquidity contract）。假设取款方是 Alice，她想要执行快速取款将 10 以太币从子链转移到主链。她首先向流动合约发送 10 以太币，注意这里的交易是在子链上进行的。当这个交易被子链打包成区块后，Alice 可以调用合约中的某个退出函数，这时 Alice 将获取一个代表她这笔资产的 token。Bob 作为 LP，他检查了子链上数据之后证明 Alice 的取款没有问题之后愿意以 9 以太币的价格购买这个 token。Alice 将 token 卖给 Bob，获得了 9 以太币，Bob 赚取了 1 以太币。</p>
+<p>需要注意的是，实现快速取款的前提条件是没有拜占庭行为发生，即没有扣留区块攻击发生，因为 LP 需要验证取款方的交易历史。</p>
+<h5 id="53-mass-withdrawal">5.3. 批量取款（Mass Withdrawal）</h5>
+<p>当子链中有拜占庭行为（例如，区块扣留攻击）发生时，将会影响以后生成防伪证明，因此网络中的每个用户都有责任快速退出子链。虽然批量取款（Mass Withdrawal）操作不是必要选择，但当大量用户执行取款时很可能会造成主链拥塞，也会消耗更多的 gas，因此批量取款是当子链受到攻击时更好的选择。</p>
+<p>批量取款操作由于所采用的模型（UTXO 模型或者账户模型）不同会有较大的差别。</p>
+<p>当子链中有拜占庭行为发生时，用户之间可以共同协作执行批量取款。这时会有一个节点扮演取款处理人（Exit Processor）的角色，简称为 EP，负责当前某个批量操作（可以同时有多个批量取款操作发生，但同一个取款申请不能存在于多个批量取款），并且可以收取服务费作为报酬。EP 将构造一个位图（bitmap，即一串0/1）记录哪些资产要执行取款。之后 EP 将利用现有的区块数据检查每个取款是否合法，之后将构造一个批量退出初始化交易（Mass Exit Initiation Transaction，MEIT），并将其发送到主链上。在 MEIT 被主链确认之前，每个用户都可以对这个交易提出异议。当争议期结束，MEIT 被主链确认，批量取款成功。</p>
+<h3 id="plasma_3">四. Plasma 的优缺点</h3>
+<h4 id="1_1">1. 优点</h4>
+<p>等离子链块根的行为有点像区块链中的“保存点”。请记住，侧链的主要缺点之一是侧链共识机制可以停止生产区块并永远锁定每个人的资金。由于用户可以使用区块根来表明他们在 Plasma 链上收到了资金，​​因此 Plasma 不存在这个问题！如果等离子链共识机制停止创建块，用户可以使用块根向以太坊提出索赔（“我声称我在等离子链上有 10 个 ETH，我想提取它。”）。</p>
+<p>实际上，这意味着等离子链在设计上比侧链更安全。只有当以太坊失败时，你的资金才会面临风险，但你可能会遇到更大的问题。简单地说，等离子链与主链共识机制一样安全，而侧链仅与它自己的共识机制一样安全。这种方便的特性也意味着等离子链可以使用非常简单的共识机制（就像一个单一的权威！）并且仍然是安全的。</p>
+<h4 id="2_1">2. 缺点</h4>
+<p>所以等离子链为我们提供了与主区块链一样安全的廉价交易。但是有什么问题呢？</p>
+<p>好吧，当我们使用侧链时，我们必须信任侧链共识机制。如果该机制失败，无论如何我们都不走运。这种信任使得做真正复杂的事情成为可能，因为我们也隐含地相信侧链会在未来出现。</p>
+<p>在等离子链上，我们通过不做出这种假设来保证资金的安全。我们总是不得不假设等离子链共识机制可能随时失败，需要围绕它进行设计。这对等离子链上可能发生的事情增加了额外的限制。</p>
+<p>举个例子，一个很长的（比如说 1 年）时间锁合同。如果您相信侧链将在一年内出现，您绝对可以将该合约放在侧链上。但是由于我们不相信等离子链会在一年内出现（即使它是完全相同的共识机制！），我们需要跳出框框思考一下。我们基本上需要确保如果共识机制失败，我们有办法将整个时间锁合约移回以太坊。幸运的是，这并不难，但它比在侧链上更复杂。</p>
+<p>当等离子链上的东西如何重新回到以太坊时，事情变得非常复杂。仅持有您的资金的时间锁定合约是有意义的，因为您应该能够移动合约似乎很明显。但是，如果我们谈论的是同时为 100 人持有资金的时间锁定合约呢？现在已经不是那么清楚了。</p>
+<p>简而言之，等离子链的主要缺点是您无法真正执行与侧链相同的复杂操作。但重要的是，您不能做这些复杂事情的原因是您采取了更多预防措施以确保您的资金安全。</p>
+<h3 id="plasma-mvp">五. Plasma MVP</h3>
+<p>Plasma MVP是针对极其简单的基于UTXO的 Plasma 链的设计。基本的 Plasma MVP 规范支持高吞吐量支付交易，但不支持更复杂的结构，如脚本或智能合约。在本页中，我们将介绍 Plasma MVP 背后的设计过程。您将准确了解 Plasma MVP 的工作原理，以及它为何如此构建。我们还提供了详细的规范，因此您可以构建自己的 Plasma MVP 实现！</p>
+<p>整个 Plasma MVP 的生命周期可以通过下面这幅图表现出来：</p>
+<p><img alt="" src="https://github.com/guoshijiang/layer2/blob/main/images/16.png" /></p>
+<h4 id="1plasma">1.Plasma 合约</h4>
+<p>首先需要将 Plasma 合约部署到主链（以太坊）上作为主链和子链沟通的媒介。Plasma 合约会处理由子链提交的区块，并且将区块的哈希值存在主链上。除此之外，还会处理用户的存款（deposit）、取款（withdrawal/exit）以及争议（challenge）操作。</p>
+<p>Plasma 合约中主要包括的数据结构有：</p>
+<ul>
+<li>Owner：合约的拥有者（即部署合约交易的发送者）的地址，即部署合约交易的发送者；</li>
+<li>Plasma 区块列表：每个 Plasma 区块中存储了（1）区块的 Merkle root（2）区块提交的时间；</li>
+<li>Plasma 区块或许叫区块记录更准确，因为它是指在合约的区块记录。</li>
+</ul>
+<p>退出列表：即提交了退出申请的列表，每个退出申请存储了（1）申请者的地址（2）申请退出的 UTXO 的位置。
+Plasma 合约中主要包括的函数有：</p>
+<ul>
+<li>submitBlock(bytes32 root)：向主链提交一个区块，仅仅提交区块中所有交易的 Merkle root；</li>
+<li>deposit()：生成一个只包含一个交易的区块，这个交易中包含与 msg.value 值相等的 UTXO；</li>
+<li>startExit()：执行给定 UTXO 的退出操作；</li>
+<li>challengeExit()：向某个正在执行的退出提出争议。</li>
+</ul>
+<h4 id="2operator">2.Operator</h4>
+<p>在前面的文章中我们已经知道 Plasma 子链是一个独立的区块链，那么也就有独立的共识机制。在 Plasma MVP 中采用的共识机制就是 PoA（Proof of Authority），即参与共识的只有唯一一个矿工，称为 Operator。Operator 负责处理所有子链上发生的交易，将其打包成区块存储在子链上，并且周期性地向 Plasma 合约提交区块，将子链上的状态（区块的哈希值）提交到主链共识。那么，既然 Operator 是唯一的矿工，这不就意味着 Plasma 违背了去中心化的初衷了吗？其实，这是去中心化向执行效率的妥协。在之前的文章中也提到过，Plasma 的安全基础依赖于底层的区块链，只要底层的区块链能够保证安全，那么在 Plasma 子链上发生的最差结果也只是迫使用户退出子链，而不会造成资产损失。</p>
+<p>Operator 可以采用最简单的 REST API 方式实现，子链中的用户可以通过调用简单的 API 获取到子链中区块的数据。</p>
+<h4 id="3deposit">3.存款（deposit）</h4>
+<p>用户 Alice 通过存款（deposit）操作向 Plasma 合约发送带有一定数额的以太币或 ERC20 token 加入 Plasma Chain，这时 Plasma 合约会执行 deposit() 函数，生成一个只包含一个交易的区块，这个交易的 UTXO 记录了 Alice 从主链转移到子链的数额。当这个区块被主链确认后，Alice 就可以使用新生成的 UTXO 向其它用户发送交易了。</p>
+<h4 id="4transaction">4.交易（transaction）</h4>
+<p>在 Plasma MVP 中，所有用户发送的交易都是直接发送给 Operator，当积累了一定数量的交易后，由 Operator 将交易打包成区块。这里需要注意的是，由于 Plasma MVP 采用的是 UTXO 模型，所以即使交易的收款方不存在，交易也是成立的。</p>
+<p>在子链上 Alice 向 Bob 发送一个交易的流程如下：</p>
+<ul>
+<li>Alice 首先需要得到 Bob 在子链上的地址；</li>
+<li>Alice 将一个或多个 UTXO 作为输入构造交易发送到 Bob 的地址，并对交易签名；</li>
+<li>等待该交易被打包到区块中；</li>
+<li>Alice 向 Bob 发送确认消息，并且使用相同的私钥签名。</li>
+</ul>
+<h4 id="5-plasma">5.生成 Plasma 区块</h4>
+<p>在 Plasma MVP 中，一个 Plasma 区块 产生的情况只有两种：一种是 Operator 打包生成区块，向Plasma合约提交；另外一种是当用户执行 deposit 操作时，由 Plasma 合约直接生成一个只包含一个交易的 Plasma区块。</p>
+<p>Plasma 区块 含义参考前面 Plasma 合约包含的数据结构。</p>
+<h4 id="6">6.监视子链</h4>
+<p>为了保证子链上资产的安全，用户需要周期性地检查子链上的数据，保证没有恶意交易产生。用户需要运行一种自动化的软件（例如钱包），每隔一段时间下载子链中的区块数据，检查每个区块中的交易，如果有恶意交易产生，立即退出子链。</p>
+<h4 id="7withdrawalexit">7.取款/退出（withdrawal/exit）</h4>
+<p>当 Alice 想要退出子链时，需要向 Plasma 合约发送一个 exit 交易，申请中需要包含:
+（1）所要退出的 UTXO 的位置，包括区块号（blknum）、区块内交易号（txindex）以及交易内输出号（outindex）
+（2）包含该 UTXO 的交易
+（3）该交易的 Merkle proof
+（4）用于生成该 UTXO 所涉及的之前一系列交易的确认签名。除此之外，exit 交易中还要包含“退出押金（exit bond）”。如果这个 exit 被 challenge 成功，那么取款的操作将被取消，而且退出押金将被发送给提出 challenge 的用户。</p>
+<p>之后这个申请会被放入一个优先队列中，通过这个公式计算优先级：</p>
+<p>Priority = blknum * 1000000000 + txindex * 10000 + oindex</p>
+<p>之所以采用这种优先队列的方式处理取款顺序的原因是保证旧的 UTXO 总能优先于新的 UTXO 被取出。也就是说，当有恶意交易（例如双花等）产生时，所有在恶意交易发生之前的交易都可以被优先取出。那么如何解决在恶意交易之后被确认的交易的取款问题呢？Plasma MVP 采用了“确认签名（Confirmation Signatures）”的机制，在下一小节我们将介绍这一机制是如何工作的。</p>
+<h4 id="8confirmation-signatures">8.确认签名（Confirmation Signatures）</h4>
+<p>在 Plasma MVP 中，用户的退出顺序以所要退出的 UTXO 所在的交易的位置为准。假如 operator 作恶，在一个合法的交易之前插入一个非法的交易，那么当用户执行取款时，由于非法交易可以先被取出，因此当执行到该用户的交易时，可能 Plasma 合约中的资产已经被取空。为了解决这个问题，Plasma MVP 采用了“确认签名”机制，例如当 Alice 产生一个交易时，她首先会对交易签名。当该交易被打包入区块后，Alice 还需要对该交易进行一次签名，即“确认签名”。</p>
+<p>引入确认签名机制后，当 Alice 发现在一个区块中自己的合法交易之前存在非法交易时，可以拒绝对自己的交易进行“确认签名”，同时申请取款。这样可以使得当前的交易失效，保证自己之前“确认签名”后的交易可以优先于非法交易之前取出。</p>
+<p>这种确认签名机制极大地破坏了用户体验，用户每产生一个交易都要经历签名-&gt;等待确认-&gt;确认签名。而且由于确认签名也需要占据 Plasma 区块的空间，因此也降低了子链的可扩展性。为了解决这个问题，Plasma 的研究人员提出了扩展版本 More Viable Plasma 移除了确认签名的要求</p>
+<h4 id="9challenge">9.争议（Challenge）</h4>
+<p>每个取款操作都会经历一个争议期。例如在 Alice 的某个 UTXO 退出子链的过程中，如果 Bob 在争议期内发现有恶意行为发生，他可以提出一个争议（challenge）。一个争议需要给出针对的 UTXO 的位置，以及该 UTXO 被花费的证明，即该 UTXO 已经存在于某个交易中，且这个交易已经被打包到区块。</p>
+<p>合约通过调用 challengeExit() 函数执行一个争议，争议成功后会取消正在执行的取款操作，并将提交取款申请所冻结的押金发送给 Bob。</p>
+<h4 id="10">10. 攻击场景</h4>
+<p>在 Plasma 子链中主要存在两种攻击场景：</p>
+<p>Alice 试图忽视在子链中转移给 Bob 的资产，使用最初加入 Plasma 子链时的交易证明向主链提出取款申请。
+Operator 生成一个恶意交易，占有其他用户的资产，并且尝试退出子链。
+下面对这两个攻击场景进行分析，观察 Plasma MVP 如何保证资产的安全性：</p>
+<h5 id="1_2">攻击场景1：</h5>
+<ul>
+<li>Alice 使用最初加入子链时生成的交易作为证据向主链提出取款申请；</li>
+<li>Bob（或者其他任意用户）拥有 Alice 申请退出的 UTXO 被花费的交易证明，并将此作为证据向主链提出一个争议；</li>
+<li>争议生效，Alice 的退出申请被驳回，同时将 Alice 申请退出的押金发送给 Bob；</li>
+<li>Alice 的攻击失效。</li>
+</ul>
+<h5 id="2_2">攻击场景2：</h5>
+<ul>
+<li>Operator 创建了一个非法交易，并且将其打包生成区块之后在主链得到确认；</li>
+<li>Operator 提交取款申请，打算将 Alice 的资产取走；</li>
+<li>在争议期内，Alice 发现了 Operator 的恶意行为，立即提出取款申请，退出子链；</li>
+<li>由于 Alice 的申请优先级较高，因此会在 Operator 之前退出；</li>
+<li>Operator 的攻击失效。</li>
+</ul>
+<h4 id="11-plasma-mvp">11. 相关Plasma MVP 实现项目</h4>
+<p>Talk is cheap, show me your code.</p>
+<p>目前已经有许多机构和公司已经实现了 Plasma MVP，但实现的语言和细节有所不同：</p>
+<ul>
+<li>FourthState Lab</li>
+<li>Omisego</li>
+<li>Kyokan</li>
+</ul>
+<h4 id="12">12. 总结</h4>
+<p>本文介绍了 Plasma 的最小实现版本 Plasma MVP，虽然采用最简单的 UTXO 模型，但已经足够体现出 Plasma 的核心思想。在 Plasma MVP 中，用户资产的安全主要依赖于用户及时发现恶意行为，并退出子链。接下来的文章将会介绍另外一个稍微复杂一点的项目，Plasma Cash。</p>
+<h4 id="13">13. 一些有用的链接</h4>
+<ul>
+<li>https://ethresear.ch/t/minimal-viable-plasma/426</li>
+<li>https://ethresear.ch/t/more-viable-plasma/2160</li>
+<li>https://github.com/fourthstate</li>
+<li>https://github.com/omisego/plasma-mvp</li>
+<li>https://github.com/kyokan/plasma</li>
+</ul>
+<h3 id="plasma-cash">六. Plasma Cash</h3>
+<p>Plasma Cash是一种 Plasma 设计，主要用于存储和转移不可替代的代币。Plasma Cash 最初旨在解决 Plasma MVP 中的大规模退出问题。</p>
+<h4 id="1_3">1. 共识</h4>
+<p>Plasma Cash 链和 Plasma MVP 链一样，需要一个共识机制。这种机制可以是任何东西，从单个运营商（Proof-of-Authority）到大量验证器（Proof-of-Stake）。Plasma Cash 的设计确保用户资金始终是安全的，即使共识机制出现问题。</p>
+<h4 id="2_3">2. 存款</h4>
+<p>用户可以通过将资产存入链的智能合约来开始使用 Plasma Cash 链。然而，与 Plasma MVP 不同的是，每个 Plasma Cash 资产都由一个不可替代的代币表示。例如，如果用户将 10 ETH 存入合约，该用户将收到价值 10 ETH 的代币。每个令牌都有一个唯一的标识符。</p>
+<h4 id="3_1">3. 块</h4>
+<p>Plasma Cash 块与 Plasma MVP 块有很大不同。每个 Plasma Cash 块都有一个用于存在的每个代币的插槽。每当使用令牌时，该交易的记录都会放置在相应的插槽中。这是具有四个代币的 Plasma Cash 链的样子。</p>
+<p><img alt="" src="https://github.com/guoshijiang/layer2/blob/main/images/17.png" /></p>
+<p>在此示例中，令牌#4是从用户A发送给用户B的。请注意#1、#2和#3没有被花费，所以我们没有在这些插槽中放置任何东西！这种特殊的结构给了我们一些非常酷的东西。除了能够显示代币已在特定区块中花费外，我们还可以显示代币在该区块中没有易手。</p>
+<p>因此，Plasma MVP 块形成标准的Merkle 树，而 Plasma Cash 块形成稀疏的Merkle 树。标准的 Merkle 树并没有给我们提供一个很好的方法来证明某物不是特定块的一部分，但是<a href="https://medium.com/@kelvinfichter/whats-a-sparse-merkle-tree-acda70aeb837">稀疏的 Merkle 树</a>可以！</p>
+<p>最酷的是用户实际上不需要跟踪每个令牌！一个代币的交易永远不能放入另一个代币的槽中。用户只需要跟踪他们自己的代币——其他插槽中的内容甚至都无关紧要。</p>
+<h4 id="4">4. 交易</h4>
+<p>由于用户只跟踪他们自己的代币，他们不知道谁拥有任何其他代币。当用户想要将他们的代币发送给另一个用户时，他们需要证明他们确实拥有该代币！该证明包括代币的完整交易历史 - 自首次创建代币以来的每笔交易。如果历史记录是正确的，那么它应该显示以发件人结尾的所有者列表。</p>
+<p>为了证明历史实际上是正确的，用户需要提供额外的证据证明历史中的每笔交易都正确地包含在一个块中。此外，为了证明没有任何丢失的交易，用户还需要提供代币没有在任何其他区块中花费的证明。让我们通过几个 Plasma Cash 块来证明这一点。</p>
+<p><img alt="" src="https://github.com/guoshijiang/layer2/blob/main/images/18.png" /></p>
+<p>在这四个区块结束时，G拥有代币#2，C拥有代币#4。那么G如何证明他们实际上拥有#2呢？简单的！G只需要证明#2没有在区块#1 和#3 中花费，并且它在区块#2 中从E转移到F ，在区块#4 中从F转移到G。G可以通过对每个块的简单 Merkle 证明来做到这一点（利用特殊的稀疏 Merkle 树结构）。</p>
+<p>类似地，C可以通过证明代币没有在 2 和 4 块中花费，并证明它是从A发送到B然后从B发送到C来证明他们拥有#4。</p>
+<h4 id="5">5. 提款</h4>
+<p>由于 Plasma Cash 的区块结构与 Plasma MVP 有很大不同，因此提取资金的过程也不同。</p>
+<h4 id="6_1">6.开始退出</h4>
+<p>当用户想要提取代币时，他们需要提交代币历史中最近的两次交易。例如，如果C想要提取代币#4 ，他们需要提供从B到C的“子”（最近）交易，以及从A到B的“父”交易。用户还需要提交 Merkle 证明，证明两笔交易都包含在区块链中。</p>
+<h4 id="7">7.挑战出口</h4>
+<p>我们需要支持三种类型的挑战，以确保只有代币的真正所有者才能撤回该代币。如果有人证明提款用户后来确实花费了代币，则可以立即阻止提款。如果有人显示父子交易之间存在交易，也可以立即阻止提款，这意味着提款用户提供了无效的父母。</p>
+<p>有人还可以通过提供代币历史记录中的一些其他交易来挑战提款。这种类型的挑战不会立即阻止退出。相反，取款用户被迫用提供的交易之后的交易做出响应。</p>
+<h4 id="8">8.优点和缺点</h4>
+<p>Plasma Cash 具有高度可扩展性，因为用户只需要跟踪他们自己的代币。但是，在可扩展性和灵活性之间需要进行权衡。代币总是有一个固定的面额——（目前）没有好方法可以在不进入 Plasma Debit（我们将在下一节中讨论）之类的情况下花费一小部分代币。这使得 Plasma Cash 不适合需要少量代币的用例，例如交易所。</p>
+<p>此外，需要与每笔交易一起发送的证明可以很快增长。这些证明需要一直追溯到存放代币的区块。一旦等离子链运行了一段时间，这些证明可能会变得异常庞大。</p>
+<p>让我们快速计算一下：</p>
+<p>想象一下，我们有一个带有（非常）保守的 1000 个代币的 Plasma Cash 链。这导致了一个具有十个级别的稀疏 Merkle 树，这意味着每个 Merkle 证明需要提供十个兄弟哈希。每个兄弟哈希是 32 字节，所以每个 Merkle 证明是 32 * 10 = 320 字节！</p>
+<p>现在让我们假设这条链每 15 秒产生一个区块（当前的以太坊区块时间）。即每年 4 * 60 * 24 * 365 = 2102400 个区块。</p>
+<p>我们知道发送单个令牌的证明每个块增加 320 字节。一年后，该证明将增长到 320 * 2102400 = 672768000 字节，即0.67 GB！这已经太多了，甚至无法在合理的时间内通过家庭网络进行传输。</p>
+<p>Plasma Cash 仍然适用于某些事情。对不可替代代币的支持使 Plasma Cash 非常适合供应链物流甚至纸牌游戏！</p>
+<h4 id="9">9. 一些有用的链接</h4>
+<ul>
+<li>https://ethresear.ch/t/plasma-cash-plasma-with-much-less-per-user-data-checking/1298</li>
+<li>https://en.wikipedia.org/wiki/Non-fungible_token</li>
+<li>http://erc721.org/</li>
+<li>https://github.com/ethsociety/learn-plasma</li>
+<li>https://medium.com/@kelvinfichter/whats-a-sparse-merkle-tree-acda70aeb837</li>
+<li>https://karl.tech/plasma-cash-simple-spec/</li>
+<li>https://github.com/loomnetwork/plasma-paper/blob/master/plasma_cash.pdf</li>
+<li>https://github.com/loomnetwork/plasma-cash</li>
+<li>https://github.com/omisego/plasma-cash</li>
+<li>https://github.com/wolkdb/deepblockchains/tree/master/Plasmacash</li>
+<li>https://github.com/luciditytech/lucidity-plasma-cash</li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            回到页面顶部
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="页脚" >
+      
+        
+        <a href="state-chain.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 第四章：Layer2 实现方式之状态通道" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              第四章：Layer2 实现方式之状态通道
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="rollup-all.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 第六章：Layer2 实现方式之 Rollup" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              第六章：Layer2 实现方式之 Rollup
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["toc.integrate", "navigation.top", "navigation.expand"], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>

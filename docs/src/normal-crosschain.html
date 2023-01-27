@@ -1,0 +1,1040 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="最全面的 Layer2 资料汇总">
+      
+      
+      
+        <link rel="canonical" href="https://layer2.wenwoha.com/src/normal-crosschain.html">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>第二章：常见的几种跨链方式 - Layer2</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#7e56c2">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Layer2" class="md-header__button md-logo" aria-label="Layer2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Layer2
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第二章：常见的几种跨链方式
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/guoshijiang/layer2/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Layer2" class="md-nav__button md-logo" aria-label="Layer2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Layer2
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/guoshijiang/layer2/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          一. Layer2 研究总结资料
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="一. Layer2 研究总结资料" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          一. Layer2 研究总结资料
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="cross-chain.html" class="md-nav__link">
+        第一章：跨链和侧链技术简单介绍
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          第二章：常见的几种跨链方式
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="normal-crosschain.html" class="md-nav__link md-nav__link--active">
+        第二章：常见的几种跨链方式
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    跨链的发展历程
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    跨链的几种实现方式
+  </a>
+  
+    <nav class="md-nav" aria-label="跨链的几种实现方式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#notaryschemes" class="md-nav__link">
+    一. 公证人机制（Notaryschemes）
+  </a>
+  
+    <nav class="md-nav" aria-label="一. 公证人机制（Notaryschemes）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 单签名公证人机制
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2. 多签名公证人机制
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3. 分布式签名公证人机制
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4. 公证人机制有缺点
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    5. 公证人机制代表项目
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sidechainsrelays" class="md-nav__link">
+    二. 侧链/中继（Sidechains/relays）
+  </a>
+  
+    <nav class="md-nav" aria-label="二. 侧链/中继（Sidechains/relays）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    1. 侧链的产生背景
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    2. 侧链的概念
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    3 侧链的作用
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_1" class="md-nav__link">
+    4. 侧链的技术
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 侧链的技术">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1" class="md-nav__link">
+    4. 1 单一托管模式
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-spv" class="md-nav__link">
+    4.2  SPV模式
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    4.2 混合模式
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5_1" class="md-nav__link">
+    5 中继链
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hash-locking" class="md-nav__link">
+    三. 哈希锁定（Hash-locking）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mpc" class="md-nav__link">
+    四. 多方安全计算（MPC）
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    跨链未来展望
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-main.html" class="md-nav__link">
+        第三章：Layer2 主要实现方式
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="state-chain.html" class="md-nav__link">
+        第四章：Layer2 实现方式之状态通道
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="plasma.html" class="md-nav__link">
+        第五章：Layer2 实现方式之 Plasma
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="rollup-all.html" class="md-nav__link">
+        第六章：Layer2 实现方式之 Rollup
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="oz-rollup.html" class="md-nav__link">
+        第七章：Optimistic Rollup 和 Zk rollup 的区别联系
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="fraud-proof.html" class="md-nav__link">
+        第八章：欺诈证明简介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="valid-proof.html" class="md-nav__link">
+        第九章：有效证明简介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="validium.html" class="md-nav__link">
+        第十章：Layer2 实现方式之 Validium
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ozv.html" class="md-nav__link">
+        第十一章：Optimistic Rollup， Zk rollup 和 Validium总结
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="polygon.html" class="md-nav__link">
+        第十二章：Plasma 代表项目 Polygon
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="starkex.html" class="md-nav__link">
+        第十三章：Validium 代表项目  StarkEx
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="arbitrum.html" class="md-nav__link">
+        第十四章：Optimistic Rollup 代表项目  arbitrum
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="optimistim-metis-boba.html" class="md-nav__link">
+        第十五章：Optimistic Rollup 代表项目 optimistim(Boba,  Metis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="arbitrum-optimistim.html" class="md-nav__link">
+        第十六章：arbitrum 和 optimistim 对比
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="zksync.html" class="md-nav__link">
+        第十七章：Zk Rollup 代表项目 zk sync
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="arbi-op-zk.html" class="md-nav__link">
+        第十八章：zk sync 和 arbitrum 和 optimistim 对比
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-chain.html" class="md-nav__link">
+        第十九章：钱包接入中 Layer2 各条链的区别(Polygon,  Arbitrum, Optimistim,  Boba,  Metis,  zkSync
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-eco.html" class="md-nav__link">
+        第十九章：Layer2 生态概览
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layer2-design.html" class="md-nav__link">
+        第二十章：如何设计一条 layer2 的公链
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="last-ret.html" class="md-nav__link">
+        第二十一章：总结
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/guoshijiang/cryptography" class="md-nav__link">
+        附录：零知识证明
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          二. 代码
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="二. 代码" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          二. 代码
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code/arbitrum/setup.html" class="md-nav__link">
+        第一章：Arbitrum 的 Nitro 本地网络启动与 ETH/ERC20 充提测试教程
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code/arbitrum/tx.html" class="md-nav__link">
+        第二章：Arbitrum 的 Nitro 项目启动和交易执行源码解析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code/arbitrum/rollup.html" class="md-nav__link">
+        第三章：Arbitrum 的 Nitro 项目 Rollup 细节深入
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <a href="https://github.com/guoshijiang/layer2/edit/main/src/normal-crosschain.md" title="编辑此页" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+<h1 id="_1">第二章：常见的几种跨链方式</h1>
+<h2 id="_2">跨链的发展历程</h2>
+<p>2013 年之前，区块链的发展主要集中在单一区块链。2013 年以来，跨链技术蓬勃发展，跨链的几种主要模式（公证人机制（Notaryschemes）、侧链/中继（Sidechains/relays）、哈希锁定（Hash-locking）、多方安全计算（MPC））相继被提出。到目前为止，也是比较成熟的跨链解决方案。</p>
+<p>2013 年 5 月，Tier Nolan 在 BitcoinTalk 论坛提出了“原子转移（atomic transfers）”，原子转移又称原子交换（atomic swap），指构成一笔完整跨链交易的子交易同时发生或不发生，不存在第三种中间状态。该方案经过改进后成为跨链的一种主要模式，即哈希锁定模式。</p>
+<p>2014 年 10 月，BlockStream 首次明确提出侧链的概念，锚定式侧链（Pegged Sidechains）利用双向锚定（two-way peg）机制，能够实现加密资产按照某种汇率在侧链和主链之间转移。2016年 12 月，BlockStream 进一步提出了强联邦侧链（Sidechains with StrongFederations），通过引入由多方控制的多重签名地址减少延迟并提升互操作性。</p>
+<p>2015 年 2 月，Poon 发布了闪电网络（Lightning Network）白皮书，基于哈希锁定实现资产 BTC 链下交易。</p>
+<p>2015 年 10 月，Interledger Protocol 白皮书发布，基于公证人机制实现不同账本间资产的转换。</p>
+<p>2016 年 5 月，BTC Relay 基于中继实现 BTC 到 ETH 的单向跨链连接。</p>
+<p>2017 年，Polkadot 和 Cosmos 提出跨链基础设施中继平台方案。</p>
+<p>后来，MPC 跨链解决方案也被提出来, 跨链生态也出现了繁荣的景象。 poly network, layerZero, layer2 rollup, AnySwap, RenBTC 等等项目</p>
+<h2 id="_3">跨链的几种实现方式</h2>
+<p>区块链所面临的诸多问题中，区块链之间互操作性极大程度的限制了区块链的应用空间。不论是公有链还是联盟链，跨链技术就是实现价值互联网的关键，是区块链向外拓展和连接的桥梁。目前主流的跨链技术包括：公证人机制（Notary schemes）， 侧链/中继链（Sidechains/relays），哈希锁定（Hash-locking），多方安全计算（MPC）。</p>
+<h3 id="notaryschemes">一. 公证人机制（Notaryschemes）</h3>
+<p>引入一方或多方可信实体做信用背书的跨链机制都称为公证人机制，公证人机制是技术上可实现的、最简单的跨链机制。在公证人机制中，一个或一组公证人负责监听链上的事件，并对另一条链采取对应的操作。公证人在跨链的双方链上需要有账号进行交易的协调。</p>
+<p>公证人机制的实现方式包括如下3种：</p>
+<ul>
+<li>单签名公证人机制，即一个节点做公证人 </li>
+<li>多签名公证人机制，指多个节点利用多签名机制做公证人组；</li>
+<li>分布式签名公证人机制，指多个公证人持有一份密钥的碎片，密钥碎片随机发给公证人</li>
+</ul>
+<h4 id="1">1. 单签名公证人机制</h4>
+<p>单签公证人也叫中心化公证人机制，通常由单一指定的独立节点或者机构充当，它同时承担了数据收集、交易确认、验证的任务。公证人在该交易过程中充当交易确认者和冲突仲裁者的角色，是用中心化机构替代了技术上的信用保障，这种模式虽然交易处理速度快，兼容性强，技术架构简单，但中心节点的安全性也成为系统稳定的关键瓶颈。</p>
+<p>最传统的公证人机制是基于 CEX 的跨链资产交换，这种跨链的方式比较单一，只支持资产的交换。</p>
+<h4 id="2">2. 多签名公证人机制</h4>
+<p>多重签名公证人机制，由多位公证人在各自账本上共同签名达成共识后才能完成跨链交易。多重签名公证人的每一个节点都拥有自己的一个密钥，只有当达到一定的公证人签名数量或比例时，跨链交易才能被确认。</p>
+<p>公证人是一群机构组成的联盟，跨链资金的转移是这个联盟所控制的。这种方式相较于单签名模式的安全性更高，少数几个公证人被攻击或者是作恶都不会影响系统的正常运行。但是需要两条链本身需要支持多重签名。
+<img alt="" src="https://github.com/guoshijiang/layer2/blob/main/images/1.png" /></p>
+<h4 id="3">3. 分布式签名公证人机制</h4>
+<p>分布式签名公证人机制和多重签名公证人机制最大的区别在于签名方式不同，它采用了多方计算MPC（Multi-Party Computation）的思想，安全性更高，实现也更复杂。基于密码学生成系统中唯一的密钥，并拆分（公证人组中谁都不会拥有完整的密钥）成多个碎片分发给随机抽取的公证人，即使所有公证人将碎片拼凑在一起也无法得知完整的密钥，允许一定比例的公证人共同签名后即可拼凑出完整的密钥，从而完成更加去中心化的“数据收集验证”过程，类似门限签名机制。</p>
+<p>分布式签名公证人机制全面地保障了密钥的安全性，这种方法更灵活，也更安全，当少数节点遭受攻击时或发生各种错误时，并不会影响整个系统。</p>
+<p><img alt="" src="https://github.com/guoshijiang/layer2/blob/main/images/2.png" /></p>
+<h4 id="4">4. 公证人机制有缺点</h4>
+<p>单一公证人和多签公证人机制不够去中心化，并且需要保证所有公证人的诚实难度高，多币种智能合约实现难，密钥分片受限于节点的数量等</p>
+<h4 id="5">5. 公证人机制代表项目</h4>
+<p>瑞波的 InterLedger 协议；</p>
+<h3 id="sidechainsrelays">二. 侧链/中继（Sidechains/relays）</h3>
+<h4 id="1_1">1. 侧链的产生背景</h4>
+<p>2010 年，相关研究者在比特币论坛上提出bitDNS想法，以比特币为锚定，在比特币链上扩展出任意资产，这种想法促成了后来的域名币（namecoin）、彩色币（coloredcoin）等附生链。以域名币为例，域名币的实现是通过比特币的第一笔交易（称为coinbase交易）写入域名币链的区块头信息，从而使域名币可以借助比特币区块链存在。</p>
+<p>域名币等技术的局限是比特币一个区块只有coinbase交易才可以写入少量信息。BT C0.9版本之后，在交易中引入OP_RETURN字段，在比特币锁定脚本中，以 OP_RETURN 字段开头的信息属于“备注信息”，输出到OP_RETURN的UTXO都是不可花费的UTXO，相当于销毁了对应数量的比特币。利用这个字段销毁比特币并在备注中写明侧链信息，这个过程又称为 proof-of-burn，侧链可以依据交易证明产生侧链代币。这些想法形成了后来的omni协议，USDT则是遵循此协议在比特币上发行的一种代币。</p>
+<p>BlockStream在2014年发表了侧链白皮书，定义了侧链是一条能够验证其他区块链数据的链。在目前的讨论中，侧链大多数还是指 BlockStream所说的锚定式侧链（pegged sidechain）。而这里所说的锚定式侧链主要是指支持资产的双向锚定，即资产在主链与侧链之间的流通。</p>
+<h4 id="2_1">2. 侧链的概念</h4>
+<p>侧链用来指代与主区块链并行的那条区块链。来自主区块链的entries可以向侧链连接，也可以被侧链连接；这样一来，侧链就可以独立于主区块链进行操作。这个说法包含三个要点：</p>
+<p>侧链是相对的。不能单纯的说某条链B是侧链，而必须说这条链B是链A的侧链。主链不需要知道侧链的存在，侧链侧链与主链是独立的。链B可以有自己的功能，它自己运行时不需要链A的支持。如果B链发生运行故障或被中心化控制，不会直接影响到A链本身的运行，但可以间接影响，比如B链被控制后，A链还依旧与之交互。</p>
+<p>侧链与主链可以连接互通，即跨链。当要实现跨链的功能时才需要B链和A链进行互通。因为侧链的互通机制是其最主要的功能，所以常常将侧链与主链的互通叫做侧链技术。</p>
+<h4 id="3_1">3 侧链的作用</h4>
+<p>从主链角度讲，侧链可以虚拟化地横向和纵向提升主链的性能。</p>
+<p>横向，将多个侧链与主链互通，将大部分交易放到侧链上，然后再通过与主链互通实现，可以虚拟地提升主链的TPS。</p>
+<p>纵向，侧链可以有主链不具有的功能，通过侧链，主链看上去也像是支持了这些功能。</p>
+<p>从全局角度讲，侧链作为跨链技术的一种，自然是为万链互联做出了重要贡献。</p>
+<p>任何一条链，既有主链的功能，又有侧链的功能，这就像计算机网络中任何计算机既是主机又是路由器。</p>
+<p>只有特定的几条链作为主链，其他所有链都只支持侧链功能，就和现在的计算机网络类似，有网络核心部分（单纯的路由器），也有网络的边缘部分（单纯的主机）。</p>
+<h4 id="4_1">4. 侧链的技术</h4>
+<p>侧链实现是通过双向锚定技术。将暂时的数字货币在主链中锁定，同时将等价的数字资产在侧链中释放。实现双向锚定的最大难点在于协议改造需兼容现有主链，也就是不能对现有主链的工作造成影响。其具体实现方式有：单一托管模式、联盟模式、SPV模式、驱动链模式、混合模式。</p>
+<h5 id="4-1">4. 1 单一托管模式</h5>
+<p>就是类似交易所做中介完成锁币放币，其实和联盟模式即公证人模式，由多个公证人的多重签名来对转移资产的交易进行签名，避免了中心化。</p>
+<h5 id="42-spv">4.2  SPV模式</h5>
+<p>是通过将交易发给本链的一个特殊地址，由此会自动创建一个SPV证明给侧链上并发起一个交易在侧链上解锁对应的资产。</p>
+<p>驱动链模式是用矿工来作为资金托管方，将资产的监管权发放到数字资产矿工手上，矿工进行投票决定何时解锁资产及将资产发送到何方。</p>
+<h5 id="42">4.2 混合模式</h5>
+<p>就是将这些侧链机制进行有效结合，对结构不同的链，为其使用最适合其结构的模式，如主链使用SPV，侧链使用驱动链。</p>
+<p>SPV模式是使用得最多的。SPV就是简单支付验证（Simplified Payment Verification），其能验证交易是否存在。侧链的机制相对哈希锁定而言能够提供更多的跨链交互场景，侧链以及类SPV验证的思想适合所有跨链的场景。</p>
+<p>SPV模式轻客户端不需要下载所有区块数据就能对某一笔交易的存在性进行验证。一个SPV证明包含两个部分：区块头列表；表示某一输出发生在列表中某一区块的密码学证明，如默克尔证明。</p>
+<p>如果要证明某笔交易存在于某个区块内，只需要使用此交易的哈希值与其他相关交易的哈希值计算最终的默克尔树根，并与区块头的树根作比较。如果计算结果与区块头的交易树根一致，则证明交易存在于本区块中</p>
+<p>SPV模式下的双向锚定如下图所示：
+<img alt="" src="https://github.com/guoshijiang/layer2/blob/main/images/3.jpeg" /></p>
+<p>1) 锁定主链资产，可以使用多签名账户实现。</p>
+<p>2) 在主链上等待一个确认期，可以是一天或者两天，以确保生成足够的工作量，从而抵抗拒绝服务攻击。</p>
+<p>3) 主链确认期结束后，用户可以在侧链上产生一笔铸币交易，并且提供主链锁币交易的 SPV 证明，生成的侧链资产处于锁定状态，需要等待一个竞争期。</p>
+<p>4) 用户在侧链上等待一个竞争期，设置竞争期的目的是防止双重花费。如果在竞争期内，用户把主链上锁定的币转走，其他用户可以用最新的SPV证明此事，则侧链铸币交易失效，称此证明为重组证明。</p>
+<p>5) 竞争期结束后（约1～2天），侧链代币生成，可以在侧链流通。</p>
+<p>6) 侧链代币返回主链，流程重复上述5个步骤。</p>
+<p>Liquid 是 BlockStream 的开源侧链项目，使用比特币双向锚定技术，Liquid 的目的是实现比特币可以在主链和侧链中互转，旨在提高隐私性、降低成本、加速价值转移及结算流程。</p>
+<p>此外，BTCRelay 是一个典型的中继项目，所谓中继是指可以在本链上自行验证另一条链上数据而不需要依赖第三方。BTCRelay是以太坊上的一个智能合约，通过存储比特币区块头使得BTCRelay充当一个比特币轻节点。由于比特币的交易是以默克尔树的形式存储并在区块头存储了树根，所以可以利用 SPV 验证交易是否存在。BTCRelay 的正确性取决于是否上传了正确的区块头，BTCRelay通过设置奖励机制与审查机制来避免存储错误的区块头， BTCRelay只能实现单向跨链。</p>
+<h4 id="5_1">5 中继链</h4>
+<p>中继链就是“中间人”的角色，如果在链A和链B之间存在第三方链C，C是A和B的中继，通常称C为中继链。中继链是公证人机制和侧链机制的融合和扩展，并不需要严格区分中继和侧链，从形式看中继是一种方式，侧链是一种结果。侧链表达的是两条链之间的关系，并不是特指某种跨链技术或方案。</p>
+<p>目前社区内最活跃的两个跨链项目Cosmos 和 Polkadot 采用的都是基于中继链的多链多层架构，其中 Cosmos 目前支持的是跨链资产交互，而Polkadot则宣称提供任意类型的跨链交互。Cosmos 和 Polkadot 的跨链机制相对复杂。</p>
+<h3 id="hash-locking">三. 哈希锁定（Hash-locking）</h3>
+<p>哈希锁定是一项可用于区块链网络之间资产交换的技术。在资产交换过程中，为了保证各个区块链的资产安全，资产转移要么全部完成，要么全部没有完成，不存在任何中间状态。闪电网络的底层技术就是哈希锁定。</p>
+<p>哈希时间锁定合约的处理流程基于哈希算法和超时机制，假设有两个区块链A和B，试图交换位于链A的资产α和位于链B的资产β，则整个哈希时间锁定的流程如下：</p>
+<p>A首先选取一个秘密随机数S，使用特定的哈希算法计算出S的哈希值H，之后A将H发给B,同时A和B协商两个时间点T0和T1,确保T0 &gt;T1。</p>
+<p>A基于H和T0创建资产锁定智能合约 LockContractA，该智能合约会锁定资产α，其可以使用S来解锁并将资产α转移给B，如果在T0前仍未解锁，则会自动撤销锁定，且不会发生任何资产转移。</p>
+<p>B基于H和T1创建资产锁定智能合约 LockContractB，该智能合约会锁定资产β，其可以使用S来解锁并将资产β转移给A，如果在T1前仍未解锁，则会自动撤销锁定，且不会发生任何资产转移。</p>
+<p>A 使用秘密随机数S，调用B上的智能合约 LockContractB，将资产β转移给A 。经过上 述步骤，B获得了秘密随机数S，B使用S调用A上的智能合约LockContractA，将资产α 转移给B，资产交换完成。</p>
+<p>如果A或B任意一方超时未执行操作，则在T1时间点后，B资产会撤销锁定，T0时间点后，A资产会撤销锁定，还原初始状态。</p>
+<p><img alt="" src="https://github.com/guoshijiang/layer2/blob/main/images/4.png" /></p>
+<p>T0和T1用于避免A或B单方延误交易，所以这其中的交易包α和交易包β都需要设定时间限制，超出这个时间限制后，相关资产立即撤销锁定，原路返回。</p>
+<h3 id="mpc">四. 多方安全计算（MPC）</h3>
+<p>MPC 就是采用分布式节点来控制区块链系统中各种资产的私钥，将数字资产的使用权和所有权进行分离，使得对链上资产的控制权能安全地转移到非中心化系统中，同时将原链上的资产映射到跨链中，实现不同区块链系统间的资产流通和价值转移。</p>
+<p>MPC 方案实际实行中也有各种不同的方式，MPC 多方计算钱包 + 共识模式： 所有的私钥都是分布式生成，每个节点持有私钥的部分分片，需要2/3以上的节点共同协作才可以完整的对数据签名， 发出的交易才是有效的。或者是利用一个基于区块链协议的内置资产模板，根据跨链交易信息部署新的智能合约来创建出新的加密货币资产。</p>
+<p>当一种已注册资产由原有链转移到跨链上时，跨链节点会为用户在已有合约中发放相应等值代币，确保了原有链资产在跨链上仍然可以相互交易流通。</p>
+<h2 id="_4">跨链未来展望</h2>
+<p>近几年来，区块链技术的热度居高不下，世界多个国家已经将区块链上升至国家战略层高度，争先抢占区块链创新发展制高点。在当前区块链应用场景需求日益激增和政府大力扶持的情况下，我国已将区块链作为国家新基建信息基础设施的重要组成部分。跨链技术也必将伴随着区块链技术的深入探索得到不断创新与发展。当下，跨链技术正迎来新一轮的研究热潮，在未来必将围绕跨链体系结构的多链协议互通性、跨链数据传递验证的安全可信性、跨链交易及合约执行的一致性、跨链系统接入及治理的高效性等方面展开广泛而深入的研究与探索，将一步步突破新一代互联、可信和高效的技术瓶颈，支持跨场景、跨地域的应用，实现跨区块链互通和协同，塑造更具前景和活力的商业模式，开启万链互联的时代。</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            回到页面顶部
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="页脚" >
+      
+        
+        <a href="cross-chain.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 第一章：跨链和侧链技术简单介绍" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              第一章：跨链和侧链技术简单介绍
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="layer2-main.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 第三章：Layer2 主要实现方式" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              第三章：Layer2 主要实现方式
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["toc.integrate", "navigation.top", "navigation.expand"], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>
