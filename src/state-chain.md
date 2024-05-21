@@ -28,7 +28,7 @@
 
 状态通道作为一种链下扩容方案，从一般到特殊主要分为通用状态通道（Generalized State Channel）、状态通道（State Channel）和支付通道（Payment Channel）三个层级。
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/5.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/5.png)
 
 #### 1 通用状态通道
 
@@ -51,7 +51,7 @@
 ### 三. 状态通道存在的问题
 
 #### 1. 路由问题
-![](https://github.com/guoshijiang/layer2/blob/main/images/6.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/6.png)
 
 为了将支付通道扩展为支付网络，在已开辟的状态通道上通过路由节点建立两个陌生节点的连接无疑是比较经济的。正如六度人脉理论阐释的那样，我们可以借助六度人脉和世界上其他任何人建立联系。目前主要有如下三种路由方案：
 
@@ -61,7 +61,7 @@
 
 发送方向接收方发送 BTC 到 1/2 多重签名地址，如果接收方不能在合约规定的时间内通过“签名+哈希密文”的方式将 BTC 解锁，那么 BTC 就会退还给发送方。
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/7.jpeg)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/7.jpeg)
 
 如图所示，A 想通过 B、C 向 D 发送 1 个 BTC。D 作为接收方，首先生成一个随机私钥 r（相当于钥匙）和公钥 R（相当于锁），然后将 R 发送给 A。
 
@@ -77,7 +77,7 @@ B 需要获得私钥 r 来解锁 R，按照同样的思路，B 和 C 的智能�
 
 代表项目：Perun Network
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/8.jpeg)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/8.jpeg)
 
 如图所示，A、B 都已经与 I 开辟了状态通道，分别为通道 X 和通道 Y。现在 A、B 向中间节点 I 通过智能合约发出申请，建立 A 和 B 的虚拟通道 Z（虚线所示）。
 
@@ -95,17 +95,17 @@ A 在 X 通道锁定了 Z（A）个通证，对应的 I 在 Y 通道也锁定了
 该方案与虚拟通道类似 ， 只是结构稍有差异 。 比如 Counterfactual，是将通用状态通道进行实例化后分别建立 A 和 I、
 B 和 I 的代理状态通道，在此基础上建立 A、B 的支付通道，实现和虚拟通道相同的效果。
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/9.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/9.png)
 
 在状态通道网络中，采用传统计算机网络的最短路径的路由策略，会造成通道的不平衡状态，反过来又会使得路由策略失效，寻路遇到“死胡同”便无法有效传递价值。如图表 8 所示 A、B、C 三个节点两两组成的双向状态通道，采用最短路径使得节点在某一通道的可用通证变为 0，双向通道变成了单向通道。左上图是平衡状态，对应左下图所示双向通道。中上图和右上图的通证集中到了一边，分别对应中下和右下的单向通道。
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/10.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/10.png)
 
 Celer Network 提出了背压（BackPressure）路由算法，在每个时间切片内衡量局部网络的拥堵程度和通道失衡度，然后按照背压权重最大的方向进行路由转移，减少网络拥堵的同时实现通道平衡。通过对 77 个节点组成的 254 个状态通道组成的支付网络进行测试后发现，背压路由算法和闪电网络的最短路径路由算法相比，性能提高了 15 倍，通道利用率提高了 20 倍。
 
 Liquidity Network 提出了一个允许在链下重新平衡支付通道的Revive 协议。该协议通过使一组支付通道节点执行一组交易，来重新平衡每个节点在多个通道的通证资产量，防止单向通道形成。如下左图所示的树形网络结构无法做到重新平衡，而 Revive 所采用的右图所示的网络包含环状结构，可以实现节点在多个通道的通证分布从集中重新变得均匀。例如，B 在和 D 组成的通道里有 200 个通证，而在和 E 组成的通道里有 0 个通证，对于右图可以通过（B，D，E，B）环状结构进行重新调配，使得 B 和 D、B 和 E 组成的两个通道里各有 100 个通证。
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/11.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/11.png)
 
 #### 2. 节点离线问题
 
@@ -123,7 +123,7 @@ Liquidity Network 和 Celer Network 都提出了类似于银行的机制来共�
 
 下图为 Celer Network 的经济模型，主要由流动性资金支持拍卖机制（LiBA，Liquidity Backing Auction）、流动性资金担保挖矿机制（PoLC Mining，Proof of Liquidity Commitment Mining）和链下状态守护者网络三部分构成。其中 PoLC Mining 机制是 Celer 网络流动性资金的关键源头，简单来说就是通过质押担保合约从流动性资金提供商那里收集闲散资金，类似于银行从储户那里获得资金，再通过 LiBA 机制为状态通道服务供应商提供流动性资金，类似于银行放贷。
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/12.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/12.png)
 
 Liquidity Network 基于 NOCUST 的多方支付中心，通过汇聚和共享抵押资金的方式来减少资金锁定。而闪电网络需要对所有的交易进行 100%的抵押，且抵押金相互隔离，流动性较差。
 

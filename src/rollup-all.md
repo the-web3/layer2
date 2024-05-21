@@ -17,17 +17,17 @@ Rollups 旨在通过压缩第 1 层区块链上的数据足迹来降低 gas 费�
 在安全性方面，rollup 仍然依赖于以太坊基础链，因此如果用户已经信任以太坊的安全验证，则不必信任一组单独的验证器。
 
 和 Polygon 模式的对比
-![](https://github.com/guoshijiang/layer2/blob/main/images/19.jpeg)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/19.jpeg)
 
 Rollup 的核心思想是将“打包”后的交易数据区块发布在链上，从而降低交易有效性验证的难度。交易数据的上链和验证是基于智能合约完成的。操作者收集到不同参与者提交的链下交易后，在链上执行 Rollup 智能合约提供的脚本，将打包后的交易数据区块作为参数提交给合约，合约验证数据有效后为每个参与者记账。这相当于一次性执行了一批链下交易，但是在链上只执行了一个交易。
 
 下图是 ZK Rollup 提交上链的打包数据。它包含一组压缩后的交易数据 [Tx]（不包含任何签名）、执行这批交易之前的老的用户状态的 merkle 树树根，以及执行交易之后的新的用户状态的 merkle 树树根。除此之外还包含一个 SNARK 零知识证明，合约用它来验证在老的用户状态上施加这批交易 [Tx] 后结果就是新的用户状态。零知识证明具体是如何工作的, 后面我们会专门出一个专栏课程，
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/20.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/20.png)
 
 生成 SNARK 的成本非常高，所以 Optimistic Rollup 采用了不同的方法——“欺诈证明”来验证交易有效性。这里的“欺诈证明”并非 SNARK 那样的见证数据，它实际上指的是加密经济学有效性博弈（Cryptoeconomic Validity Game）。越说越晕了，其实很简单，就是每次打包后的交易被提交到链上时，智能合约都假定它们是正确的，无需验证。如果有人篡改了交易，操作者或者其它参与者都可以挑战非法交易，挑战成功后通过智能合约回滚不正确的区块，作弊者会受到惩罚，它的押金将会被没收，部分押金会奖励给挑战者。这就是所谓的基于加密经济学有效性博弈的“欺诈证明”，实际上是让参与各方互相监督，通过惩罚机制来提高作弊成本。为了实现“欺诈证明”，光有 ZK Rollup 那样的交易数据 [Tx] 是不够的，Tx数据需要包涵交易提交者的签名，合约通过校验签名来判断交易是否合法
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/21.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/21.png)
 
 ### 三. Rollup 的安全性
 
@@ -43,11 +43,11 @@ Rollup 通过一次链上交易可以执行一大批打包后的链下交易，�
 
 ZK Rollup 在智能合约里用 merkle 树来记录地址，这样地址就可以表示成树的索引值，地址数据的大小就从原本的 20 bytes 减少到只有 3 bytes 到 4 bytes。每笔交易就被压缩成 10 几个字节，再加上一个约 100-300 字节的 SNARK，理论上可以将以太坊吞吐量从 32 TPS 提升到约 680 TPS，伊斯坦布尔升级后可达到 2000 TPS。下图是压缩后 ZK Rollup 每笔交易数据的格式：
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/22.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/22.png)
 
 Optimistic Rollup 的吞吐量理论上只有 100 TPS，主要原因是上文提到过的，为了支持“欺诈证明”，Optimistic Rollup的每笔交易数据需要包涵交易提交者的签名。每条签名的大小是 64 bytes，这大大增加了提交上链的交易数据的字节数，从而很快达到 gas 上限。为了减少交易数据的字节数，一种 BLS 聚合签名机制被提了出来。如下图所示， BLS 聚合签名机制是在操作者收集到所有交易后，将打包后的交易发送给每个交易提交者签名，因为每个签名都是针对相同的数据，所以可以被操作者聚合成一个 BSL 签名。发送给链上合约的将是压缩后的交易数据加上聚合后的 BLS 签名，从而大幅减少了交易数据所消耗的 gas。BLS 签名可以将 Optimistic Rollup 的吞吐量从100 TPS提升到 450 TPS，伊斯坦布尔升级后也可以达到 2000 TPS。
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/23.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/23.png)
 
 ### 五. RollUp 延迟问题
 

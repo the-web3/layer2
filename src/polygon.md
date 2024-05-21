@@ -16,7 +16,7 @@ Polygon 是由 Heimdall 和 Bor 组成，Heimdall 是我们的 Proof-of-Stake �
 Heimdall（权益证明层）
 Bor（区块生产者层）
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/30.jpeg)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/30.jpeg)
 
 #### 2. Polygon 智能合约（在以太坊上）
 
@@ -82,7 +82,7 @@ Bor 节点或 Block Producer 实现基本上是侧链运营商。侧链 VM 与 E
 - 因此，下一个跨度的生产者集定义为 [ A: 2, B:1 ]
 - 使用这个验证器集和tendermint 的提议者选择算法，我们为 BOR 上的每个 sprint 选择一个生产者。
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/31.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/31.png)
 
 #### 5. 检查点
 

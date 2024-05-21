@@ -28,7 +28,7 @@ Plasma 适合第二类“第 2 层”扩展项目。了解第 2 层项目的工�
 Plasma 的主要思想就是将大部分计算过程都转移到链下进行，用户只有在进入和退出 Plasma Chain 的时候需要跟主链上的智能合约交互，这也是所有 Plasma 应用的标准流程。
 
 用户在将主链的资产（如以太币或者其它 ERC20 合约发布的 token）转移到 Plasma Chain 的过程称为存款（Deposit），具体做法是直接向主链上的 Plasma 合约发送以太币或 token。Plasma 合约收到 Deposit 交易后会在子链上创建跟 Deposit 数额一致的交易，并将其打包进区块中，作为存款确认的证明。这个过程如下图所示
-![](https://github.com/guoshijiang/layer2/blob/main/images/14.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/14.png)
 
 当用户看到子链上自己之前存款的交易被确认后，就可以在子链上使用这笔资产（给子链上的其他用户发送交易或者退出子链等）。
 
@@ -57,7 +57,7 @@ Plasma 的一个关键设计之一就是允许用户构造防伪证明（Fraud P
 
 如下图所示，子链中每个节点都存有 1-4 个区块的数据。假设区块 1-3 已经被验证合法，而区块 4 中存在恶意交易，那么每个节点都可以使用 1-4 个区块中的数据构造防伪证明提交到主链，主链验证后将子链中的状态回滚到区块 1-3。
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/15.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/15.png)
 
 防伪证明还可以使用零知识证明（zk-SNARKs 或者 STARKs）来构造，但由于目前通过零知识证明生成证明的时间和空间还有待优化，目前设计的 Plasma 并不依赖零知识证明。零知识证明在 Plasma 中的应用是一个很有前景的研究方向
 
@@ -123,7 +123,7 @@ Plasma MVP是针对极其简单的基于UTXO的 Plasma 链的设计。基本的 
 
 整个 Plasma MVP 的生命周期可以通过下面这幅图表现出来：
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/16.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/16.png)
 
 #### 1.Plasma 合约
 首先需要将 Plasma 合约部署到主链（以太坊）上作为主链和子链沟通的媒介。Plasma 合约会处理由子链提交的区块，并且将区块的哈希值存在主链上。除此之外，还会处理用户的存款（deposit）、取款（withdrawal/exit）以及争议（challenge）操作。
@@ -256,7 +256,7 @@ Plasma Cash 链和 Plasma MVP 链一样，需要一个共识机制。这种机�
 #### 3. 块
 Plasma Cash 块与 Plasma MVP 块有很大不同。每个 Plasma Cash 块都有一个用于存在的每个代币的插槽。每当使用令牌时，该交易的记录都会放置在相应的插槽中。这是具有四个代币的 Plasma Cash 链的样子。
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/17.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/17.png)
 
 在此示例中，令牌#4是从用户A发送给用户B的。请注意#1、#2和#3没有被花费，所以我们没有在这些插槽中放置任何东西！这种特殊的结构给了我们一些非常酷的东西。除了能够显示代币已在特定区块中花费外，我们还可以显示代币在该区块中没有易手。
 
@@ -270,7 +270,7 @@ Plasma Cash 块与 Plasma MVP 块有很大不同。每个 Plasma Cash 块都有�
 
 为了证明历史实际上是正确的，用户需要提供额外的证据证明历史中的每笔交易都正确地包含在一个块中。此外，为了证明没有任何丢失的交易，用户还需要提供代币没有在任何其他区块中花费的证明。让我们通过几个 Plasma Cash 块来证明这一点。
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/18.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/18.png)
 
 在这四个区块结束时，G拥有代币#2，C拥有代币#4。那么G如何证明他们实际上拥有#2呢？简单的！G只需要证明#2没有在区块#1 和#3 中花费，并且它在区块#2 中从E转移到F ，在区块#4 中从F转移到G。G可以通过对每个块的简单 Merkle 证明来做到这一点（利用特殊的稀疏 Merkle 树结构）。
 

@@ -13,7 +13,7 @@ Arbitrum 是以太坊的第 2 层扩展解决方案。Tracer 将在下个月在A
 
 下图为Arbitrum 架构的高级视图
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/37.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/37.png)
 
 ### 二. 汇总协议
 
@@ -71,7 +71,7 @@ Arbitrum 是以太坊的第 2 层扩展解决方案。Tracer 将在下个月在A
 - 每个质押者必须在他们的周分配内完成所有行动，否则他们将输掉这场争论。
 	- 想想一个国际象棋时钟。
 	
-![](https://github.com/guoshijiang/layer2/blob/main/images/38.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/38.png)
 
 *两个质押者在挑战协议期间进行的多轮交互式解剖游戏的演示。实际上，有争议的断言将有更多的指令（​​其中带有波浪线的行），因此将进行更多轮次，但原理是相同的。*
 
@@ -118,7 +118,7 @@ Arbitrum 是以太坊的第 2 层扩展解决方案。Tracer 将在下个月在A
 	- 定序器也有能力抢先运行用户的交易。
 - 最初的 Arbitrum 链将使用由 Offchain Labs 运行的定序器启动。
 -  Cornell Tech 的一个团队之前已经成功地研究了开发去中心化的公平排序器算法，并且通过更多的工作，这将形成 Arbitrum 的长期解决方案。
-![](https://github.com/guoshijiang/layer2/blob/main/images/39.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/39.png)
 
 ### 八. ArbGas / 费用
 

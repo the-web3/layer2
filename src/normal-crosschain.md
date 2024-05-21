@@ -43,14 +43,14 @@
 多重签名公证人机制，由多位公证人在各自账本上共同签名达成共识后才能完成跨链交易。多重签名公证人的每一个节点都拥有自己的一个密钥，只有当达到一定的公证人签名数量或比例时，跨链交易才能被确认。
 
 公证人是一群机构组成的联盟，跨链资金的转移是这个联盟所控制的。这种方式相较于单签名模式的安全性更高，少数几个公证人被攻击或者是作恶都不会影响系统的正常运行。但是需要两条链本身需要支持多重签名。
-![](https://github.com/guoshijiang/layer2/blob/main/images/1.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/1.png)
 
 #### 3. 分布式签名公证人机制
 分布式签名公证人机制和多重签名公证人机制最大的区别在于签名方式不同，它采用了多方计算MPC（Multi-Party Computation）的思想，安全性更高，实现也更复杂。基于密码学生成系统中唯一的密钥，并拆分（公证人组中谁都不会拥有完整的密钥）成多个碎片分发给随机抽取的公证人，即使所有公证人将碎片拼凑在一起也无法得知完整的密钥，允许一定比例的公证人共同签名后即可拼凑出完整的密钥，从而完成更加去中心化的“数据收集验证”过程，类似门限签名机制。
 
 分布式签名公证人机制全面地保障了密钥的安全性，这种方法更灵活，也更安全，当少数节点遭受攻击时或发生各种错误时，并不会影响整个系统。
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/2.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/2.png)
 
 #### 4. 公证人机制有缺点
 单一公证人和多签公证人机制不够去中心化，并且需要保证所有公证人的诚实难度高，多币种智能合约实现难，密钥分片受限于节点的数量等
@@ -115,7 +115,7 @@ SPV模式轻客户端不需要下载所有区块数据就能对某一笔交易�
 如果要证明某笔交易存在于某个区块内，只需要使用此交易的哈希值与其他相关交易的哈希值计算最终的默克尔树根，并与区块头的树根作比较。如果计算结果与区块头的交易树根一致，则证明交易存在于本区块中
 
 SPV模式下的双向锚定如下图所示：
-![](https://github.com/guoshijiang/layer2/blob/main/images/3.jpeg)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/3.jpeg)
 
 1) 锁定主链资产，可以使用多签名账户实现。
 
@@ -156,7 +156,7 @@ A 使用秘密随机数S，调用B上的智能合约 LockContractB，将资产β
 
 如果A或B任意一方超时未执行操作，则在T1时间点后，B资产会撤销锁定，T0时间点后，A资产会撤销锁定，还原初始状态。
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/4.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/4.png)
 
 T0和T1用于避免A或B单方延误交易，所以这其中的交易包α和交易包β都需要设定时间限制，超出这个时间限制后，相关资产立即撤销锁定，原路返回。
 

@@ -4,7 +4,7 @@ Rollup 的核心思路是在L1上保存能够验证交易过程的凭证，而�
 
 何为交易过程的凭证，我们知道交易执行的过程就是由1个状态转移到另外1个状态的过程，如果L1知道了一组交易前的状态和一组交易后的状态还有这一组交易，自然可以验证这组交易对应的状态转移是否正确。
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/24.jpeg)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/24.jpeg)
 
 如上图所示，发布者将交易前状态树的根hash 交易后状态树的根hash以及交易发布到L1上，L1智能合约确认交易前状态树根hash是否和存储的根hash一致。交易前的根hash一致说明起始状态正确，那么本次交易过程是否正确如何验证呢？最安全的做法肯定是我们每次都在L1上重新执行L2的交易树，进行状态转移，但这样L2失去了意义，还是会面临不可能三角中处理速度的问题。
 
@@ -42,13 +42,13 @@ DTD 持续时间的选择很重要：持续时间越长，检测到错误状态�
 
 非交换式欺诈，欺诈证明实现较为简单，将L2中执行的交易在L1中再完整执行一次，以确定状态根的hash是否一致来判断欺诈行为。
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/25.jpeg)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/25.jpeg)
 
 如上图所示，发布者发布信息到L1上，携带交易信息和新旧整体根hash, L1中的智能合约收到后会默认变更state为新的根hash，这时挑战者提出挑战，挑战者需要提供符合旧根hash的merkle状态树，L1智能合约通过旧的状态树执行完整的交易流程得到根hash和发布者提供的新根hash比较，不相等则说明有欺诈行为。
 
 重新执行就会遇到一个问题，区块相关的属性会因为执行环境不同而发生变化。
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/26.jpeg)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/26.jpeg)
 
 如上图所示block.timestamp会获取当前区块的时间戳，但由于合约执行的环境不同得到的时间戳大概率是不一样的。我们看看Optimism是如何设计OVM来解决这一问题的。
 
@@ -79,11 +79,11 @@ contract OVM_ENV {
 
 下图是智能合约执行的过程就是推进状态变化的过程
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/27.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/27.png)
 
 如图所示，无论上L1上的状态树还是L2上的状态树，都是由一系列的交易(智能合约的执行也是一次交易的调用)，推动状态转换的，而由于智能合约，交易又可以拆分为更小的步骤指令。所以就变成了下面的样子
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/28.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/28.png)
 
 我们的问题转化为证明状态树从状态A 经过N个指令变成了状态B，那么这个证明过程是否是可分解的呢？我们用分治的方式不难想到二分法，将1个大问题拆两个子问题，问题就变为证明状态A 经过前N/2个指令变成状态X和状态X经过后N/2个指令变成状态B。逐步二分最终定位到存在问题的指令，交由L1执行验证即可。
 
