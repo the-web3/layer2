@@ -10,12 +10,12 @@
 
 最终看起来像这样：
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/32.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/32.png)
 
 #### 1.证明包容
 这棵树的根只是一个散列——它没有告诉我们树的内容。我们可以使用一种叫做“Merkle proof”的东西来证明某些内容实际上是这棵树的一部分。例如，让我们证明它A是上述树的一部分。我们需要做的就是A在向上的过程中提供每个兄弟姐妹，重新计算树，并确保一切都匹配。
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/33.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/33.png)
 
 我继续用蓝色突出显示兄弟姐妹。只需A、H(B)和H(H(C)+H(D))，我们就可以重新计算原始根哈希。这是一种有效的方式来显示它A是这棵树的一部分，而无需提供整个树！
 
@@ -33,13 +33,13 @@
 
 树最终看起来像这样：
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/34.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/34.png)
 
 #### 1. 证明包容
 
 就像在标准的 Merkle 树中一样，我们可以使用 Merkle 证明来证明它A是这棵树的一部分。这个证明看起来就像你的标准 Merkle 证明：
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/35.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/35.png)
 
 同样，我们只是提供兄弟姐妹H(null)和H(H(null)+H(D))，并检查它是否与根匹配。
 
@@ -49,7 +49,7 @@
 
 我们所需要的只是一个标准的默克尔证明，显示第三片叶子是null！
 
-![](https://github.com/guoshijiang/layer2/blob/main/images/36.png)
+![](https://raw.githubusercontent.com/the-web3/layer2/79839bb1ee4b3ca0a345fca240678b111dd64efd/images/36.png)
 
 这看起来就像一个标准的 Merkle 证明，除了我们证明叶子包含null而不是C.
 
